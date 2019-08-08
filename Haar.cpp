@@ -98,11 +98,14 @@ String Haar::GetString()
 
 bool Haar::NewData()  //Checks for updated data
 {
+	unsigned long Timeout = millis(); //Get timeout value
 	Wire.beginTransmission(0x40);
 	Wire.write(0x00);
 	Wire.endTransmission();
 	Wire.requestFrom(0x40, 1);
-	while(Wire.available() < 1); //Wait for value to be returned //FIX! add timeout/remove
+	while(Wire.available() < 1 && (millis() - Timeout < TimeoutGlobal)) { //Wait for value to be returned //FIX! add timeout/remove
+		delay(1);
+	}
 	uint8_t Val = Wire.read();  //DEBUG!
 	bool State = false;
 	// bool State = ~(Val & 0x01);
