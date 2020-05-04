@@ -22,14 +22,14 @@ enum Sensor {
 /**
  * @class Haar
  * @brief Library for the rugged temperature, pressure, relative-humidity sensor
- * @details Project Haar, named for the cold fog off the north sea, is a 
+ * @details Project Haar, named for the cold fog off the north sea, is a
  * pressure, temperature, and relative-humidity sensor that can withstand
  * full submersion. Bobby Schulz designed it after the consistently-near-0C
- * temperatures and 100% relative humidity of Chimborazo Volcano, Ecuador, 
- * claimed the lives of many brave but misguided BME-280 units, who then 
+ * temperatures and 100% relative humidity of Chimborazo Volcano, Ecuador,
+ * claimed the lives of many brave but misguided BME-280 units, who then
  * catistrophically bricked their I2C buses and those of their associated
  * data loggers, thus taking down a large fraction of our hydromet network.
- * 
+ *
  * *May their sad silicon and copper souls join the chorus of the stars.*
  */
 class Haar
@@ -46,20 +46,20 @@ class Haar
 	   * DOES NOT ACTUALLY SEEM TO BE USED! 0x40 FOR EVERYTHING, REGARDLESS
 	   */
 		uint8_t begin(uint8_t ADR_ = 0x40);
-		
+
 	  /**
 	   * @brief Return the currently stored pressure [in mBar]
 	   * @param[in] Update: Read and store a new pressure value before sending?
 	   * By default is false; simply returns the already-available pressure value.
 	   */
-		float GetPressure(bool Update = false);
+		float getPressure(bool update = false);
 
 	  /**
 	   * @brief Return the currently stored relative humidity [%]
 	   * @param[in] Update: Read and store a new pressure value before sending?
 	   * By default is false; simply returns the already-available RH value.
 	   */
-		float GetHumidity(bool Update = false);
+		float getHumidity(bool update = false);
 
 	  /**
 	   * @brief Return the currently stored relative humidity [%]
@@ -70,7 +70,7 @@ class Haar
 	   * @param[in] Update: Read and store a new pressure value before sending?
 	   * By default is false; simply returns the already-available RH value.
 	   */
-		float GetTemperature(Sensor Device = RH_Sense, bool Update = false);
+		float getTemperature(Sensor Device = RH_Sense, bool update = false);
 
 	  /**
 	   * @brief Enable or disable device sleep mode
@@ -78,14 +78,14 @@ class Haar
 	   * @param State: Can be `ON` (1) or `OFF` (0). By default, this command sets
 	   * "Sleep" to ON, sending the device into a low-power sleep mode.
 	   */
-		uint8_t Sleep(bool State = ON);
-		
+		uint8_t sleep(bool state = ON);
+
 	  /**
 	   * @brief Return a new sample of all of the data.
 	   * @param Block: if `true`, wait for data to be returned.
 	   * Defaults to `false`.
 	   */
-		uint8_t RequestSample(bool Block = false); //Default to non-blocking
+		uint8_t requestSample(bool block = false); //Default to non-blocking
 
 	  /**
 	   * @brief Checks for updated data. Returns `true` if new data are available;
@@ -93,7 +93,7 @@ class Haar
 	   * @param Block: if `true`, wait for data to be returned. Defaults to
 	   * `false`.
 	   */
-		bool NewData();
+		bool newData();
 
 	  /**
 	   * @brief The most important function for the user! Returns all data as a
@@ -101,20 +101,20 @@ class Haar
 	   * @details This string is: <PRESSURE>,<RELATIVE_HUMIDITY,
 	   * <TEMPERATURE-FROM-PRESSURE-SENSOR>,<TEMPERATURE-FROM-RH-SENSOR>,
 	   */
-		String GetString();
+		String getString();
 
 	  /**
 	   * @brief Returns a header:
      * "Pressure Atmos [mBar], Humidity [%], Temp Pres [C], Temp RH [C],"
 	   */
-		String GetHeader();
+		String getHeader();
 
 	private:
-		uint8_t ADR = 0x40; //Default global sensor address 
-		int16_t GetWord(uint8_t Reg);
-		unsigned long TimeoutGlobal = 500; //Timeout value, ms //FIX??
-		bool DataRequested = false; //Flag for keeping track of data requests and
-		                            // data retrevals 
+		uint8_t ADR = 0x40; //Default global sensor address
+		int16_t getWord(uint8_t Reg);
+		unsigned long timeoutGlobal = 500; //Timeout value, ms //FIX??
+		bool dataRequested = false; //Flag for keeping track of data requests and
+		                            // data retrevals
 };
 
 #endif

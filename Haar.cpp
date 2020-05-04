@@ -8,12 +8,12 @@ uint8_t Haar::begin(uint8_t ADR_)
 {
 	ADR = ADR_;
 	Wire.begin();
-	RequestSample();
+	requestSample();
 }
 
-float Haar::GetPressure(bool Update) //Get pressure in mBar 
+float Haar::getPressure(bool Update) //Get pressure in mBar
 {
-	if(Update) RequestSample(); //Only call for updated value if requested
+	if(update) requestSample(); //Only call for updated value if requested
 	uint32_t Val = 0; //Val for getting/calculating pressure value
 	uint32_t Temp = 0; //DEBUG
 
@@ -25,78 +25,78 @@ float Haar::GetPressure(bool Update) //Get pressure in mBar
 		Temp = Wire.read(); //DEBUG!
 		Val = (Temp << 8*i) | Val; //DEBUG!
 	}
-	DataRequested = false; //Clear flag on data retreval 
+	dataRequested = false; //Clear flag on data retreval
   	return (Val / 4096.0);
 }
 
-float Haar::GetHumidity(bool Update)  //Return humidity in % (realtive)
+float Haar::getHumidity(bool update)  //Return humidity in % (realtive)
 {
-	if(Update) RequestSample(); //Only call for updated value if requested
+	if(update) requestSample(); //Only call for updated value if requested
 	float Val = 0; //Val for getting/calculating RH value
-	Val = (uint16_t(GetWord(RH_REG)));
+	Val = (uint16_t(getWord(RH_REG)));
 	Val = (100.0*Val)/65535.0;  //Convert to RH
-	DataRequested = false; //Clear flag on data retreval 
+	dataRequested = false; //Clear flag on data retreval
 	return Val;
 }
 
-float Haar::GetTemperature(Sensor Device, bool Update)  //Return temp in C
+float Haar::getTemperature(Sensor device, bool update)  //Return temp in C
 {
-	if(Update) RequestSample(); //Only call for updated value if requested
+	if(update) requestSample(); //Only call for updated value if requested
 	float Val = 0; //Val for getting/calculating temp value
-	if(Device == Pres_Sense) {
-		Val = GetWord(TEMP_PRES);
+	if(device == Pres_Sense) {
+		Val = getWord(TEMP_PRES);
 		Val = Val/100.0; //Convert to C
 	}
 
-	else if (Device == RH_Sense) {
-		Val = GetWord(TEMP_RH);
+	else if (device == RH_Sense) {
+		Val = getWord(TEMP_RH);
 		Val = ((Val*175.0)/65535.0) - 45; //Convert to C
 	}
-	DataRequested = false; //Clear flag on data retreval 
+	dataRequested = false; //Clear flag on data retreval
 	return Val;
 }
 
-uint8_t Haar::Sleep(bool State)
+uint8_t Haar::sleep(bool state)
 {
 	//Add sleep function!
 }
 
-uint8_t Haar::RequestSample(bool Block)  //FIX! Allow for read of status register in order to not overwrite state bits
+uint8_t Haar::requestSample(bool block)  //FIX! Allow for read of status register in order to not overwrite state bits
 {
-	DataRequested = true; //Set flag 
+	dataRequested = true; //Set flag
 	Wire.beginTransmission(0x40);
 	Wire.write(0x00);
 	Wire.write(0x01); //Trigger conversion
 	uint8_t Error = Wire.endTransmission();  //Return I2C status
-	if(Block) { //Only block if triggered
+	if(block) { //Only block if triggered
 		unsigned long Timeout = millis(); //Get timeout value
-		while(!NewData() && (millis() - Timeout < TimeoutGlobal)) { //Wait for new data to be returned
+		while(!newData() && (millis() - Timeout < TimeoutGlobal)) { //Wait for new data to be returned
 			delay(1);
 		}
-		return Error; 
+		return Error;
 	}
 	else return Error;
 }
 
-String Haar::GetHeader()
+String Haar::getHeader()
 {
 	return "Pressure Atmos [mBar], Humidity [%], Temp Pres [C], Temp RH [C],";
 }
 
-String Haar::GetString()
+String Haar::getString()
 {
-	if(DataRequested) {  //If new data is already en-route
+	if(dataRequested) {  //If new data is already en-route
 		unsigned long Timeout = millis(); //Get timeout value
-		while(!NewData() && (millis() - Timeout < TimeoutGlobal)) { //Wait for new data to be returned
+		while(!newData() && (millis() - Timeout < TimeoutGlobal)) { //Wait for new data to be returned
 			delay(1);
 		}
 	}
-	else(RequestSample(true)); //Else, Block for new conversion
+	else(requestSample(true)); //Else, block for new conversion
 	// delay(100); //DEBUG!
-	return String(GetPressure()) + "," + String(GetHumidity()) + "," + String(GetTemperature(Pres_Sense)) + "," + String(GetTemperature(RH_Sense)) + ",";
+	return String(getPressure()) + "," + String(getHumidity()) + "," + String(getTemperature(Pres_Sense)) + "," + String(getTemperature(RH_Sense)) + ",";
 }
 
-bool Haar::NewData()  //Checks for updated data
+bool Haar::newData()  //Checks for updated data
 {
 	unsigned long Timeout = millis(); //Get timeout value
 	Wire.beginTransmission(0x40);
@@ -107,15 +107,15 @@ bool Haar::NewData()  //Checks for updated data
 		delay(1);
 	}
 	uint8_t Val = Wire.read();  //DEBUG!
-	bool State = false;
-	// bool State = ~(Val & 0x01);
-	if(Val & 0x01 == 1) State = false;  //FIX! Make cleaner
-	else State = true;
-	// Serial.println(State); //DEBUG!
-	return (State); //Return inverse of bit 0, true when bit has been cleared, false when waiting for new conversion
+	bool state = false;
+	// bool state = ~(Val & 0x01);
+	if(Val & 0x01 == 1) state = false;  //FIX! Make cleaner
+	else state = true;
+	// Serial.println(state); //DEBUG!
+	return (state); //Return inverse of bit 0, true when bit has been cleared, false when waiting for new conversion
 }
 
-int16_t Haar::GetWord(uint8_t Reg)  //Returns word, read from Reg position
+int16_t Haar::getWord(uint8_t Reg)  //Returns word, read from Reg position
 {
 	uint16_t Val = 0; //Val to be read from device
 	Wire.beginTransmission(ADR);
@@ -131,7 +131,7 @@ int16_t Haar::GetWord(uint8_t Reg)  //Returns word, read from Reg position
   Wire.write(Reg + 1);
   Wire.endTransmission();
   Wire.requestFrom(ADR, 1);  //Request word
-	Val = Val | (Wire.read() << 8);  //Concatonate 16 bits 
+	Val = Val | (Wire.read() << 8);  //Concatonate 16 bits
 //  Val = Wire.read() | (Val << 8);  //Concatonate 16 bits //DEBUG!
-	return Val; 
+	return Val;
 }
