@@ -10,7 +10,7 @@ Library for the rugged temperature, pressure, relative-humidity sensor.
 
 Project [Haar](#classHaar), named for the cold fog off the north sea, is a pressure, temperature, and relative-humidity sensor that can withstand full submersion. Bobby Schulz designed it after the consistently-near-0C temperatures and 100% relative humidity of Chimborazo Volcano, Ecuador, claimed the lives of many brave but misguided BME-280 units, who then catistrophically bricked their I2C buses and those of their associated data loggers, thus taking down a large fraction of our hydromet network.
 
-*May their sad silicon and copper souls join the chorus of the stars.*
+*May their silicon and copper souls join the chorus of the stars.*
 
 ## Summary
 
