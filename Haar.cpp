@@ -52,25 +52,29 @@ float Haar::getTemperature(Sensor device, bool update)  //Return temp in C
 		Val = getWord(TEMP_RH);
 		Val = ((Val*175.0)/65535.0) - 45; //Convert to C
 	}
-	dataRequested = false; //Clear flag on data retreval
+	dataRequested = false; // Clear flag on data retreval
 	return Val;
 }
 
 uint8_t Haar::sleep(bool state)
 {
-	//Add sleep function!
+	// Add sleep function!
 }
 
-uint8_t Haar::requestSample(bool block)  //FIX! Allow for read of status register in order to not overwrite state bits
+// FIX! Allow for read of status register in order to not overwrite state bits
+uint8_t Haar::requestSample(bool block)
 {
-	dataRequested = true; //Set flag
+	dataRequested = true; // Set flag
 	Wire.beginTransmission(0x40);
 	Wire.write(0x00);
-	Wire.write(0x01); //Trigger conversion
-	uint8_t Error = Wire.endTransmission();  //Return I2C status
-	if(block) { //Only block if triggered
-		unsigned long Timeout = millis(); //Get timeout value
-		while(!newData() && (millis() - Timeout < TimeoutGlobal)) { //Wait for new data to be returned
+	Wire.write(0x01); // Trigger conversion
+	uint8_t Error = Wire.endTransmission(); // Return I2C status
+	// Only block if triggered
+	if(block) {
+		// Get timeout value
+		unsigned long Timeout = millis();
+		// Wait for new data to be returned
+		while(!newData() && (millis() - Timeout < TimeoutGlobal)) {
 			delay(1);
 		}
 		return Error;
@@ -87,23 +91,27 @@ String Haar::getString()
 {
 	if(dataRequested) {  //If new data is already en-route
 		unsigned long Timeout = millis(); //Get timeout value
-		while(!newData() && (millis() - Timeout < TimeoutGlobal)) { //Wait for new data to be returned
+		//Wait for new data to be returned
+		while(!newData() && (millis() - Timeout < TimeoutGlobal)) {
 			delay(1);
 		}
 	}
 	else(requestSample(true)); //Else, block for new conversion
 	// delay(100); //DEBUG!
-	return String(getPressure()) + "," + String(getHumidity()) + "," + String(getTemperature(Pres_Sense)) + "," + String(getTemperature(RH_Sense)) + ",";
+	return String(getPressure()) + "," + String(getHumidity()) + "," \
+					+ String(getTemperature(Pres_Sense)) + "," \
+					+ String(getTemperature(RH_Sense)) + ",";
 }
 
-bool Haar::newData()  //Checks for updated data
+bool Haar::newData()  // Checks for updated data
 {
-	unsigned long Timeout = millis(); //Get timeout value
+	unsigned long Timeout = millis(); // Get timeout value
 	Wire.beginTransmission(0x40);
 	Wire.write(0x00);
 	Wire.endTransmission();
 	Wire.requestFrom(0x40, 1);
-	while(Wire.available() < 1 && (millis() - Timeout < TimeoutGlobal)) { //Wait for value to be returned //FIX! add timeout/remove
+	// Wait for value to be returned //FIX! add timeout/remove
+	while(Wire.available() < 1 && (millis() - Timeout < TimeoutGlobal)) {
 		delay(1);
 	}
 	uint8_t Val = Wire.read();  //DEBUG!
@@ -112,7 +120,9 @@ bool Haar::newData()  //Checks for updated data
 	if(Val & 0x01 == 1) state = false;  //FIX! Make cleaner
 	else state = true;
 	// Serial.println(state); //DEBUG!
-	return (state); //Return inverse of bit 0, true when bit has been cleared, false when waiting for new conversion
+	// Return inverse of bit 0, true when bit has been cleared,
+	// false when waiting for new conversion
+	return (state);
 }
 
 int16_t Haar::getWord(uint8_t Reg)  //Returns word, read from Reg position
@@ -122,16 +132,16 @@ int16_t Haar::getWord(uint8_t Reg)  //Returns word, read from Reg position
 	Wire.write(Reg);
 	Wire.endTransmission();
 
-	Wire.requestFrom(ADR, 1);  //Request word
-//	while(Wire.available() < 2); //Wait //FIX! Add timeout
+	Wire.requestFrom(ADR, 1);  // Request word
+	//while(Wire.available() < 2); //Wait //FIX! Add timeout
 	Val = Wire.read();
-//  Serial.println(Val, HEX);
+	// Serial.println(Val, HEX);
 
   Wire.beginTransmission(ADR);
   Wire.write(Reg + 1);
   Wire.endTransmission();
   Wire.requestFrom(ADR, 1);  //Request word
 	Val = Val | (Wire.read() << 8);  //Concatonate 16 bits
-//  Val = Wire.read() | (Val << 8);  //Concatonate 16 bits //DEBUG!
+	//Val = Wire.read() | (Val << 8);  //Concatonate 16 bits //DEBUG!
 	return Val;
 }
