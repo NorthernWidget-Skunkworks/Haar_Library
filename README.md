@@ -18,14 +18,14 @@ Project [Haar](#classHaar), named for the cold fog off the north sea, is a press
 --------------------------------|---------------------------------------------
 `public  `[`Haar`](#classHaar_1a0da6a368ea9f434647065dbc356350cf)`()` | Instantiate the [Haar](#classHaar) sensor class.
 `public uint8_t `[`begin`](#classHaar_1a80119761d396fae3f7f36dc5ef0f5d63)`(uint8_t ADR_)` | Begin communications with the [Haar](#classHaar) sensor.
-`public float `[`GetPressure`](#classHaar_1a0f01c6a94097c9da103157d605a2640e)`(bool Update)` | Return the currently stored pressure [in mBar].
-`public float `[`GetHumidity`](#classHaar_1ae70cc679d30a06bdd911e52db6346618)`(bool Update)` | Return the currently stored relative humidity [%].
-`public float `[`GetTemperature`](#classHaar_1a5e4c7cff226975a2ddade7cb63be3ba3)`(Sensor Device,bool Update)` | Return the currently stored relative humidity [%].
-`public uint8_t `[`Sleep`](#classHaar_1ac4646f6c4b5532b1d4304a761eb77ad8)`(bool State)` | Enable or disable device sleep mode THIS FUNCTION CURRENTLY DOES NOTHING!
-`public uint8_t `[`RequestSample`](#classHaar_1aff15e81cba7f13897ae38c8dfe21d73e)`(bool Block)` | Return a new sample of all of the data.
-`public bool `[`NewData`](#classHaar_1a1a99e2cb4d3a53a170bb9a96fac73440)`()` | Checks for updated data. Returns `true` if new data are available; otherwise returns `false`
-`public String `[`GetString`](#classHaar_1a58fc9627f957e39e8481837e8616d52a)`()` | The most important function for the user! Returns all data as a comma-separated string: "P,RH,T(P),T[RH],".
-`public String `[`GetHeader`](#classHaar_1a7069008fd8febc964d330a9313d5d79f)`()` | Returns a header: "Pressure Atmos [mBar], Humidity [%], Temp Pres [C], Temp RH [C],".
+`public float `[`getPressure`](#classHaar_1ade237d2fa6aa6be08de2d631f8c3c4ab)`(bool update)` | Return the currently stored pressure [in mBar].
+`public float `[`getHumidity`](#classHaar_1afacacfa4b648e9aed0c8b42f3f078246)`(bool update)` | Return the currently stored relative humidity [%].
+`public float `[`getTemperature`](#classHaar_1ac0c2a08ab816a6fa66bc1a4e41598956)`(Sensor Device,bool update)` | Return the currently stored relative humidity [%].
+`public uint8_t `[`sleep`](#classHaar_1afb0d27a90e98565bc4db523574cd781b)`(bool state)` | Enable or disable device sleep mode THIS FUNCTION CURRENTLY DOES NOTHING!
+`public uint8_t `[`requestSample`](#classHaar_1ac6b5c3cb2845ed786e8f5258a8c2e46b)`(bool block)` | Return a new sample of all of the data.
+`public bool `[`newData`](#classHaar_1ae51c1fcc10010c56263e9df311a83486)`()` | Checks for updated data. Returns `true` if new data are available; otherwise returns `false`
+`public String `[`getString`](#classHaar_1a3c36187bfc3d8254ff28446c315e60d7)`()` | The most important function for the user! Returns all data as a comma-separated string: "P,RH,T(P),T[RH],".
+`public String `[`getHeader`](#classHaar_1a271e4eb4e28723df81c1a0ed1d2d0ead)`()` | Returns a header: "Pressure Atmos [mBar], Humidity [%], Temp Pres [C], Temp RH [C],".
 
 ## Members
 
@@ -40,21 +40,21 @@ Begin communications with the [Haar](#classHaar) sensor.
 #### Parameters
 * `ADR_` I2C address. Defaults to 0x40. DOES NOT ACTUALLY SEEM TO BE USED! 0x40 FOR EVERYTHING, REGARDLESS
 
-#### `public float `[`GetPressure`](#classHaar_1a0f01c6a94097c9da103157d605a2640e)`(bool Update)` 
+#### `public float `[`getPressure`](#classHaar_1ade237d2fa6aa6be08de2d631f8c3c4ab)`(bool update)` 
 
 Return the currently stored pressure [in mBar].
 
 #### Parameters
 * `Update` Read and store a new pressure value before sending? By default is false; simply returns the already-available pressure value.
 
-#### `public float `[`GetHumidity`](#classHaar_1ae70cc679d30a06bdd911e52db6346618)`(bool Update)` 
+#### `public float `[`getHumidity`](#classHaar_1afacacfa4b648e9aed0c8b42f3f078246)`(bool update)` 
 
 Return the currently stored relative humidity [%].
 
 #### Parameters
 * `Update` Read and store a new pressure value before sending? By default is false; simply returns the already-available RH value.
 
-#### `public float `[`GetTemperature`](#classHaar_1a5e4c7cff226975a2ddade7cb63be3ba3)`(Sensor Device,bool Update)` 
+#### `public float `[`getTemperature`](#classHaar_1ac0c2a08ab816a6fa66bc1a4e41598956)`(Sensor Device,bool update)` 
 
 Return the currently stored relative humidity [%].
 
@@ -63,34 +63,34 @@ Return the currently stored relative humidity [%].
 
 * `Update` Read and store a new pressure value before sending? By default is false; simply returns the already-available RH value.
 
-#### `public uint8_t `[`Sleep`](#classHaar_1ac4646f6c4b5532b1d4304a761eb77ad8)`(bool State)` 
+#### `public uint8_t `[`sleep`](#classHaar_1afb0d27a90e98565bc4db523574cd781b)`(bool state)` 
 
 Enable or disable device sleep mode THIS FUNCTION CURRENTLY DOES NOTHING!
 
 #### Parameters
 * `State` Can be `ON` (1) or `OFF` (0). By default, this command sets "Sleep" to ON, sending the device into a low-power sleep mode.
 
-#### `public uint8_t `[`RequestSample`](#classHaar_1aff15e81cba7f13897ae38c8dfe21d73e)`(bool Block)` 
+#### `public uint8_t `[`requestSample`](#classHaar_1ac6b5c3cb2845ed786e8f5258a8c2e46b)`(bool block)` 
 
 Return a new sample of all of the data.
 
 #### Parameters
 * `Block` if `true`, wait for data to be returned. Defaults to `false`.
 
-#### `public bool `[`NewData`](#classHaar_1a1a99e2cb4d3a53a170bb9a96fac73440)`()` 
+#### `public bool `[`newData`](#classHaar_1ae51c1fcc10010c56263e9df311a83486)`()` 
 
 Checks for updated data. Returns `true` if new data are available; otherwise returns `false`
 
 #### Parameters
 * `Block` if `true`, wait for data to be returned. Defaults to `false`.
 
-#### `public String `[`GetString`](#classHaar_1a58fc9627f957e39e8481837e8616d52a)`()` 
+#### `public String `[`getString`](#classHaar_1a3c36187bfc3d8254ff28446c315e60d7)`()` 
 
 The most important function for the user! Returns all data as a comma-separated string: "P,RH,T(P),T[RH],".
 
 This string is: <PRESSURE>,<RELATIVE_HUMIDITY, <TEMPERATURE-FROM-PRESSURE-SENSOR>,<TEMPERATURE-FROM-RH-SENSOR>,
 
-#### `public String `[`GetHeader`](#classHaar_1a7069008fd8febc964d330a9313d5d79f)`()` 
+#### `public String `[`getHeader`](#classHaar_1a271e4eb4e28723df81c1a0ed1d2d0ead)`()` 
 
 Returns a header: "Pressure Atmos [mBar], Humidity [%], Temp Pres [C], Temp RH [C],".
 
