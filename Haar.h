@@ -30,7 +30,7 @@ enum Sensor {
  * catistrophically bricked their I2C buses and those of their associated
  * data loggers, thus taking down a large fraction of our hydromet network.
  *
- * *May their sad silicon and copper souls join the chorus of the stars.*
+ * *May their silicon and copper souls join the chorus of the stars.*
  */
 class Haar
 {
