@@ -99,8 +99,8 @@ class Haar
 	  /**
 	   * @brief The most important function for the user! Returns all data as a
 	   * comma-separated string: "P,RH,T(P),T[RH],".
-	   * @details This string is: <PRESSURE>,<RELATIVE_HUMIDITY>,
-	   * <TEMPERATURE-FROM-PRESSURE-SENSOR>,<TEMPERATURE-FROM-RH-SENSOR>,
+	   * @details This string is: PRESSURE,RELATIVE_HUMIDITY,
+	   * TEMPERATURE_FROM_PRESSURE_SENSOR,TEMPERATURE_FROM_RH_SENSOR,
 	   */
 		String getString();
 
