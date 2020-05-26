@@ -62,13 +62,14 @@ class Haar
 		float getHumidity(bool update = false);
 
 	  /**
-	   * @brief Return the currently stored relative humidity [%]
+	   * @brief Return the currently stored Temperature [degrees C]
 	   * @param[in] Device: Selects which sensor is used to measure the
 	   * temperature. Input can be `RH_Sense`, which corresponds to a 0, or
 	   * `Pres_Sense`, which corresponds to a 1. By default, this is RH_Sense,
 	   * as this sensor has a better internal temperature sensor.
 	   * @param[in] Update: Read and store a new pressure value before sending?
-	   * By default is false; simply returns the already-available RH value.
+	   * By default is false; simply returns the already-available temperature
+     * value.
 	   */
 		float getTemperature(Sensor Device = RH_Sense, bool update = false);
 
