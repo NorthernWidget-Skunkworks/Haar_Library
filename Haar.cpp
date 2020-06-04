@@ -8,12 +8,12 @@ uint8_t Haar::begin(uint8_t ADR_)
 {
 	ADR = ADR_;
 	Wire.begin();
-	requestSample();
+	updateMeasurements();
 }
 
 float Haar::getPressure(bool Update) //Get pressure in mBar
 {
-	if(update) requestSample(); //Only call for updated value if requested
+	if(update) updateMeasurements(); //Only call for updated value if requested
 	uint32_t Val = 0; //Val for getting/calculating pressure value
 	uint32_t Temp = 0; //DEBUG
 
@@ -31,7 +31,7 @@ float Haar::getPressure(bool Update) //Get pressure in mBar
 
 float Haar::getHumidity(bool update)  //Return humidity in % (realtive)
 {
-	if(update) requestSample(); //Only call for updated value if requested
+	if(update) updateMeasurements(); //Only call for updated value if requested
 	float Val = 0; //Val for getting/calculating RH value
 	Val = (uint16_t(getWord(RH_REG)));
 	Val = (100.0*Val)/65535.0;  //Convert to RH
@@ -41,7 +41,7 @@ float Haar::getHumidity(bool update)  //Return humidity in % (realtive)
 
 float Haar::getTemperature(Sensor device, bool update)  //Return temp in C
 {
-	if(update) requestSample(); //Only call for updated value if requested
+	if(update) updateMeasurements(); //Only call for updated value if requested
 	float Val = 0; //Val for getting/calculating temp value
 	if(device == Pres_Sense) {
 		Val = getWord(TEMP_PRES);
@@ -62,7 +62,7 @@ uint8_t Haar::sleep(bool state)
 }
 
 // FIX! Allow for read of status register in order to not overwrite state bits
-uint8_t Haar::requestSample(bool block)
+uint8_t Haar::updateMeasurements(bool block)
 {
 	dataRequested = true; // Set flag
 	Wire.beginTransmission(0x40);
@@ -96,7 +96,7 @@ String Haar::getString()
 			delay(1);
 		}
 	}
-	else(requestSample(true)); //Else, block for new conversion
+	else(updateMeasurements(true)); //Else, block for new conversion
 	// delay(100); //DEBUG!
 	return String(getPressure()) + "," + String(getHumidity()) + "," \
 					+ String(getTemperature(Pres_Sense)) + "," \

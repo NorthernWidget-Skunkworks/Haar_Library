@@ -86,7 +86,7 @@ class Haar
 	   * @param Block: if `true`, wait for data to be returned.
 	   * Defaults to `false`.
 	   */
-		uint8_t requestSample(bool block = false); //Default to non-blocking
+		uint8_t updateMeasurements(bool block = false); //Default to non-blocking
 
 	  /**
 	   * @brief Checks for updated data. Returns `true` if new data are available;
