@@ -45,14 +45,14 @@ Begin communications with the [Haar](#classHaar) sensor.
 Return the currently stored pressure [in mBar].
 
 #### Parameters
-* `Update` Read and store a new pressure value before sending? By default is false; simply returns the already-available pressure value.
+* `update` Read and store a new pressure value before sending? By default is false; simply returns the already-available pressure value.
 
 #### `public float `[`getHumidity`](#classHaar_1afacacfa4b648e9aed0c8b42f3f078246)`(bool update)` 
 
 Return the currently stored relative humidity [%].
 
 #### Parameters
-* `Update` Read and store a new pressure value before sending? By default is false; simply returns the already-available RH value.
+* `update` Read and store a new pressure value before sending? By default is false; simply returns the already-available RH value.
 
 #### `public float `[`getTemperature`](#classHaar_1ac0c2a08ab816a6fa66bc1a4e41598956)`(Sensor Device,bool update)` 
 
@@ -61,7 +61,7 @@ Return the currently stored Temperature [degrees C].
 #### Parameters
 * `Device` Selects which sensor is used to measure the temperature. Input can be `RH_Sense`, which corresponds to a 0, or `Pres_Sense`, which corresponds to a 1. By default, this is RH_Sense, as this sensor has a better internal temperature sensor. 
 
-* `Update` Read and store a new pressure value before sending? By default is false; simply returns the already-available temperature value.
+* `update` Read and store a new pressure value before sending? By default is false; simply returns the already-available temperature value.
 
 #### `public uint8_t `[`sleep`](#classHaar_1afb0d27a90e98565bc4db523574cd781b)`(bool state)` 
 

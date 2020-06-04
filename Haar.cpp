@@ -11,7 +11,7 @@ uint8_t Haar::begin(uint8_t ADR_)
 	updateMeasurements();
 }
 
-float Haar::getPressure(bool Update) //Get pressure in mBar
+float Haar::getPressure(bool update) //Get pressure in mBar
 {
 	if(update) updateMeasurements(); //Only call for updated value if requested
 	uint32_t Val = 0; //Val for getting/calculating pressure value
