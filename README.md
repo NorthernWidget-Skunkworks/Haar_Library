@@ -12,7 +12,7 @@ Project [Haar](#classHaar), named for the cold fog off the north sea, is a press
 
 *May their silicon and copper souls join the chorus of the stars.*
 
-[![DOI](https://zenodo.org/badge/177828982.svg)](https://zenodo.org/badge/latestdoi/177828982)
+[![DOI](https://zenodo.org/badge/200929328.svg)](https://zenodo.org/badge/latestdoi/200929328)
 
 ## Summary
 

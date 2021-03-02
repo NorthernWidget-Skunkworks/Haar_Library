@@ -32,7 +32,7 @@ enum Sensor {
  *
  * *May their silicon and copper souls join the chorus of the stars.*
  *
- * \verbatim [![DOI](https://zenodo.org/badge/177828982.svg)](https://zenodo.org/badge/latestdoi/177828982) \endverbatim
+ * \verbatim [![DOI](https://zenodo.org/badge/200929328.svg)](https://zenodo.org/badge/latestdoi/200929328) \endverbatim
  */
 class Haar
 {
