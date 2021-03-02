@@ -31,6 +31,8 @@ enum Sensor {
  * data loggers, thus taking down a large fraction of our hydromet network.
  *
  * *May their silicon and copper souls join the chorus of the stars.*
+ *
+ * \verbatim [![DOI](https://zenodo.org/badge/177828982.svg)](https://zenodo.org/badge/latestdoi/177828982) \endverbatim
  */
 class Haar
 {
