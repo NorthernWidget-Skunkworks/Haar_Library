@@ -9,6 +9,7 @@ uint8_t Haar::begin(uint8_t ADR_)
 	ADR = ADR_;
 	Wire.begin();
 	updateMeasurements();
+	return 0;
 }
 
 float Haar::getPressure(bool update) //Get pressure in mBar
@@ -59,6 +60,7 @@ float Haar::getTemperature(Sensor device, bool update)  //Return temp in C
 uint8_t Haar::sleep(bool state)
 {
 	// Add sleep function!
+	return 0;
 }
 
 // FIX! Allow for read of status register in order to not overwrite state bits
