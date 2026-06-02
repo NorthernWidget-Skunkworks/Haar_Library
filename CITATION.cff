@@ -1,0 +1,30 @@
+cff-version: 1.2.0
+message: "If you use this library, please cite it using the metadata from this file."
+type: software
+authors:
+  - family-names: Schulz
+    given-names: Bobby
+    orcid: "https://orcid.org/0000-0002-9272-4756"
+    affiliation: Northern Widget LLC
+  - family-names: Wickert
+    given-names: Andrew D.
+    orcid: "https://orcid.org/0000-0002-9545-3365"
+    affiliation: University of Minnesota, Department of Earth & Environmental Sciences
+title: "Haar_Library"
+version: 1.0.0
+doi: 10.5281/zenodo.4572354
+date-released: '2026-06-01'
+url: "https://github.com/NorthernWidget-Skunkworks/Haar_Library"
+license: GPL-3.0
+abstract: "Arduino library for the Northern Widget Haar ruggedized temperature,
+  pressure, and relative-humidity sensor, designed to withstand full submersion."
+keywords:
+  - Arduino
+  - temperature
+  - pressure
+  - humidity
+  - I2C
+  - sensor
+  - environmental monitoring
+  - Northern Widget
+  - submersible
