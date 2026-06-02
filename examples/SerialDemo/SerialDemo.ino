@@ -10,7 +10,7 @@ void setup() {
 	uint8_t error = sensor.begin(); //Initialize Haar sensor with default sensor, grab sensor status
 	
 	Serial.print("Haar Status:"); //Print resulting sensor status 
-	if(error != 0) Serial.print("\t FAIL!\n\n");
+	if(!error) Serial.print("\t FAIL!\n\n");
 	else Serial.print("\t PASS\n\n");
 }
 
