@@ -4,12 +4,14 @@ Haar::Haar()
 {
 }
 
-uint8_t Haar::begin(uint8_t ADR_)
+bool Haar::begin(uint8_t ADR_)
 {
 	ADR = ADR_;
 	Wire.begin();
+	Wire.beginTransmission(ADR);
+	if (Wire.endTransmission() != 0) return false;
 	updateMeasurements();
-	return 0;
+	return true;
 }
 
 float Haar::getPressure(bool update) //Get pressure in mBar
@@ -57,10 +59,10 @@ float Haar::getTemperature(Sensor device, bool update)  //Return temp in C
 	return val;
 }
 
-uint8_t Haar::sleep(bool state)
+bool Haar::sleep(bool state)
 {
 	// Add sleep function!
-	return 0;
+	return false;
 }
 
 // FIX! Allow for read of status register in order to not overwrite state bits

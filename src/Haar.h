@@ -45,8 +45,9 @@ class Haar
 	  /**
 	   * @brief Begin communications with the Haar sensor.
 	   * @param[in] ADR_: I2C address. Defaults to 0x42.
+	   * @return True if the device acknowledges on I2C; false otherwise.
 	   */
-		uint8_t begin(uint8_t ADR_ = 0x42);
+		bool begin(uint8_t ADR_ = 0x42);
 
 	  /**
 	   * @brief Return the currently stored pressure [in mBar]
@@ -75,12 +76,13 @@ class Haar
 		float getTemperature(Sensor Device = RH_Sense, bool update = false);
 
 	  /**
-	   * @brief Enable or disable device sleep mode
-	   * THIS FUNCTION CURRENTLY DOES NOTHING!
+	   * @brief Enable or disable device sleep mode.
+	   * THIS FUNCTION CURRENTLY DOES NOTHING and returns false.
 	   * @param State: Can be `ON` (1) or `OFF` (0). By default, this command sets
 	   * "Sleep" to ON, sending the device into a low-power sleep mode.
+	   * @return False (not yet implemented).
 	   */
-		uint8_t sleep(bool state = ON);
+		bool sleep(bool state = ON);
 
 	  /**
 	   * @brief Return a new sample of all of the data.

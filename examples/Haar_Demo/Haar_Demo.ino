@@ -5,7 +5,10 @@ Haar sensor;
 void setup() {
     Serial.begin(9600);
     Serial.println("Haar temperature, pressure, and humidity sensor");
-    sensor.begin();
+    if (!sensor.begin()) {
+        Serial.println("Haar not found. Check wiring.");
+        while (1);
+    }
     Serial.println(sensor.getHeader());
 }
 
