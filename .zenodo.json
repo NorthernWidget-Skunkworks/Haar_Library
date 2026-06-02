@@ -1,0 +1,29 @@
+{
+  "title": "Haar_Library",
+  "description": "Arduino library for the Northern Widget Haar ruggedized temperature, pressure, and relative-humidity sensor, designed to withstand full submersion.",
+  "upload_type": "software",
+  "license": {"id": "GPL-3.0-only"},
+  "creators": [
+    {
+      "name": "Schulz, Bobby",
+      "orcid": "0000-0002-9272-4756",
+      "affiliation": "Northern Widget LLC"
+    },
+    {
+      "name": "Wickert, Andrew D.",
+      "orcid": "0000-0002-9545-3365",
+      "affiliation": "University of Minnesota, Department of Earth & Environmental Sciences"
+    }
+  ],
+  "keywords": [
+    "Arduino",
+    "temperature",
+    "pressure",
+    "humidity",
+    "I2C",
+    "sensor",
+    "environmental monitoring",
+    "Northern Widget",
+    "submersible"
+  ]
+}
