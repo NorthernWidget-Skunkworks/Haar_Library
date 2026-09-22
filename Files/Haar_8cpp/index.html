@@ -1,0 +1,468 @@
+
+
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.28.1 by Michael Rose
+  Copyright 2013-2026 Michael Rose - mademistakes.com | @mmistakes
+  Copyright 2024-2026 iBug - ibugone.com | @iBug
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+
+<html lang="en" class="no-js" dir="ltr">
+  <head>
+    
+<meta charset="utf-8">
+
+
+<!-- begin _includes/seo.html --><title>src/Haar.cpp - Haar Library</title>
+<meta name="description" content="Library for the ruggedized Haar temperature, pressure, and relative-humidity sensor">
+
+
+  <meta name="author" content="Northern Widget">
+  
+
+
+<meta property="og:type" content="website">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Haar Library">
+<meta property="og:title" content="src/Haar.cpp">
+<meta property="og:url" content="https://docs.northernwidget.com/Haar_Library/Files/Haar_8cpp/">
+
+
+  <meta property="og:description" content="Library for the ruggedized Haar temperature, pressure, and relative-humidity sensor">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="canonical" href="https://docs.northernwidget.com/Haar_Library/Files/Haar_8cpp/">
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/Haar_Library/feed.xml" type="application/atom+xml" rel="alternate" title="Haar Library Feed">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+  
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/Haar_Library/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css"></noscript>
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    
+<nav class="skip-links" aria-label="Skip links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav" aria-label="Primary navigation">
+        
+        <a class="site-title" href="/Haar_Library/">
+          Haar Library
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a
+                href="https://mmistakes.github.io/minimal-mistakes/docs/quick-start-guide/"
+                
+                
+              >Quick-Start Guide</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+
+
+
+
+<div id="main" role="main">
+  
+
+  <div class="sidebar sticky">
+  
+  
+    
+      
+      
+      
+      
+    
+    
+      
+<nav class="nav__list">
+  
+  <input id="ac-toc" name="accordion-toc" type="checkbox" />
+  <label for="ac-toc">Toggle Menu</label>
+  <ul class="nav__items">
+    
+      
+      
+        <li>
+          
+            <a href="/Haar_Library/"><span class="nav__sub-title">Overview</span></a>
+          
+
+          
+        </li>
+      
+        <li>
+          
+            <a href="/Haar_Library/Classes/classHaar/"><span class="nav__sub-title">Haar Class</span></a>
+          
+
+          
+        </li>
+      
+        <li>
+          
+            <a href="/Haar_Library/Classes/index_classes/"><span class="nav__sub-title">Classes</span></a>
+          
+
+          
+        </li>
+      
+        <li>
+          
+            <a href="/Haar_Library/Files/index_files/"><span class="nav__sub-title">Files</span></a>
+          
+
+          
+        </li>
+      
+    
+  </ul>
+</nav>
+
+    
+  
+  
+  </div>
+
+
+
+  <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="src/Haar.cpp">
+    
+    
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title p-name" itemprop="headline">
+            <a href="https://docs.northernwidget.com/Haar_Library/Files/Haar_8cpp/" itemprop="url">src/Haar.cpp
+</a>
+          </h1>
+          
+
+
+
+        </header>
+      
+
+      <section class="page__content e-content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc" aria-label="Table of contents">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu"><li><a href="#source-code">Source code</a></li></ul>
+            </nav>
+          </aside>
+        
+        <h2 id="source-code">Source code</h2>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">"Haar.h"</span><span class="cp">
+</span>
+<span class="n">Haar</span><span class="o">::</span><span class="n">Haar</span><span class="p">()</span>
+<span class="p">{</span>
+<span class="p">}</span>
+
+<span class="kt">bool</span> <span class="n">Haar</span><span class="o">::</span><span class="n">begin</span><span class="p">(</span><span class="kt">uint8_t</span> <span class="n">ADR_</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">ADR</span> <span class="o">=</span> <span class="n">ADR_</span><span class="p">;</span>
+    <span class="n">Wire</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
+    <span class="n">Wire</span><span class="p">.</span><span class="n">beginTransmission</span><span class="p">(</span><span class="n">ADR</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">Wire</span><span class="p">.</span><span class="n">endTransmission</span><span class="p">()</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+    <span class="n">updateMeasurements</span><span class="p">();</span>
+    <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">float</span> <span class="n">Haar</span><span class="o">::</span><span class="n">getPressure</span><span class="p">(</span><span class="kt">bool</span> <span class="n">update</span><span class="p">)</span> <span class="c1">//Get pressure in mBar</span>
+<span class="p">{</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">update</span><span class="p">)</span> <span class="n">updateMeasurements</span><span class="p">();</span> <span class="c1">//Only call for updated value if requested</span>
+    <span class="kt">uint32_t</span> <span class="n">val</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="c1">//Val for getting/calculating pressure value</span>
+    <span class="kt">uint32_t</span> <span class="n">Temp</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="c1">//DEBUG</span>
+
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">Wire</span><span class="p">.</span><span class="n">beginTransmission</span><span class="p">(</span><span class="n">ADR</span><span class="p">);</span>
+        <span class="n">Wire</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">PRES_REG</span> <span class="o">+</span> <span class="n">i</span><span class="p">);</span>
+        <span class="n">Wire</span><span class="p">.</span><span class="n">endTransmission</span><span class="p">();</span>
+        <span class="n">Wire</span><span class="p">.</span><span class="n">requestFrom</span><span class="p">(</span><span class="n">ADR</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+        <span class="n">Temp</span> <span class="o">=</span> <span class="n">Wire</span><span class="p">.</span><span class="n">read</span><span class="p">();</span> <span class="c1">//DEBUG!</span>
+        <span class="n">val</span> <span class="o">=</span> <span class="p">(</span><span class="n">Temp</span> <span class="o">&lt;&lt;</span> <span class="mi">8</span><span class="o">*</span><span class="n">i</span><span class="p">)</span> <span class="o">|</span> <span class="n">val</span><span class="p">;</span> <span class="c1">//DEBUG!</span>
+    <span class="p">}</span>
+    <span class="n">dataRequested</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span> <span class="c1">//Clear flag on data retreval</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">val</span> <span class="o">/</span> <span class="mf">4096.0</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">float</span> <span class="n">Haar</span><span class="o">::</span><span class="n">getHumidity</span><span class="p">(</span><span class="kt">bool</span> <span class="n">update</span><span class="p">)</span>  <span class="c1">//Return humidity in % (realtive)</span>
+<span class="p">{</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">update</span><span class="p">)</span> <span class="n">updateMeasurements</span><span class="p">();</span> <span class="c1">//Only call for updated value if requested</span>
+    <span class="kt">float</span> <span class="n">val</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="c1">//Val for getting/calculating RH value</span>
+    <span class="n">val</span> <span class="o">=</span> <span class="p">(</span><span class="kt">uint16_t</span><span class="p">(</span><span class="n">getWord</span><span class="p">(</span><span class="n">RH_REG</span><span class="p">)));</span>
+    <span class="n">val</span> <span class="o">=</span> <span class="p">(</span><span class="mf">100.0</span><span class="o">*</span><span class="n">val</span><span class="p">)</span><span class="o">/</span><span class="mf">65535.0</span><span class="p">;</span>  <span class="c1">//Convert to RH</span>
+    <span class="n">dataRequested</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span> <span class="c1">//Clear flag on data retreval</span>
+    <span class="k">return</span> <span class="n">val</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">float</span> <span class="n">Haar</span><span class="o">::</span><span class="n">getTemperature</span><span class="p">(</span><span class="n">Sensor</span> <span class="n">device</span><span class="p">,</span> <span class="kt">bool</span> <span class="n">update</span><span class="p">)</span>  <span class="c1">//Return temp in C</span>
+<span class="p">{</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">update</span><span class="p">)</span> <span class="n">updateMeasurements</span><span class="p">();</span> <span class="c1">//Only call for updated value if requested</span>
+    <span class="kt">float</span> <span class="n">val</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="c1">//Val for getting/calculating temp value</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">device</span> <span class="o">==</span> <span class="n">Pres_Sense</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">val</span> <span class="o">=</span> <span class="n">getWord</span><span class="p">(</span><span class="n">TEMP_PRES</span><span class="p">);</span>
+        <span class="n">val</span> <span class="o">=</span> <span class="n">val</span><span class="o">/</span><span class="mf">100.0</span><span class="p">;</span> <span class="c1">//Convert to C</span>
+    <span class="p">}</span>
+
+    <span class="k">else</span> <span class="nf">if</span> <span class="p">(</span><span class="n">device</span> <span class="o">==</span> <span class="n">RH_Sense</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">val</span> <span class="o">=</span> <span class="n">getWord</span><span class="p">(</span><span class="n">TEMP_RH</span><span class="p">);</span>
+        <span class="n">val</span> <span class="o">=</span> <span class="p">((</span><span class="n">val</span><span class="o">*</span><span class="mf">175.0</span><span class="p">)</span><span class="o">/</span><span class="mf">65535.0</span><span class="p">)</span> <span class="o">-</span> <span class="mi">45</span><span class="p">;</span> <span class="c1">//Convert to C</span>
+    <span class="p">}</span>
+    <span class="n">dataRequested</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span> <span class="c1">// Clear flag on data retreval</span>
+    <span class="k">return</span> <span class="n">val</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">bool</span> <span class="n">Haar</span><span class="o">::</span><span class="n">sleep</span><span class="p">(</span><span class="kt">bool</span> <span class="n">state</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// Add sleep function!</span>
+    <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// FIX! Allow for read of status register in order to not overwrite state bits</span>
+<span class="kt">uint8_t</span> <span class="n">Haar</span><span class="o">::</span><span class="n">updateMeasurements</span><span class="p">(</span><span class="kt">bool</span> <span class="n">block</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">dataRequested</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span> <span class="c1">// Set flag</span>
+    <span class="n">Wire</span><span class="p">.</span><span class="n">beginTransmission</span><span class="p">(</span><span class="n">ADR</span><span class="p">);</span>
+    <span class="n">Wire</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="mh">0x00</span><span class="p">);</span>
+    <span class="n">Wire</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="mh">0x01</span><span class="p">);</span> <span class="c1">// Trigger conversion</span>
+    <span class="kt">uint8_t</span> <span class="n">error</span> <span class="o">=</span> <span class="n">Wire</span><span class="p">.</span><span class="n">endTransmission</span><span class="p">();</span> <span class="c1">// Return I2C status</span>
+    <span class="c1">// Only block if triggered</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">block</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// Get timeout value</span>
+        <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">timeout</span> <span class="o">=</span> <span class="n">millis</span><span class="p">();</span>
+        <span class="c1">// Wait for new data to be returned</span>
+        <span class="k">while</span><span class="p">(</span><span class="o">!</span><span class="n">newData</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="n">millis</span><span class="p">()</span> <span class="o">-</span> <span class="n">timeout</span> <span class="o">&lt;</span> <span class="n">timeoutGlobal</span><span class="p">))</span> <span class="p">{</span>
+            <span class="n">delay</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">error</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">else</span> <span class="k">return</span> <span class="n">error</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">String</span> <span class="n">Haar</span><span class="o">::</span><span class="n">getHeader</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="s">"Pressure Atmos [mBar], Humidity [%], Temp Pres [C], Temp RH [C],"</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">String</span> <span class="n">Haar</span><span class="o">::</span><span class="n">getString</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">dataRequested</span><span class="p">)</span> <span class="p">{</span>  <span class="c1">//If new data is already en-route</span>
+        <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">timeout</span> <span class="o">=</span> <span class="n">millis</span><span class="p">();</span> <span class="c1">//Get timeout value</span>
+        <span class="c1">//Wait for new data to be returned</span>
+        <span class="k">while</span><span class="p">(</span><span class="o">!</span><span class="n">newData</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="n">millis</span><span class="p">()</span> <span class="o">-</span> <span class="n">timeout</span> <span class="o">&lt;</span> <span class="n">timeoutGlobal</span><span class="p">))</span> <span class="p">{</span>
+            <span class="n">delay</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">else</span><span class="p">(</span><span class="n">updateMeasurements</span><span class="p">(</span><span class="nb">true</span><span class="p">));</span> <span class="c1">//Else, block for new conversion</span>
+    <span class="c1">// delay(100); //DEBUG!</span>
+    <span class="k">return</span> <span class="n">String</span><span class="p">(</span><span class="n">getPressure</span><span class="p">())</span> <span class="o">+</span> <span class="s">","</span> <span class="o">+</span> <span class="n">String</span><span class="p">(</span><span class="n">getHumidity</span><span class="p">())</span> <span class="o">+</span> <span class="s">","</span> \
+                    <span class="o">+</span> <span class="n">String</span><span class="p">(</span><span class="n">getTemperature</span><span class="p">(</span><span class="n">Pres_Sense</span><span class="p">))</span> <span class="o">+</span> <span class="s">","</span> \
+                    <span class="o">+</span> <span class="n">String</span><span class="p">(</span><span class="n">getTemperature</span><span class="p">(</span><span class="n">RH_Sense</span><span class="p">))</span> <span class="o">+</span> <span class="s">","</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">bool</span> <span class="n">Haar</span><span class="o">::</span><span class="n">newData</span><span class="p">()</span>  <span class="c1">// Checks for updated data</span>
+<span class="p">{</span>
+    <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">timeout</span> <span class="o">=</span> <span class="n">millis</span><span class="p">();</span> <span class="c1">// Get timeout value</span>
+    <span class="n">Wire</span><span class="p">.</span><span class="n">beginTransmission</span><span class="p">(</span><span class="n">ADR</span><span class="p">);</span>
+    <span class="n">Wire</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="mh">0x00</span><span class="p">);</span>
+    <span class="n">Wire</span><span class="p">.</span><span class="n">endTransmission</span><span class="p">();</span>
+    <span class="n">Wire</span><span class="p">.</span><span class="n">requestFrom</span><span class="p">(</span><span class="n">ADR</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+    <span class="c1">// Wait for value to be returned //FIX! add timeout/remove</span>
+    <span class="k">while</span><span class="p">(</span><span class="n">Wire</span><span class="p">.</span><span class="n">available</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="n">millis</span><span class="p">()</span> <span class="o">-</span> <span class="n">timeout</span> <span class="o">&lt;</span> <span class="n">timeoutGlobal</span><span class="p">))</span> <span class="p">{</span>
+        <span class="n">delay</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="kt">uint8_t</span> <span class="n">val</span> <span class="o">=</span> <span class="n">Wire</span><span class="p">.</span><span class="n">read</span><span class="p">();</span>  <span class="c1">//DEBUG!</span>
+    <span class="kt">bool</span> <span class="n">state</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+    <span class="c1">// bool state = ~(val &amp; 0x01);</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">val</span> <span class="o">&amp;</span> <span class="mh">0x01</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="n">state</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>  <span class="c1">//FIX! Make cleaner</span>
+    <span class="k">else</span> <span class="n">state</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+    <span class="c1">// Serial.println(state); //DEBUG!</span>
+    <span class="c1">// Return inverse of bit 0, true when bit has been cleared,</span>
+    <span class="c1">// false when waiting for new conversion</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">state</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">int16_t</span> <span class="n">Haar</span><span class="o">::</span><span class="n">getWord</span><span class="p">(</span><span class="kt">uint8_t</span> <span class="n">Reg</span><span class="p">)</span>  <span class="c1">//Returns word, read from Reg position</span>
+<span class="p">{</span>
+    <span class="kt">uint16_t</span> <span class="n">val</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="c1">//Val to be read from device</span>
+    <span class="n">Wire</span><span class="p">.</span><span class="n">beginTransmission</span><span class="p">(</span><span class="n">ADR</span><span class="p">);</span>
+    <span class="n">Wire</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">Reg</span><span class="p">);</span>
+    <span class="n">Wire</span><span class="p">.</span><span class="n">endTransmission</span><span class="p">();</span>
+
+    <span class="n">Wire</span><span class="p">.</span><span class="n">requestFrom</span><span class="p">(</span><span class="n">ADR</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>  <span class="c1">// Request word</span>
+    <span class="c1">//while(Wire.available() &lt; 2); //Wait //FIX! Add timeout</span>
+    <span class="n">val</span> <span class="o">=</span> <span class="n">Wire</span><span class="p">.</span><span class="n">read</span><span class="p">();</span>
+    <span class="c1">// Serial.println(val, HEX);</span>
+
+  <span class="n">Wire</span><span class="p">.</span><span class="n">beginTransmission</span><span class="p">(</span><span class="n">ADR</span><span class="p">);</span>
+  <span class="n">Wire</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">Reg</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+  <span class="n">Wire</span><span class="p">.</span><span class="n">endTransmission</span><span class="p">();</span>
+  <span class="n">Wire</span><span class="p">.</span><span class="n">requestFrom</span><span class="p">(</span><span class="n">ADR</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>  <span class="c1">//Request word</span>
+    <span class="n">val</span> <span class="o">=</span> <span class="n">val</span> <span class="o">|</span> <span class="p">(</span><span class="n">Wire</span><span class="p">.</span><span class="n">read</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="mi">8</span><span class="p">);</span>  <span class="c1">//Concatonate 16 bits</span>
+    <span class="c1">//val = Wire.read() | (val &lt;&lt; 8);  //Concatonate 16 bits //DEBUG!</span>
+    <span class="k">return</span> <span class="n">val</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<hr />
+
+<p>Updated on 2026-09-22 at 23:10:02 +0000</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+  
+
+  
+
+
+        
+
+
+
+      </footer>
+
+      
+
+      
+
+
+    </div>
+
+    
+  </article>
+
+  
+  
+</div>
+
+      
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        
+
+
+<div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+
+    
+      <li><a href="/Haar_Library/feed.xml"><i class="fas fa-fw fa-square-rss" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+
+<div class="page__footer-copyright">&copy; 2026 <a href="https://docs.northernwidget.com">Haar Library</a>. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/jekyll-themes/minimal-mistakes/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+
+  <script src="/Haar_Library/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+  </body>
+</html>

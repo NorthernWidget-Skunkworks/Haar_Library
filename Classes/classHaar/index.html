@@ -1,0 +1,518 @@
+
+
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.28.1 by Michael Rose
+  Copyright 2013-2026 Michael Rose - mademistakes.com | @mmistakes
+  Copyright 2024-2026 iBug - ibugone.com | @iBug
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+
+<html lang="en" class="no-js" dir="ltr">
+  <head>
+    
+<meta charset="utf-8">
+
+
+<!-- begin _includes/seo.html --><title>Haar - Haar Library</title>
+<meta name="description" content="Library for the ruggedized Haar temperature, pressure, and relative-humidity sensor">
+
+
+  <meta name="author" content="Northern Widget">
+  
+
+
+<meta property="og:type" content="website">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Haar Library">
+<meta property="og:title" content="Haar">
+<meta property="og:url" content="https://docs.northernwidget.com/Haar_Library/Classes/classHaar/">
+
+
+  <meta property="og:description" content="Library for the ruggedized Haar temperature, pressure, and relative-humidity sensor">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="canonical" href="https://docs.northernwidget.com/Haar_Library/Classes/classHaar/">
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/Haar_Library/feed.xml" type="application/atom+xml" rel="alternate" title="Haar Library Feed">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+  
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/Haar_Library/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css"></noscript>
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    
+<nav class="skip-links" aria-label="Skip links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav" aria-label="Primary navigation">
+        
+        <a class="site-title" href="/Haar_Library/">
+          Haar Library
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a
+                href="https://mmistakes.github.io/minimal-mistakes/docs/quick-start-guide/"
+                
+                
+              >Quick-Start Guide</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+
+
+
+
+<div id="main" role="main">
+  
+
+  <div class="sidebar sticky">
+  
+  
+    
+      
+      
+      
+      
+    
+    
+      
+<nav class="nav__list">
+  
+  <input id="ac-toc" name="accordion-toc" type="checkbox" />
+  <label for="ac-toc">Toggle Menu</label>
+  <ul class="nav__items">
+    
+      
+      
+        <li>
+          
+            <a href="/Haar_Library/"><span class="nav__sub-title">Overview</span></a>
+          
+
+          
+        </li>
+      
+        <li>
+          
+            <a href="/Haar_Library/Classes/classHaar/"><span class="nav__sub-title">Haar Class</span></a>
+          
+
+          
+        </li>
+      
+        <li>
+          
+            <a href="/Haar_Library/Classes/index_classes/"><span class="nav__sub-title">Classes</span></a>
+          
+
+          
+        </li>
+      
+        <li>
+          
+            <a href="/Haar_Library/Files/index_files/"><span class="nav__sub-title">Files</span></a>
+          
+
+          
+        </li>
+      
+    
+  </ul>
+</nav>
+
+    
+  
+  
+  </div>
+
+
+
+  <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Haar">
+    
+    
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title p-name" itemprop="headline">
+            <a href="https://docs.northernwidget.com/Haar_Library/Classes/classHaar/" itemprop="url">Haar
+</a>
+          </h1>
+          
+
+
+
+        </header>
+      
+
+      <section class="page__content e-content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc" aria-label="Table of contents">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu"><li><a href="#public-functions">Public Functions</a></li><li><a href="#detailed-description">Detailed Description</a><ul><li><a href="#function-begin">function begin</a></li><li><a href="#function-getpressure">function getPressure</a></li><li><a href="#function-gethumidity">function getHumidity</a></li><li><a href="#function-gettemperature">function getTemperature</a></li><li><a href="#function-sleep">function sleep</a></li><li><a href="#function-updatemeasurements">function updateMeasurements</a></li><li><a href="#function-newdata">function newData</a></li><li><a href="#function-getstring">function getString</a></li><li><a href="#function-getheader">function getHeader</a></li></ul></li></ul>
+            </nav>
+          </aside>
+        
+        <p>Library for the rugged temperature, pressure, relative-humidity sensor.  <a href="#detailed-description">More…</a></p>
+
+<p><code class="language-plaintext highlighter-rouge">#include &lt;Haar.h&gt;</code></p>
+
+<h2 id="public-functions">Public Functions</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th> </th>
+      <th>Name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td> </td>
+      <td><strong><a href="/Haar_Library/Classes/classHaar/#function-haar">Haar</a></strong>()<br />Instantiate the <a href="/Haar_Library/Classes/classHaar/">Haar</a> sensor class.</td>
+    </tr>
+    <tr>
+      <td>bool</td>
+      <td><strong><a href="/Haar_Library/Classes/classHaar/#function-begin">begin</a></strong>(uint8<em>t ADR</em> =0x42)<br />Begin communications with the <a href="/Haar_Library/Classes/classHaar/">Haar</a> sensor.</td>
+    </tr>
+    <tr>
+      <td>float</td>
+      <td><strong><a href="/Haar_Library/Classes/classHaar/#function-getpressure">getPressure</a></strong>(bool update =false)<br />Return the currently stored pressure [in mBar].</td>
+    </tr>
+    <tr>
+      <td>float</td>
+      <td><strong><a href="/Haar_Library/Classes/classHaar/#function-gethumidity">getHumidity</a></strong>(bool update =false)<br />Return the currently stored relative humidity [%].</td>
+    </tr>
+    <tr>
+      <td>float</td>
+      <td><strong><a href="/Haar_Library/Classes/classHaar/#function-gettemperature">getTemperature</a></strong>(Sensor Device =RH_Sense, bool update =false)<br />Return the currently stored Temperature [degrees C].</td>
+    </tr>
+    <tr>
+      <td>bool</td>
+      <td><strong><a href="/Haar_Library/Classes/classHaar/#function-sleep">sleep</a></strong>(bool state =ON)<br />Enable or disable device sleep mode. THIS FUNCTION CURRENTLY DOES NOTHING and returns false.</td>
+    </tr>
+    <tr>
+      <td>uint8_t</td>
+      <td><strong><a href="/Haar_Library/Classes/classHaar/#function-updatemeasurements">updateMeasurements</a></strong>(bool block =false)<br />Return a new sample of all of the data.</td>
+    </tr>
+    <tr>
+      <td>bool</td>
+      <td><strong><a href="/Haar_Library/Classes/classHaar/#function-newdata">newData</a></strong>()<br />Checks for updated data. Returns <code class="language-plaintext highlighter-rouge">true</code> if new data are available; otherwise returns <code class="language-plaintext highlighter-rouge">false</code></td>
+    </tr>
+    <tr>
+      <td>String</td>
+      <td><strong><a href="/Haar_Library/Classes/classHaar/#function-getstring">getString</a></strong>()<br />The most important function for the user! Returns all data as a comma-separated string: “P,RH,T(P),T[RH],”.</td>
+    </tr>
+    <tr>
+      <td>String</td>
+      <td><strong><a href="/Haar_Library/Classes/classHaar/#function-getheader">getHeader</a></strong>()<br />Returns a header: “Pressure Atmos [mBar], Humidity [%], Temp Pres [C], Temp RH [C],”.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="detailed-description">Detailed Description</h2>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Haar</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>Library for the rugged temperature, pressure, relative-humidity sensor.</p>
+
+<p>Project <a href="/Haar_Library/Classes/classHaar/">Haar</a>, named for the cold fog off the north sea, is a pressure, temperature, and relative-humidity sensor that can withstand full submersion. Bobby Schulz designed it after the consistently-near-0C temperatures and 100% relative humidity of Chimborazo Volcano, Ecuador, claimed the lives of many brave but misguided BME-280 units, who then catistrophically bricked their I2C buses and those of their associated data loggers, thus taking down a large fraction of our hydromet network.</p>
+
+<p><em>May their silicon and copper souls join the chorus of the stars.</em></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4572354.svg)](https://doi.org/10.5281/zenodo.4572354) ```
+
+## Public Functions Documentation
+
+### function Haar
+
+```cpp
+Haar()
+</code></pre></div></div>
+
+<p>Instantiate the <a href="/Haar_Library/Classes/classHaar/">Haar</a> sensor class.</p>
+
+<h3 id="function-begin">function begin</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">bool</span> <span class="n">begin</span><span class="p">(</span>
+    <span class="kt">uint8_t</span> <span class="n">ADR_</span> <span class="o">=</span><span class="mh">0x42</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<p>Begin communications with the <a href="/Haar_Library/Classes/classHaar/">Haar</a> sensor.</p>
+
+<p><strong>Parameters</strong>:</p>
+
+<ul>
+  <li><strong>ADR_</strong> I2C address. Defaults to 0x42.</li>
+</ul>
+
+<p><strong>Return</strong>: True if the device acknowledges on I2C; false otherwise.</p>
+
+<h3 id="function-getpressure">function getPressure</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">float</span> <span class="n">getPressure</span><span class="p">(</span>
+    <span class="kt">bool</span> <span class="n">update</span> <span class="o">=</span><span class="nb">false</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<p>Return the currently stored pressure [in mBar].</p>
+
+<p><strong>Parameters</strong>:</p>
+
+<ul>
+  <li><strong>update</strong> Read and store a new pressure value before sending? By default is false; simply returns the already-available pressure value.</li>
+</ul>
+
+<h3 id="function-gethumidity">function getHumidity</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">float</span> <span class="n">getHumidity</span><span class="p">(</span>
+    <span class="kt">bool</span> <span class="n">update</span> <span class="o">=</span><span class="nb">false</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<p>Return the currently stored relative humidity [%].</p>
+
+<p><strong>Parameters</strong>:</p>
+
+<ul>
+  <li><strong>update</strong> Read and store a new pressure value before sending? By default is false; simply returns the already-available RH value.</li>
+</ul>
+
+<h3 id="function-gettemperature">function getTemperature</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">float</span> <span class="n">getTemperature</span><span class="p">(</span>
+    <span class="n">Sensor</span> <span class="n">Device</span> <span class="o">=</span><span class="n">RH_Sense</span><span class="p">,</span>
+    <span class="kt">bool</span> <span class="n">update</span> <span class="o">=</span><span class="nb">false</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<p>Return the currently stored Temperature [degrees C].</p>
+
+<p><strong>Parameters</strong>:</p>
+
+<ul>
+  <li><strong>Device</strong> Selects which sensor is used to measure the temperature. Input can be <code class="language-plaintext highlighter-rouge">RH_Sense</code>, which corresponds to a 0, or <code class="language-plaintext highlighter-rouge">Pres_Sense</code>, which corresponds to a 1. By default, this is RH_Sense, as this sensor has a better internal temperature sensor.</li>
+  <li><strong>update</strong> Read and store a new pressure value before sending? By default is false; simply returns the already-available temperature value.</li>
+</ul>
+
+<h3 id="function-sleep">function sleep</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">bool</span> <span class="n">sleep</span><span class="p">(</span>
+    <span class="kt">bool</span> <span class="n">state</span> <span class="o">=</span><span class="n">ON</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<p>Enable or disable device sleep mode. THIS FUNCTION CURRENTLY DOES NOTHING and returns false.</p>
+
+<p><strong>Parameters</strong>:</p>
+
+<ul>
+  <li><strong>State</strong> Can be <code class="language-plaintext highlighter-rouge">ON</code> (1) or <code class="language-plaintext highlighter-rouge">OFF</code> (0). By default, this command sets “Sleep” to ON, sending the device into a low-power sleep mode.</li>
+</ul>
+
+<p><strong>Return</strong>: False (not yet implemented).</p>
+
+<h3 id="function-updatemeasurements">function updateMeasurements</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">uint8_t</span> <span class="n">updateMeasurements</span><span class="p">(</span>
+    <span class="kt">bool</span> <span class="n">block</span> <span class="o">=</span><span class="nb">false</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<p>Return a new sample of all of the data.</p>
+
+<p><strong>Parameters</strong>:</p>
+
+<ul>
+  <li><strong>Block</strong> if <code class="language-plaintext highlighter-rouge">true</code>, wait for data to be returned. Defaults to <code class="language-plaintext highlighter-rouge">false</code>.</li>
+</ul>
+
+<h3 id="function-newdata">function newData</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">bool</span> <span class="n">newData</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>Checks for updated data. Returns <code class="language-plaintext highlighter-rouge">true</code> if new data are available; otherwise returns <code class="language-plaintext highlighter-rouge">false</code></p>
+
+<p><strong>Parameters</strong>:</p>
+
+<ul>
+  <li><strong>Block</strong> if <code class="language-plaintext highlighter-rouge">true</code>, wait for data to be returned. Defaults to <code class="language-plaintext highlighter-rouge">false</code>.</li>
+</ul>
+
+<h3 id="function-getstring">function getString</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">String</span> <span class="n">getString</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>The most important function for the user! Returns all data as a comma-separated string: “P,RH,T(P),T[RH],”.</p>
+
+<p>This string is: PRESSURE,RELATIVE_HUMIDITY, TEMPERATURE_FROM_PRESSURE_SENSOR,TEMPERATURE_FROM_RH_SENSOR,</p>
+
+<h3 id="function-getheader">function getHeader</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">String</span> <span class="n">getHeader</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>Returns a header: “Pressure Atmos [mBar], Humidity [%], Temp Pres [C], Temp RH [C],”.</p>
+
+<hr />
+
+<p>Updated on 2026-09-22 at 23:10:02 +0000</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+  
+
+  
+
+
+        
+
+
+
+      </footer>
+
+      
+
+      
+
+
+    </div>
+
+    
+  </article>
+
+  
+  
+</div>
+
+      
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        
+
+
+<div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+
+    
+      <li><a href="/Haar_Library/feed.xml"><i class="fas fa-fw fa-square-rss" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+
+<div class="page__footer-copyright">&copy; 2026 <a href="https://docs.northernwidget.com">Haar Library</a>. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/jekyll-themes/minimal-mistakes/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+
+  <script src="/Haar_Library/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+  </body>
+</html>
