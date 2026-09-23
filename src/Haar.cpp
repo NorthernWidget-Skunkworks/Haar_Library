@@ -110,12 +110,12 @@ void Haar::summarise(uint8_t component)
 {
 	//Means over the readings taken, scaled from the register units; NW_ERROR when none.
 	if(component & SHT31) {
-		_tempRH   = _tempRHReadings.count()   ? _tempRHReadings.mean() / 100.0   : NW_ERROR;
-		_humidity = _humidityReadings.count() ? _humidityReadings.mean() / 100.0 : NW_ERROR;
+		_tempRH   = nwScaled(_tempRHReadings.mean(),   100.0);
+		_humidity = nwScaled(_humidityReadings.mean(), 100.0);
 	}
 	if(component & LPS35HW) {
-		_pressure = _pressureReadings.count() ? _pressureReadings.mean() / 100.0 : NW_ERROR;
-		_tempPres = _tempPresReadings.count() ? _tempPresReadings.mean() / 100.0 : NW_ERROR;
+		_pressure = nwScaled(_pressureReadings.mean(), 100.0);
+		_tempPres = nwScaled(_tempPresReadings.mean(), 100.0);
 	}
 }
 
@@ -138,7 +138,7 @@ uint16_t Haar::getPressureCount()            { return _pressureReadings.count();
 
 //Statistics are computed from the arrays each call (NW_Readings), in the
 //register units (0.01 hPa, 0.01 %RH, 0.01 C), then scaled. NW_ERROR when empty.
-static float scaled(float v) { return (v == NW_ERROR) ? NW_ERROR : v / 100.0; }
+static float scaled(float v) { return nwScaled(v, 100.0); }
 float Haar::getPressureMean()   { return scaled(_pressureReadings.mean()); }
 float Haar::getPressureStd()    { return scaled(_pressureReadings.std()); }
 float Haar::getPressureSterr()  { return scaled(_pressureReadings.sterr()); }
