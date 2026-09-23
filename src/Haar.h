@@ -249,20 +249,20 @@ class Haar : public NW_Sensor
 		bool anyFault();
 		/** @brief Chip index of the report (0 SHT31, 1 LPS35HW, 7 the unit); meaningful when reportKind() != 0. */
 		uint8_t reportChip();
-		/** @brief Kind of the report, per the spec's table (1 no acknowledge, 2 timeout, 3 checksum, 6 reset since configured, ...). */
+		/** @brief Kind of the report, per the spec's table (1 not answering, 2 timed out, 3 checksum failed, 6 restarted since configured, ...). */
 		uint8_t reportKind();
-		/** @brief Print the report as text, e.g. "SHT31: checksum"; "none" when there is no fault. */
+		/** @brief Print the report as text, e.g. "SHT31: checksum failed"; "none" when there is no fault. */
 		size_t printReport(Print& out);
-		/** @brief The report as one word for a note column: "SHT31Checksum", "LPS35HWTimeout", "UnitReset"; "UnitNone" when none. */
+		/** @brief The report as one word for a note column: "SHT31ChecksumFailed", "LPS35HWTimeout", "UnitRestarted"; "UnitNone" when none. */
 		String reportNote();
-		/** @brief Print one status line for a logger's status file: name, serial, versions, the last report, Pages 0-2 in hex; no newline, no acknowledge. */
+		/** @brief Print one status line for a logger's status file: name, serial, versions, the last report, Pages 0-2 in hex; no newline, not answering. */
 		size_t printStatus(Print& out, bool boot = false) override;
 		// --- NW_Sensor: the logger's view (Margay::watch) ---
 		const char* name() const override { return "Haar"; }
 		bool reportIsFault() override;
 		uint8_t bootReportKind() override;
 		void clearBootReport() override;
-		/** @brief Why the last begin() refused, as one word: "NoACK", "NotSchema1", "WrongName", "OldFirmware"; "None" after success. */
+		/** @brief Why the last begin() refused, as one word: "NotAnswering", "NotSchema1", "WrongName", "OldFirmware"; "None" after success. */
 		String beginFailure();
 		uint8_t getHardwareMajor();
 		uint8_t getHardwareMinor();

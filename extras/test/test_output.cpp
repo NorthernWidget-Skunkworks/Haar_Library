@@ -43,7 +43,7 @@ int main() {
   loadImage(98550, 10000, -2097, -1234);
   { Haar s; s.begin(); report("negative temperatures", s); }
 
-  // 3. Device absent: no acknowledge at the address.
+  // 3. Device absent: not answering at the address.
   loadImage(101325, 5500, 2137, 2215); Wire.present = false;
   { Haar s; bool ok = s.begin(); printf("begin=%d\n", ok); report("device absent", s); }
   Wire.present = true;
@@ -127,7 +127,7 @@ int main() {
     BufferPrint bp2(pb, sizeof pb); s.logReading(bp2); s.endReadings(); printf("[run SHT31] row: %s\n", pb);
     onReading = nullptr; }
 
-  // 10. A dead LPS35HW (no acknowledge on the first reading) stops its batch of 10.
+  // 10. A dead LPS35HW (not answering on the first reading) stops its batch of 10.
   loadImage(101325, 5500, 2137, 2215);
   { Haar s; s.begin(); int k = 0;
     onReading = [&](TwoWire& w) { k++; w.image[0x40] = 0x85; w.image[0x47] = 0x21; };

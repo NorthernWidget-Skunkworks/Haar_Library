@@ -24,10 +24,10 @@ update: updateMeasurements(true)=0 pressure(update)=-9999.0000
 [schema 0x00] begin=0 failure=NotSchema1
 [fw patch 0 < min 1] begin=0 fw=0 failure=OldFirmware
 [versions] begin=1 hw=0.1 fw=1 failure=None
-[SHT31 checksum] update=0 faulted(0)=1 faulted(1)=0 any=1 chip=0 kind=3 text='SHT31: checksum' note='SHT31Checksum'
+[SHT31 checksum] update=0 faulted(0)=1 faulted(1)=0 any=1 chip=0 kind=3 text='SHT31: checksum failed' note='SHT31ChecksumFailed'
 [SHT31 checksum] string: 1013.25,-9999.00,22.15,-9999.00,
 [LPS35HW timeout] string: -9999.00,55.00,-9999.00,21.37, note='LPS35HWTimeout'
-[unit reset] update=1 any=0 chip=7 kind=6 text='unit: reset since configured' note='UnitReset'
+[unit reset] update=1 any=0 chip=7 kind=6 text='unit: restarted since configured' note='UnitRestarted'
 [non-blocking] request=1 newData=1 pressure=1013.35 (stale getter untouched by the request)
 [non-blocking] then getString: 1013.45,55.00,22.15,21.37,
 [cost] requestFrom calls for one getString(): 5
@@ -44,5 +44,5 @@ update: updateMeasurements(true)=0 pressure(update)=-9999.0000
 [run ALL] pressure count=3 mean=1013.2000 median=1013.2000
 [run SHT31] header: Humidity [%],Temp RH [C],
 [run SHT31] row: 55.00,21.37,
-[dead LPS35HW] N=10: update=0 readings taken=1 pressureCount=0 pressure=-9999.00 note='LPS35HWNoACK'
+[dead LPS35HW] N=10: update=0 readings taken=1 pressureCount=0 pressure=-9999.00 note='LPS35HWNotAnswering'
 [status] 239 bytes: Haar,4801-0007-002A-0000,0.1,1,0x00,UnitNone,0148616172000000000101000000000048010007002A000000000000004EBE48,0000000000000000000000000000000000000000000000000000000000000000,010602000000000059087C1500000000CD8B0100A70800000000000000000000

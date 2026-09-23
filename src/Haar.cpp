@@ -55,7 +55,7 @@ bool Haar::updateMeasurements(uint8_t component)
 	}
 	else {
 		//Per chip group: N readings each, appended to the arrays; a chip that
-		//reports absent (no acknowledge / not initialised) stops its batch.
+		//reports absent (not answering / self-test failed) stops its batch.
 		if(doSHT) _dev.takeReadings(SHT31, _humidityCfg.n, [this] { return updateHumidity(); });
 		if(doLPS) _dev.takeReadings(LPS35HW, _pressureCfg.n, [this] { return updatePressure(); });
 	}
@@ -268,7 +268,7 @@ void    Haar::clearBootReport() { _dev.clearBootReport(); }
 
 String Haar::reportNote()
 {
-	//One word for a data-table note: the chip, then the kind ("SHT31Checksum").
+	//One word for a data-table note: the chip, then the kind ("SHT31ChecksumFailed").
 	static const char* const chips[] = {"SHT31", "LPS35HW"};
 	return _dev.report().note(chips, 2);
 }

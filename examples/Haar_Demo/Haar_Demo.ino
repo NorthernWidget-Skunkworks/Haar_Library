@@ -7,7 +7,7 @@ void setup() {
     Serial.println("Haar temperature, pressure, and humidity sensor");
     if (!sensor.begin()) {
         Serial.print("Haar not found: ");
-        Serial.println(sensor.beginFailure());  // NoACK, NotSchema1, WrongName, OldFirmware
+        Serial.println(sensor.beginFailure());  // NotAnswering, NotSchema1, WrongName, OldFirmware
         while (1);
     }
     Serial.println(sensor.getHeader());
@@ -16,7 +16,7 @@ void setup() {
 void loop() {
     Serial.println(sensor.getString());  // -9999.00 where a reading failed
     if (sensor.anyFault()) {
-        sensor.printReport(Serial);  // e.g. "SHT31: checksum"
+        sensor.printReport(Serial);  // e.g. "SHT31: checksum failed"
         Serial.println();
     }
     delay(1000);
