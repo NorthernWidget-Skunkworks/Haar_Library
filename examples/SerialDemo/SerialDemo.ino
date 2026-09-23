@@ -7,10 +7,10 @@ unsigned long period = 5000; //Number of ms to wait between sensor readings
 void setup() {
 
 	Serial.begin(115200); //Begin serial conunication at high speed 
-	uint8_t error = sensor.begin(); //Initialize Haar sensor with default sensor, grab sensor status
+	bool ok = sensor.begin(); //Initialize Haar sensor with default sensor, grab sensor status
 	
 	Serial.print("Haar Status:"); //Print resulting sensor status 
-	if(!error) Serial.print("\t FAIL!\n\n");
+	if(!ok) { Serial.print("\t FAIL: "); Serial.print(sensor.beginFailure()); Serial.print("\n\n"); }
 	else Serial.print("\t PASS\n\n");
 }
 
