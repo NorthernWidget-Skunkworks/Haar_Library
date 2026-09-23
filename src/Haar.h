@@ -273,10 +273,8 @@ class Haar
 		NW_Readings<int16_t, HAAR_HUMIDITY_CAPACITY> _humidityReadings; //0.01 %RH
 		NW_Readings<int32_t, HAAR_PRESSURE_CAPACITY> _pressureReadings; //0.01 hPa
 		NW_Readings<int16_t, HAAR_PRESSURE_CAPACITY> _tempPresReadings; //0.01 C
-		uint16_t _nHumidityReadings = 1;
-		uint16_t _nPressureReadings = 1;
-		bool _humidityStats = false;
-		bool _pressureStats = false;
+		NW_ReadingsConfig _humidityCfg; //Readings per updateMeasurements() and stats columns, SHT31 group
+		NW_ReadingsConfig _pressureCfg; //LPS35HW group
 		uint8_t _component = ALL; //Selection of the current beginReadings() run
 		bool readSHT31(uint8_t* d);   //Append one served SHT31 reading (4 bytes from 0x28) unless faulted
 		bool readLPS35HW(uint8_t* d); //Append one served LPS35HW reading (6 bytes from 0x30) unless faulted

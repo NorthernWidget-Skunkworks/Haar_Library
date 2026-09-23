@@ -48,7 +48,7 @@ bool Haar::updateMeasurements(uint8_t component)
 	bool doSHT = component & SHT31, doLPS = component & LPS35HW;
 	if(doSHT) { _tempRHReadings.reset(); _humidityReadings.reset(); }
 	if(doLPS) { _pressureReadings.reset(); _tempPresReadings.reset(); }
-	if(doSHT && doLPS && _nHumidityReadings <= 1 && _nPressureReadings <= 1) {
+	if(doSHT && doLPS && _humidityCfg.n <= 1 && _pressureCfg.n <= 1) {
 		//One reading of everything: both chips in one trigger, one 14-byte read.
 		_dev.resetBatch();
 		if(_dev.takeReading(ALL)) readData();
@@ -56,8 +56,8 @@ bool Haar::updateMeasurements(uint8_t component)
 	else {
 		//Per chip group: N readings each, appended to the arrays; a chip that
 		//reports absent (no acknowledge / not initialised) stops its batch.
-		if(doSHT) _dev.takeReadings(SHT31, _nHumidityReadings, [this] { return updateHumidity(); });
-		if(doLPS) _dev.takeReadings(LPS35HW, _nPressureReadings, [this] { return updatePressure(); });
+		if(doSHT) _dev.takeReadings(SHT31, _humidityCfg.n, [this] { return updateHumidity(); });
+		if(doLPS) _dev.takeReadings(LPS35HW, _pressureCfg.n, [this] { return updatePressure(); });
 	}
 	summarise(component);
 	bool ok = true;
@@ -119,20 +119,10 @@ void Haar::summarise(uint8_t component)
 	}
 }
 
-uint16_t Haar::setHumidityReadings(uint16_t n)
-{
-	_nHumidityReadings = (n > HAAR_HUMIDITY_CAPACITY) ? HAAR_HUMIDITY_CAPACITY : n;
-	return _nHumidityReadings;
-}
-
-uint16_t Haar::setPressureReadings(uint16_t n)
-{
-	_nPressureReadings = (n > HAAR_PRESSURE_CAPACITY) ? HAAR_PRESSURE_CAPACITY : n;
-	return _nPressureReadings;
-}
-
-void     Haar::setHumidityStats(bool enable) { _humidityStats = enable; }
-void     Haar::setPressureStats(bool enable) { _pressureStats = enable; }
+uint16_t Haar::setHumidityReadings(uint16_t n) { return _humidityCfg.set(n, HAAR_HUMIDITY_CAPACITY); }
+uint16_t Haar::setPressureReadings(uint16_t n) { return _pressureCfg.set(n, HAAR_PRESSURE_CAPACITY); }
+void     Haar::setHumidityStats(bool enable)   { _humidityCfg.stats = enable; }
+void     Haar::setPressureStats(bool enable)   { _pressureCfg.stats = enable; }
 uint16_t Haar::getHumidityCount()            { return _humidityReadings.count(); }
 uint16_t Haar::getPressureCount()            { return _pressureReadings.count(); }
 
@@ -154,7 +144,7 @@ float Haar::getTemperatureMedian(Sensor device) { return scaled(device == Pres_S
 
 String Haar::getHeader()
 {
-	bool sh = _humidityStats && _nHumidityReadings > 1, sp = _pressureStats && _nPressureReadings > 1;
+	bool sh = _humidityCfg.columns(), sp = _pressureCfg.columns();
 	String h = "Pressure Atmos [mBar], ";
 	if(sp) h += "Pressure Atmos std [mBar], Pressure Atmos sterr [mBar], ";
 	h += "Humidity [%], ";
@@ -224,7 +214,7 @@ String Haar::getString()
 		summarise(ALL);
 	}
 	else(updateMeasurements(true)); //Else, block for new conversion
-	bool sh = _humidityStats && _nHumidityReadings > 1, sp = _pressureStats && _nPressureReadings > 1;
+	bool sh = _humidityCfg.columns(), sp = _pressureCfg.columns();
 	String s = String(getPressure()) + ",";
 	if(sp) s += String(getPressureStd()) + "," + String(getPressureSterr()) + ",";
 	s += String(getHumidity()) + ",";
