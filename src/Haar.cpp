@@ -261,27 +261,14 @@ uint8_t Haar::getFirmwareVersion()  { return _dev.firmwareVersion(); }
 
 size_t Haar::printFault(Print& out)
 {
-	//The chip names are Haar's own; the kind names are universal (NW_Fault).
+	//The chip names are Haar's own (the spec's chip table); NW_Fault prints the rest.
 	static const char* const chips[] = {"SHT31", "LPS35HW"};
-	uint8_t chip = faultChip(), kind = faultKind();
-	if(kind == 0) return out.print("none");
-	size_t n = 0;
-	if(chip == 7) n += out.print("unit");
-	else if(chip < 2) n += out.print(chips[chip]);
-	else { n += out.print("chip "); n += out.print(chip); }
-	n += out.print(": ");
-	return n + _dev.fault().printKind(out);
+	return _dev.fault().print(out, chips, 2);
 }
 
 String Haar::faultNote()
 {
 	//One word for a data-table note: the chip, then the kind ("SHT31Checksum").
 	static const char* const chips[] = {"SHT31", "LPS35HW"};
-	uint8_t chip = faultChip();
-	String w;
-	if(chip == 7) w = F("Unit");
-	else if(chip < 2) w = chips[chip];
-	else { w = F("Chip"); w += String(chip); }
-	w += _dev.fault().kindWord();
-	return w;
+	return _dev.fault().note(chips, 2);
 }
