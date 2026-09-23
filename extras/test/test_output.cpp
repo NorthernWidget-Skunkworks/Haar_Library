@@ -10,16 +10,16 @@ TwoWire Wire;
 
 // Physical values used throughout: 1013.25 hPa, 55.00 %RH, 21.37 C (SHT31), 22.15 C (LPS35HW).
 // Schema 1 register image: Page 0 as NW-Provision writes it (with the firmware's
-// patch at 0x0A), Page 1 with a complete reading (Haar appendix: SHT31 temp int16
-// 0.01 C at 0x28, humidity uint16 0.01 %RH at 0x2A, LPS35HW pressure uint32
-// 0.01 hPa at 0x30, temperature int16 0.01 C at 0x34).
+// patch at 0x0A), Page 2 with a complete reading (Haar appendix: SHT31 temp int16
+// 0.01 C at 0x48, humidity uint16 0.01 %RH at 0x4A, LPS35HW pressure uint32
+// 0.01 hPa at 0x50, temperature int16 0.01 C at 0x54).
 static void loadImage(uint32_t pres, uint16_t rh, int16_t tSHT, int16_t tLPS, uint8_t fwPatch = 1, uint8_t schema = 0x01) {
   uint8_t* r = Wire.image;
   nwLoadPage0(r, "Haar", 0x48, 1, fwPatch, schema);                 // Page 0 and Block 0, HW 0.1
-  r[0x28] = tSHT & 0xFF; r[0x29] = (tSHT >> 8) & 0xFF;
-  r[0x2A] = rh & 0xFF;   r[0x2B] = (rh >> 8) & 0xFF;
-  for (int i = 0; i < 4; i++) r[0x30 + i] = (pres >> (8 * i)) & 0xFF;
-  r[0x34] = tLPS & 0xFF; r[0x35] = (tLPS >> 8) & 0xFF;
+  r[0x48] = tSHT & 0xFF; r[0x49] = (tSHT >> 8) & 0xFF;
+  r[0x4A] = rh & 0xFF;   r[0x4B] = (rh >> 8) & 0xFF;
+  for (int i = 0; i < 4; i++) r[0x50 + i] = (pres >> (8 * i)) & 0xFF;
+  r[0x54] = tLPS & 0xFF; r[0x55] = (tLPS >> 8) & 0xFF;
 }
 
 static void report(const char* name, Haar& s) {
@@ -49,7 +49,7 @@ int main() {
   Wire.present = true;
 
   // 4. Device present but the reading never completes (no firmware response to the trigger).
-  loadImage(101325, 5500, 2137, 2215); Wire.image[0x20] = 0x00; Wire.onWrite = nullptr;
+  loadImage(101325, 5500, 2137, 2215); Wire.image[0x40] = 0x00; Wire.onWrite = nullptr;
   { Haar s; s.begin(); report("never ready", s); }
   installFirmwareEmulation();
 
@@ -67,15 +67,15 @@ int main() {
   //    LPS35HW values survive. Then an LPS35HW timeout (0x22), then a unit reset with a clean status.
   loadImage(101325, 5500, 2137, 2215);
   { Haar s; s.begin(); char pb[48];
-    onReading = [](TwoWire& w) { w.image[0x20] = 0x83; w.image[0x27] = 0x03; };
+    onReading = [](TwoWire& w) { w.image[0x40] = 0x83; w.image[0x47] = 0x03; };
     bool ok = s.updateMeasurements(); BufferPrint bp(pb, sizeof pb); s.printReport(bp);
     printf("[SHT31 checksum] update=%d faulted(0)=%d faulted(1)=%d any=%d chip=%u kind=%u text='%s' note='%s'\n",
            ok, s.faulted(0), s.faulted(1), s.anyFault(), s.reportChip(), s.reportKind(), pb, s.reportNote().c_str());
     printf("[SHT31 checksum] string: %s\n", s.getString().c_str());
-    onReading = [](TwoWire& w) { w.image[0x20] = 0x85; w.image[0x27] = 0x22; };
+    onReading = [](TwoWire& w) { w.image[0x40] = 0x85; w.image[0x47] = 0x22; };
     String row = s.getString();   // evaluated before the note: printf argument order is unspecified
     printf("[LPS35HW timeout] string: %s note='%s'\n", row.c_str(), s.reportNote().c_str());
-    onReading = [](TwoWire& w) { w.image[0x20] = 0x01; w.image[0x27] = 0xE6; };
+    onReading = [](TwoWire& w) { w.image[0x40] = 0x01; w.image[0x47] = 0xE6; };
     ok = s.updateMeasurements(); BufferPrint bp2(pb, sizeof pb); s.printReport(bp2);
     printf("[unit reset] update=%d any=%d chip=%u kind=%u text='%s' note='%s'\n", ok, s.anyFault(), s.reportChip(), s.reportKind(), pb, s.reportNote().c_str());
     onReading = nullptr; }
@@ -83,7 +83,7 @@ int main() {
   // 7. Non-blocking path: request, poll newData() (captures), getters; then a request followed by getString().
   loadImage(101325, 5500, 2137, 2215);
   { Haar s; s.begin(); int k = 0;
-    onReading = [&](TwoWire& w) { k++; uint32_t p = 101325 + 10 * k; for (int i = 0; i < 4; i++) w.image[0x30 + i] = (p >> (8 * i)) & 0xFF; };
+    onReading = [&](TwoWire& w) { k++; uint32_t p = 101325 + 10 * k; for (int i = 0; i < 4; i++) w.image[0x50 + i] = (p >> (8 * i)) & 0xFF; };
     bool req = s.updateMeasurements(false); bool nd = s.newData();
     printf("[non-blocking] request=%d newData=%d pressure=%.2f (stale getter untouched by the request)\n", req, nd, s.getPressure());
     req = s.updateMeasurements(false); printf("[non-blocking] then getString: %s\n", s.getString().c_str());
@@ -95,8 +95,8 @@ int main() {
   loadImage(101325, 5500, 2137, 2215);
   { Haar s; s.begin(); int k = 0;
     onReading = [&](TwoWire& w) { k++;
-      int16_t rh = 5480 + 10 * (k % 5); w.image[0x2A] = rh & 0xFF; w.image[0x2B] = (rh >> 8) & 0xFF;
-      uint32_t p = 101300 + 25 * (k % 3); for (int i = 0; i < 4; i++) w.image[0x30 + i] = (p >> (8 * i)) & 0xFF; };
+      int16_t rh = 5480 + 10 * (k % 5); w.image[0x4A] = rh & 0xFF; w.image[0x4B] = (rh >> 8) & 0xFF;
+      uint32_t p = 101300 + 25 * (k % 3); for (int i = 0; i < 4; i++) w.image[0x50 + i] = (p >> (8 * i)) & 0xFF; };
     printf("[N] setHumidityReadings(5)=%u setPressureReadings(3)=%u setHumidityReadings(99)=%u\n",
            s.setHumidityReadings(5), s.setPressureReadings(3), s.setHumidityReadings(99));
     s.setHumidityReadings(5); s.setHumidityStats(true); s.setPressureStats(true);
@@ -116,7 +116,7 @@ int main() {
   //    batch word for the run reaches the device.
   loadImage(101325, 5500, 2137, 2215);
   { Haar s; s.begin(); int k = 0; char pb[96];
-    onReading = [&](TwoWire& w) { k++; uint32_t p = 101300 + 5 * k; for (int i = 0; i < 4; i++) w.image[0x30 + i] = (p >> (8 * i)) & 0xFF; };
+    onReading = [&](TwoWire& w) { k++; uint32_t p = 101300 + 5 * k; for (int i = 0; i < 4; i++) w.image[0x50 + i] = (p >> (8 * i)) & 0xFF; };
     lastRequest = 0; s.beginReadings(Haar::ALL, 3);
     BufferPrint bh(pb, sizeof pb); s.printHeader(bh); printf("[run ALL] header: %s lastRequest=%u\n", pb, lastRequest);
     for (int i = 0; i < 3; i++) { BufferPrint bp(pb, sizeof pb); size_t n = s.logReading(bp); printf("[run ALL] row %d (%zu bytes): %s\n", i, n, pb); }
@@ -130,7 +130,7 @@ int main() {
   // 10. A dead LPS35HW (no acknowledge on the first reading) stops its batch of 10.
   loadImage(101325, 5500, 2137, 2215);
   { Haar s; s.begin(); int k = 0;
-    onReading = [&](TwoWire& w) { k++; w.image[0x20] = 0x85; w.image[0x27] = 0x21; };
+    onReading = [&](TwoWire& w) { k++; w.image[0x40] = 0x85; w.image[0x47] = 0x21; };
     s.setPressureReadings(10); bool ok = s.updateMeasurements(Haar::LPS35HW);
     printf("[dead LPS35HW] N=10: update=%d readings taken=%d pressureCount=%u pressure=%.2f note='%s'\n", ok, k, s.getPressureCount(), s.getPressure(), s.reportNote().c_str());
     onReading = nullptr; }
