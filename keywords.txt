@@ -49,10 +49,10 @@ getString	KEYWORD2
 getHeader	KEYWORD2
 faulted	KEYWORD2
 anyFault	KEYWORD2
-faultChip	KEYWORD2
-faultKind	KEYWORD2
-printFault	KEYWORD2
-faultNote	KEYWORD2
+reportChip	KEYWORD2
+reportKind	KEYWORD2
+printReport	KEYWORD2
+reportNote	KEYWORD2
 beginFailure	KEYWORD2
 getHardwareMajor	KEYWORD2
 getHardwareMinor	KEYWORD2

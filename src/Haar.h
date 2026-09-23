@@ -4,7 +4,7 @@
 
 #include "Arduino.h"
 #include <Wire.h>
-#include <NW_Core.h>   // NW_Core: NW_Device (Schema 1 protocol), NW_Fault
+#include <NW_Core.h>   // NW_Core: NW_Device (Schema 1 protocol), NW_Report
 
 /// Lowest firmware patch (Page 0 byte 0x0A) this library accepts: patch 1
 /// brought Schema 1 (Page 0, Block 0 handshake, data at 0x28 in 0.01 units).
@@ -242,19 +242,19 @@ class Haar
 		/** @brief End a run of readings. */
 		void endReadings();
 
-		// --- Faults (status byte, live; fault byte, latched) ---
+		// --- Faults (status byte, live; Report register, latched) ---
 		/** @brief True if the given chip (0 = SHT31, 1 = LPS35HW) was faulted in the last reading. */
 		bool faulted(uint8_t chip);
 		/** @brief True if any chip was faulted in the last reading (status pan-fault bit). */
 		bool anyFault();
-		/** @brief Chip index of the latched fault (0 SHT31, 1 LPS35HW, 7 the unit); meaningful when faultKind() != 0. */
-		uint8_t faultChip();
-		/** @brief Kind of the latched fault, per the spec's table (1 no acknowledge, 2 timeout, 3 checksum, 6 reset since configured, ...). */
-		uint8_t faultKind();
-		/** @brief Print the latched fault as text, e.g. "SHT31: checksum"; "none" when there is no fault. */
-		size_t printFault(Print& out);
-		/** @brief The latched fault as one word for a note column: "SHT31Checksum", "LPS35HWTimeout", "UnitReset"; "UnitNone" when none. */
-		String faultNote();
+		/** @brief Chip index of the report (0 SHT31, 1 LPS35HW, 7 the unit); meaningful when reportKind() != 0. */
+		uint8_t reportChip();
+		/** @brief Kind of the report, per the spec's table (1 no acknowledge, 2 timeout, 3 checksum, 6 reset since configured, ...). */
+		uint8_t reportKind();
+		/** @brief Print the report as text, e.g. "SHT31: checksum"; "none" when there is no fault. */
+		size_t printReport(Print& out);
+		/** @brief The report as one word for a note column: "SHT31Checksum", "LPS35HWTimeout", "UnitReset"; "UnitNone" when none. */
+		String reportNote();
 		/** @brief Why the last begin() refused, as one word: "NoACK", "NotSchema1", "WrongName", "OldFirmware"; "None" after success. */
 		String beginFailure();
 		uint8_t getHardwareMajor();

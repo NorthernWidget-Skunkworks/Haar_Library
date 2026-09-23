@@ -242,23 +242,23 @@ bool Haar::newData()  // Checks for updated data
 
 bool    Haar::faulted(uint8_t chip) { return _dev.faulted(chip); }
 bool    Haar::anyFault()            { return _dev.anyFault(); }
-uint8_t Haar::faultChip()           { return _dev.faultChip(); }
-uint8_t Haar::faultKind()           { return _dev.faultKind(); }
+uint8_t Haar::reportChip()           { return _dev.reportChip(); }
+uint8_t Haar::reportKind()           { return _dev.reportKind(); }
 String  Haar::beginFailure()        { return _dev.beginFailure(); }
 uint8_t Haar::getHardwareMajor()    { return _dev.hardwareMajor(); }
 uint8_t Haar::getHardwareMinor()    { return _dev.hardwareMinor(); }
 uint8_t Haar::getFirmwareVersion()  { return _dev.firmwareVersion(); }
 
-size_t Haar::printFault(Print& out)
+size_t Haar::printReport(Print& out)
 {
-	//The chip names are Haar's own (the spec's chip table); NW_Fault prints the rest.
+	//The chip names are Haar's own (the spec's chip table); NW_Report prints the rest.
 	static const char* const chips[] = {"SHT31", "LPS35HW"};
-	return _dev.fault().print(out, chips, 2);
+	return _dev.report().print(out, chips, 2);
 }
 
-String Haar::faultNote()
+String Haar::reportNote()
 {
 	//One word for a data-table note: the chip, then the kind ("SHT31Checksum").
 	static const char* const chips[] = {"SHT31", "LPS35HW"};
-	return _dev.fault().note(chips, 2);
+	return _dev.report().note(chips, 2);
 }

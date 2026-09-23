@@ -16,7 +16,7 @@ void setup() {
 void loop() {
     Serial.println(sensor.getString());  // -9999.00 where a reading failed
     if (sensor.anyFault()) {
-        sensor.printFault(Serial);  // e.g. "SHT31: checksum"
+        sensor.printReport(Serial);  // e.g. "SHT31: checksum"
         Serial.println();
     }
     delay(1000);

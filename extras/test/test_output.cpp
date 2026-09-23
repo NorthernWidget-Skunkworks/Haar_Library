@@ -68,16 +68,16 @@ int main() {
   loadImage(101325, 5500, 2137, 2215);
   { Haar s; s.begin(); char pb[48];
     onReading = [](TwoWire& w) { w.image[0x20] = 0x83; w.image[0x27] = 0x03; };
-    bool ok = s.updateMeasurements(); BufferPrint bp(pb, sizeof pb); s.printFault(bp);
+    bool ok = s.updateMeasurements(); BufferPrint bp(pb, sizeof pb); s.printReport(bp);
     printf("[SHT31 checksum] update=%d faulted(0)=%d faulted(1)=%d any=%d chip=%u kind=%u text='%s' note='%s'\n",
-           ok, s.faulted(0), s.faulted(1), s.anyFault(), s.faultChip(), s.faultKind(), pb, s.faultNote().c_str());
+           ok, s.faulted(0), s.faulted(1), s.anyFault(), s.reportChip(), s.reportKind(), pb, s.reportNote().c_str());
     printf("[SHT31 checksum] string: %s\n", s.getString().c_str());
     onReading = [](TwoWire& w) { w.image[0x20] = 0x85; w.image[0x27] = 0x22; };
     String row = s.getString();   // evaluated before the note: printf argument order is unspecified
-    printf("[LPS35HW timeout] string: %s note='%s'\n", row.c_str(), s.faultNote().c_str());
+    printf("[LPS35HW timeout] string: %s note='%s'\n", row.c_str(), s.reportNote().c_str());
     onReading = [](TwoWire& w) { w.image[0x20] = 0x01; w.image[0x27] = 0xE6; };
-    ok = s.updateMeasurements(); BufferPrint bp2(pb, sizeof pb); s.printFault(bp2);
-    printf("[unit reset] update=%d any=%d chip=%u kind=%u text='%s' note='%s'\n", ok, s.anyFault(), s.faultChip(), s.faultKind(), pb, s.faultNote().c_str());
+    ok = s.updateMeasurements(); BufferPrint bp2(pb, sizeof pb); s.printReport(bp2);
+    printf("[unit reset] update=%d any=%d chip=%u kind=%u text='%s' note='%s'\n", ok, s.anyFault(), s.reportChip(), s.reportKind(), pb, s.reportNote().c_str());
     onReading = nullptr; }
 
   // 7. Non-blocking path: request, poll newData() (captures), getters; then a request followed by getString().
@@ -132,7 +132,7 @@ int main() {
   { Haar s; s.begin(); int k = 0;
     onReading = [&](TwoWire& w) { k++; w.image[0x20] = 0x85; w.image[0x27] = 0x21; };
     s.setPressureReadings(10); bool ok = s.updateMeasurements(Haar::LPS35HW);
-    printf("[dead LPS35HW] N=10: update=%d readings taken=%d pressureCount=%u pressure=%.2f note='%s'\n", ok, k, s.getPressureCount(), s.getPressure(), s.faultNote().c_str());
+    printf("[dead LPS35HW] N=10: update=%d readings taken=%d pressureCount=%u pressure=%.2f note='%s'\n", ok, k, s.getPressureCount(), s.getPressure(), s.reportNote().c_str());
     onReading = nullptr; }
 
   fprintf(stderr, "bus transactions total: %u\n", Wire.transactions);   // metric, not output
