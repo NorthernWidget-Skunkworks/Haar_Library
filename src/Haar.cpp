@@ -56,18 +56,8 @@ bool Haar::updateMeasurements(uint8_t component)
 	else {
 		//Per chip group: N readings each, appended to the arrays; a chip that
 		//reports absent (no acknowledge / not initialised) stops its batch.
-		if(doSHT) {
-			_dev.beginBatch(_nHumidityReadings);
-			for(uint16_t i = 0; i < _nHumidityReadings; i++) {
-				if(!updateHumidity() && _dev.batchFaulted(SHT31)) break;
-			}
-		}
-		if(doLPS) {
-			_dev.beginBatch(_nPressureReadings);
-			for(uint16_t i = 0; i < _nPressureReadings; i++) {
-				if(!updatePressure() && _dev.batchFaulted(LPS35HW)) break;
-			}
-		}
+		if(doSHT) _dev.takeReadings(SHT31, _nHumidityReadings, [this] { return updateHumidity(); });
+		if(doLPS) _dev.takeReadings(LPS35HW, _nPressureReadings, [this] { return updatePressure(); });
 	}
 	summarise(component);
 	bool ok = true;
