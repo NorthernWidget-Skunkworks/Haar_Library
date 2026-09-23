@@ -15,7 +15,7 @@
 <meta charset="utf-8">
 
 
-<!-- begin _includes/seo.html --><title>Namespaces - Haar Library</title>
+<!-- begin _includes/seo.html --><title>BufferPrint - Haar Library</title>
 <meta name="description" content="Library for the ruggedized Haar temperature, pressure, and relative-humidity sensor">
 
 
@@ -26,8 +26,8 @@
 <meta property="og:type" content="website">
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="Haar Library">
-<meta property="og:title" content="Namespaces">
-<meta property="og:url" content="https://docs.northernwidget.com/Haar_Library/Namespaces/index_namespaces/">
+<meta property="og:title" content="BufferPrint">
+<meta property="og:url" content="https://docs.northernwidget.com/Haar_Library/Classes/classBufferPrint/">
 
 
   <meta property="og:description" content="Library for the ruggedized Haar temperature, pressure, and relative-humidity sensor">
@@ -45,7 +45,7 @@
 
 
 
-<link rel="canonical" href="https://docs.northernwidget.com/Haar_Library/Namespaces/index_namespaces/">
+<link rel="canonical" href="https://docs.northernwidget.com/Haar_Library/Classes/classBufferPrint/">
 
 
 
@@ -201,7 +201,7 @@
 
 
   <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
-    <meta itemprop="headline" content="Namespaces">
+    <meta itemprop="headline" content="BufferPrint">
     
     
     
@@ -210,7 +210,7 @@
       
         <header>
           <h1 id="page-title" class="page__title p-name" itemprop="headline">
-            <a href="https://docs.northernwidget.com/Haar_Library/Namespaces/index_namespaces/" itemprop="url">Namespaces
+            <a href="https://docs.northernwidget.com/Haar_Library/Classes/classBufferPrint/" itemprop="url">BufferPrint
 </a>
           </h1>
           
@@ -225,11 +225,51 @@
           <aside class="sidebar__right sticky">
             <nav class="toc" aria-label="Table of contents">
               <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
-              
+              <ul class="toc__menu"><li><a href="#public-functions">Public Functions</a></li><li><a href="#public-functions-documentation">Public Functions Documentation</a><ul><li><a href="#function-bufferprint">function BufferPrint</a></li><li><a href="#function-write">function write</a></li></ul></li></ul>
             </nav>
           </aside>
         
-        <hr />
+        <p>Inherits from Print</p>
+
+<h2 id="public-functions">Public Functions</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th> </th>
+      <th>Name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td> </td>
+      <td><strong><a href="/Haar_Library/Classes/classBufferPrint/#function-bufferprint">BufferPrint</a></strong>(char * buf, size_t cap)</td>
+    </tr>
+    <tr>
+      <td>size_t</td>
+      <td><strong><a href="/Haar_Library/Classes/classBufferPrint/#function-write">write</a></strong>(uint8_t c) override</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="public-functions-documentation">Public Functions Documentation</h2>
+
+<h3 id="function-bufferprint">function BufferPrint</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kr">inline</span> <span class="n">BufferPrint</span><span class="p">(</span>
+    <span class="kt">char</span> <span class="o">*</span> <span class="n">buf</span><span class="p">,</span>
+    <span class="kt">size_t</span> <span class="n">cap</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="function-write">function write</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kr">inline</span> <span class="kt">size_t</span> <span class="n">write</span><span class="p">(</span>
+    <span class="kt">uint8_t</span> <span class="n">c</span>
+<span class="p">)</span> <span class="k">override</span>
+</code></pre></div></div>
+
+<hr />
 
 <p>Updated on 2026-09-23 at 04:50:17 +0000</p>
 

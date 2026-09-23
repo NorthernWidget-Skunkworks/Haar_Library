@@ -239,84 +239,61 @@
 
 <span class="kt">bool</span> <span class="n">Haar</span><span class="o">::</span><span class="n">begin</span><span class="p">(</span><span class="kt">uint8_t</span> <span class="n">ADR_</span><span class="p">)</span>
 <span class="p">{</span>
-    <span class="n">ADR</span> <span class="o">=</span> <span class="n">ADR_</span><span class="p">;</span>
-    <span class="n">Wire</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
-    <span class="n">Wire</span><span class="p">.</span><span class="n">beginTransmission</span><span class="p">(</span><span class="n">ADR</span><span class="p">);</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">Wire</span><span class="p">.</span><span class="n">endTransmission</span><span class="p">()</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
-    <span class="n">updateMeasurements</span><span class="p">();</span>
-    <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+    <span class="c1">//Page 0 gates: Schema 1, the name "Haar", firmware patch &gt;= HAAR_FW_MIN_PATCH.</span>
+    <span class="k">return</span> <span class="n">_dev</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="n">ADR_</span><span class="p">,</span> <span class="s">"Haar"</span><span class="p">,</span> <span class="n">HAAR_FW_MIN_PATCH</span><span class="p">);</span>
 <span class="p">}</span>
 
 <span class="kt">float</span> <span class="n">Haar</span><span class="o">::</span><span class="n">getPressure</span><span class="p">(</span><span class="kt">bool</span> <span class="n">update</span><span class="p">)</span> <span class="c1">//Get pressure in mBar</span>
 <span class="p">{</span>
     <span class="k">if</span><span class="p">(</span><span class="n">update</span><span class="p">)</span> <span class="n">updateMeasurements</span><span class="p">();</span> <span class="c1">//Only call for updated value if requested</span>
-    <span class="kt">uint32_t</span> <span class="n">val</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="c1">//Val for getting/calculating pressure value</span>
-    <span class="kt">uint32_t</span> <span class="n">Temp</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="c1">//DEBUG</span>
-
-    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">Wire</span><span class="p">.</span><span class="n">beginTransmission</span><span class="p">(</span><span class="n">ADR</span><span class="p">);</span>
-        <span class="n">Wire</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">PRES_REG</span> <span class="o">+</span> <span class="n">i</span><span class="p">);</span>
-        <span class="n">Wire</span><span class="p">.</span><span class="n">endTransmission</span><span class="p">();</span>
-        <span class="n">Wire</span><span class="p">.</span><span class="n">requestFrom</span><span class="p">(</span><span class="n">ADR</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
-        <span class="n">Temp</span> <span class="o">=</span> <span class="n">Wire</span><span class="p">.</span><span class="n">read</span><span class="p">();</span> <span class="c1">//DEBUG!</span>
-        <span class="n">val</span> <span class="o">=</span> <span class="p">(</span><span class="n">Temp</span> <span class="o">&lt;&lt;</span> <span class="mi">8</span><span class="o">*</span><span class="n">i</span><span class="p">)</span> <span class="o">|</span> <span class="n">val</span><span class="p">;</span> <span class="c1">//DEBUG!</span>
-    <span class="p">}</span>
-    <span class="n">dataRequested</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span> <span class="c1">//Clear flag on data retreval</span>
-    <span class="k">return</span> <span class="p">(</span><span class="n">val</span> <span class="o">/</span> <span class="mf">4096.0</span><span class="p">);</span>
+    <span class="k">return</span> <span class="n">_pressure</span><span class="p">;</span>
 <span class="p">}</span>
 
 <span class="kt">float</span> <span class="n">Haar</span><span class="o">::</span><span class="n">getHumidity</span><span class="p">(</span><span class="kt">bool</span> <span class="n">update</span><span class="p">)</span>  <span class="c1">//Return humidity in % (realtive)</span>
 <span class="p">{</span>
     <span class="k">if</span><span class="p">(</span><span class="n">update</span><span class="p">)</span> <span class="n">updateMeasurements</span><span class="p">();</span> <span class="c1">//Only call for updated value if requested</span>
-    <span class="kt">float</span> <span class="n">val</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="c1">//Val for getting/calculating RH value</span>
-    <span class="n">val</span> <span class="o">=</span> <span class="p">(</span><span class="kt">uint16_t</span><span class="p">(</span><span class="n">getWord</span><span class="p">(</span><span class="n">RH_REG</span><span class="p">)));</span>
-    <span class="n">val</span> <span class="o">=</span> <span class="p">(</span><span class="mf">100.0</span><span class="o">*</span><span class="n">val</span><span class="p">)</span><span class="o">/</span><span class="mf">65535.0</span><span class="p">;</span>  <span class="c1">//Convert to RH</span>
-    <span class="n">dataRequested</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span> <span class="c1">//Clear flag on data retreval</span>
-    <span class="k">return</span> <span class="n">val</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">_humidity</span><span class="p">;</span>
 <span class="p">}</span>
 
 <span class="kt">float</span> <span class="n">Haar</span><span class="o">::</span><span class="n">getTemperature</span><span class="p">(</span><span class="n">Sensor</span> <span class="n">device</span><span class="p">,</span> <span class="kt">bool</span> <span class="n">update</span><span class="p">)</span>  <span class="c1">//Return temp in C</span>
 <span class="p">{</span>
     <span class="k">if</span><span class="p">(</span><span class="n">update</span><span class="p">)</span> <span class="n">updateMeasurements</span><span class="p">();</span> <span class="c1">//Only call for updated value if requested</span>
-    <span class="kt">float</span> <span class="n">val</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="c1">//Val for getting/calculating temp value</span>
-    <span class="k">if</span><span class="p">(</span><span class="n">device</span> <span class="o">==</span> <span class="n">Pres_Sense</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">val</span> <span class="o">=</span> <span class="n">getWord</span><span class="p">(</span><span class="n">TEMP_PRES</span><span class="p">);</span>
-        <span class="n">val</span> <span class="o">=</span> <span class="n">val</span><span class="o">/</span><span class="mf">100.0</span><span class="p">;</span> <span class="c1">//Convert to C</span>
-    <span class="p">}</span>
-
-    <span class="k">else</span> <span class="nf">if</span> <span class="p">(</span><span class="n">device</span> <span class="o">==</span> <span class="n">RH_Sense</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">val</span> <span class="o">=</span> <span class="n">getWord</span><span class="p">(</span><span class="n">TEMP_RH</span><span class="p">);</span>
-        <span class="n">val</span> <span class="o">=</span> <span class="p">((</span><span class="n">val</span><span class="o">*</span><span class="mf">175.0</span><span class="p">)</span><span class="o">/</span><span class="mf">65535.0</span><span class="p">)</span> <span class="o">-</span> <span class="mi">45</span><span class="p">;</span> <span class="c1">//Convert to C</span>
-    <span class="p">}</span>
-    <span class="n">dataRequested</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span> <span class="c1">// Clear flag on data retreval</span>
-    <span class="k">return</span> <span class="n">val</span><span class="p">;</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">device</span> <span class="o">==</span> <span class="n">Pres_Sense</span><span class="p">)</span> <span class="o">?</span> <span class="n">_tempPres</span> <span class="o">:</span> <span class="n">_tempRH</span><span class="p">;</span>
 <span class="p">}</span>
 
 <span class="kt">bool</span> <span class="n">Haar</span><span class="o">::</span><span class="n">sleep</span><span class="p">(</span><span class="kt">bool</span> <span class="n">state</span><span class="p">)</span>
 <span class="p">{</span>
-    <span class="c1">// Add sleep function!</span>
-    <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+    <span class="k">return</span> <span class="nb">false</span><span class="p">;</span> <span class="c1">//FIX! Firmware does not act on the Control sleep bit yet</span>
 <span class="p">}</span>
 
-<span class="c1">// FIX! Allow for read of status register in order to not overwrite state bits</span>
-<span class="kt">uint8_t</span> <span class="n">Haar</span><span class="o">::</span><span class="n">updateMeasurements</span><span class="p">(</span><span class="kt">bool</span> <span class="n">block</span><span class="p">)</span>
+<span class="kt">bool</span> <span class="n">Haar</span><span class="o">::</span><span class="n">updateMeasurements</span><span class="p">(</span><span class="kt">bool</span> <span class="n">block</span><span class="p">)</span>
 <span class="p">{</span>
-    <span class="n">dataRequested</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span> <span class="c1">// Set flag</span>
-    <span class="n">Wire</span><span class="p">.</span><span class="n">beginTransmission</span><span class="p">(</span><span class="n">ADR</span><span class="p">);</span>
-    <span class="n">Wire</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="mh">0x00</span><span class="p">);</span>
-    <span class="n">Wire</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="mh">0x01</span><span class="p">);</span> <span class="c1">// Trigger conversion</span>
-    <span class="kt">uint8_t</span> <span class="n">error</span> <span class="o">=</span> <span class="n">Wire</span><span class="p">.</span><span class="n">endTransmission</span><span class="p">();</span> <span class="c1">// Return I2C status</span>
-    <span class="c1">// Only block if triggered</span>
-    <span class="k">if</span><span class="p">(</span><span class="n">block</span><span class="p">)</span> <span class="p">{</span>
-        <span class="c1">// Get timeout value</span>
-        <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">timeout</span> <span class="o">=</span> <span class="n">millis</span><span class="p">();</span>
-        <span class="c1">// Wait for new data to be returned</span>
-        <span class="k">while</span><span class="p">(</span><span class="o">!</span><span class="n">newData</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="n">millis</span><span class="p">()</span> <span class="o">-</span> <span class="n">timeout</span> <span class="o">&lt;</span> <span class="n">timeoutGlobal</span><span class="p">))</span> <span class="p">{</span>
-            <span class="n">delay</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
-        <span class="p">}</span>
-        <span class="k">return</span> <span class="n">error</span><span class="p">;</span>
+    <span class="n">dataRequested</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+    <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">block</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">dataRequested</span> <span class="o">=</span> <span class="n">_dev</span><span class="p">.</span><span class="n">requestReading</span><span class="p">(</span><span class="mh">0x03</span><span class="p">);</span> <span class="c1">//both chips: bit 0 SHT31, bit 1 LPS35HW</span>
+        <span class="k">return</span> <span class="n">dataRequested</span><span class="p">;</span>
     <span class="p">}</span>
-    <span class="k">else</span> <span class="k">return</span> <span class="n">error</span><span class="p">;</span>
+    <span class="n">_pressure</span> <span class="o">=</span> <span class="n">_humidity</span> <span class="o">=</span> <span class="n">_tempRH</span> <span class="o">=</span> <span class="n">_tempPres</span> <span class="o">=</span> <span class="n">NW_ERROR</span><span class="p">;</span>
+    <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">_dev</span><span class="p">.</span><span class="n">takeReading</span><span class="p">(</span><span class="mh">0x03</span><span class="p">))</span> <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+    <span class="k">return</span> <span class="nf">readData</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">_dev</span><span class="p">.</span><span class="n">anyFault</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="kt">bool</span> <span class="n">Haar</span><span class="o">::</span><span class="n">readData</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="c1">//Block 1 and Block 2 are consecutive (0x28-0x35): one read.</span>
+    <span class="kt">uint8_t</span> <span class="n">d</span><span class="p">[</span><span class="mi">14</span><span class="p">];</span>
+    <span class="n">_pressure</span> <span class="o">=</span> <span class="n">_humidity</span> <span class="o">=</span> <span class="n">_tempRH</span> <span class="o">=</span> <span class="n">_tempPres</span> <span class="o">=</span> <span class="n">NW_ERROR</span><span class="p">;</span>
+    <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">_dev</span><span class="p">.</span><span class="n">readBytes</span><span class="p">(</span><span class="n">NW_REG_DATA</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="mi">14</span><span class="p">))</span> <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+    <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">_dev</span><span class="p">.</span><span class="n">faulted</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span> <span class="p">{</span> <span class="c1">//SHT31: temperature int16 0.01 C, humidity uint16 0.01 %RH</span>
+        <span class="n">_tempRH</span> <span class="o">=</span> <span class="kt">float</span><span class="p">((</span><span class="kt">int16_t</span><span class="p">)(</span><span class="n">d</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">|</span> <span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="mi">8</span><span class="p">)))</span> <span class="o">/</span> <span class="mf">100.0</span><span class="p">;</span>
+        <span class="n">_humidity</span> <span class="o">=</span> <span class="kt">float</span><span class="p">((</span><span class="kt">uint16_t</span><span class="p">)(</span><span class="n">d</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">|</span> <span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="mi">8</span><span class="p">)))</span> <span class="o">/</span> <span class="mf">100.0</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">_dev</span><span class="p">.</span><span class="n">faulted</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span> <span class="p">{</span> <span class="c1">//LPS35HW: pressure uint32 0.01 hPa, temperature int16 0.01 C</span>
+        <span class="kt">uint32_t</span> <span class="n">p</span> <span class="o">=</span> <span class="p">(</span><span class="kt">uint32_t</span><span class="p">)</span><span class="n">d</span><span class="p">[</span><span class="mi">8</span><span class="p">]</span> <span class="o">|</span> <span class="p">((</span><span class="kt">uint32_t</span><span class="p">)</span><span class="n">d</span><span class="p">[</span><span class="mi">9</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="mi">8</span><span class="p">)</span> <span class="o">|</span> <span class="p">((</span><span class="kt">uint32_t</span><span class="p">)</span><span class="n">d</span><span class="p">[</span><span class="mi">10</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="mi">16</span><span class="p">)</span> <span class="o">|</span> <span class="p">((</span><span class="kt">uint32_t</span><span class="p">)</span><span class="n">d</span><span class="p">[</span><span class="mi">11</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="mi">24</span><span class="p">);</span>
+        <span class="n">_pressure</span> <span class="o">=</span> <span class="kt">float</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="o">/</span> <span class="mf">100.0</span><span class="p">;</span>
+        <span class="n">_tempPres</span> <span class="o">=</span> <span class="kt">float</span><span class="p">((</span><span class="kt">int16_t</span><span class="p">)(</span><span class="n">d</span><span class="p">[</span><span class="mi">12</span><span class="p">]</span> <span class="o">|</span> <span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="mi">13</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="mi">8</span><span class="p">)))</span> <span class="o">/</span> <span class="mf">100.0</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
 <span class="p">}</span>
 
 <span class="n">String</span> <span class="n">Haar</span><span class="o">::</span><span class="n">getHeader</span><span class="p">()</span>
@@ -327,14 +304,11 @@
 <span class="n">String</span> <span class="n">Haar</span><span class="o">::</span><span class="n">getString</span><span class="p">()</span>
 <span class="p">{</span>
     <span class="k">if</span><span class="p">(</span><span class="n">dataRequested</span><span class="p">)</span> <span class="p">{</span>  <span class="c1">//If new data is already en-route</span>
-        <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">timeout</span> <span class="o">=</span> <span class="n">millis</span><span class="p">();</span> <span class="c1">//Get timeout value</span>
-        <span class="c1">//Wait for new data to be returned</span>
-        <span class="k">while</span><span class="p">(</span><span class="o">!</span><span class="n">newData</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="n">millis</span><span class="p">()</span> <span class="o">-</span> <span class="n">timeout</span> <span class="o">&lt;</span> <span class="n">timeoutGlobal</span><span class="p">))</span> <span class="p">{</span>
-            <span class="n">delay</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
-        <span class="p">}</span>
+        <span class="n">dataRequested</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+        <span class="n">_pressure</span> <span class="o">=</span> <span class="n">_humidity</span> <span class="o">=</span> <span class="n">_tempRH</span> <span class="o">=</span> <span class="n">_tempPres</span> <span class="o">=</span> <span class="n">NW_ERROR</span><span class="p">;</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">_dev</span><span class="p">.</span><span class="n">waitReading</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="n">_dev</span><span class="p">.</span><span class="n">captureReading</span><span class="p">())</span> <span class="n">readData</span><span class="p">();</span> <span class="c1">//Else NW_ERROR: it never came</span>
     <span class="p">}</span>
     <span class="k">else</span><span class="p">(</span><span class="n">updateMeasurements</span><span class="p">(</span><span class="nb">true</span><span class="p">));</span> <span class="c1">//Else, block for new conversion</span>
-    <span class="c1">// delay(100); //DEBUG!</span>
     <span class="k">return</span> <span class="n">String</span><span class="p">(</span><span class="n">getPressure</span><span class="p">())</span> <span class="o">+</span> <span class="s">","</span> <span class="o">+</span> <span class="n">String</span><span class="p">(</span><span class="n">getHumidity</span><span class="p">())</span> <span class="o">+</span> <span class="s">","</span> \
                     <span class="o">+</span> <span class="n">String</span><span class="p">(</span><span class="n">getTemperature</span><span class="p">(</span><span class="n">Pres_Sense</span><span class="p">))</span> <span class="o">+</span> <span class="s">","</span> \
                     <span class="o">+</span> <span class="n">String</span><span class="p">(</span><span class="n">getTemperature</span><span class="p">(</span><span class="n">RH_Sense</span><span class="p">))</span> <span class="o">+</span> <span class="s">","</span><span class="p">;</span>
@@ -342,51 +316,56 @@
 
 <span class="kt">bool</span> <span class="n">Haar</span><span class="o">::</span><span class="n">newData</span><span class="p">()</span>  <span class="c1">// Checks for updated data</span>
 <span class="p">{</span>
-    <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">timeout</span> <span class="o">=</span> <span class="n">millis</span><span class="p">();</span> <span class="c1">// Get timeout value</span>
-    <span class="n">Wire</span><span class="p">.</span><span class="n">beginTransmission</span><span class="p">(</span><span class="n">ADR</span><span class="p">);</span>
-    <span class="n">Wire</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="mh">0x00</span><span class="p">);</span>
-    <span class="n">Wire</span><span class="p">.</span><span class="n">endTransmission</span><span class="p">();</span>
-    <span class="n">Wire</span><span class="p">.</span><span class="n">requestFrom</span><span class="p">(</span><span class="n">ADR</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
-    <span class="c1">// Wait for value to be returned //FIX! add timeout/remove</span>
-    <span class="k">while</span><span class="p">(</span><span class="n">Wire</span><span class="p">.</span><span class="n">available</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="n">millis</span><span class="p">()</span> <span class="o">-</span> <span class="n">timeout</span> <span class="o">&lt;</span> <span class="n">timeoutGlobal</span><span class="p">))</span> <span class="p">{</span>
-        <span class="n">delay</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">dataRequested</span><span class="p">)</span> <span class="p">{</span> <span class="c1">//A non-blocking request is out: capture it when the counter has moved</span>
+        <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">_dev</span><span class="p">.</span><span class="n">newReading</span><span class="p">())</span> <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+        <span class="n">_dev</span><span class="p">.</span><span class="n">captureReading</span><span class="p">();</span>
+        <span class="n">readData</span><span class="p">();</span>
+        <span class="n">dataRequested</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+        <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
     <span class="p">}</span>
-    <span class="kt">uint8_t</span> <span class="n">val</span> <span class="o">=</span> <span class="n">Wire</span><span class="p">.</span><span class="n">read</span><span class="p">();</span>  <span class="c1">//DEBUG!</span>
-    <span class="kt">bool</span> <span class="n">state</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
-    <span class="c1">// bool state = ~(val &amp; 0x01);</span>
-    <span class="k">if</span><span class="p">(</span><span class="n">val</span> <span class="o">&amp;</span> <span class="mh">0x01</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="n">state</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>  <span class="c1">//FIX! Make cleaner</span>
-    <span class="k">else</span> <span class="n">state</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
-    <span class="c1">// Serial.println(state); //DEBUG!</span>
-    <span class="c1">// Return inverse of bit 0, true when bit has been cleared,</span>
-    <span class="c1">// false when waiting for new conversion</span>
-    <span class="k">return</span> <span class="p">(</span><span class="n">state</span><span class="p">);</span>
+    <span class="k">return</span> <span class="n">_dev</span><span class="p">.</span><span class="n">ready</span><span class="p">();</span>
 <span class="p">}</span>
 
-<span class="kt">int16_t</span> <span class="n">Haar</span><span class="o">::</span><span class="n">getWord</span><span class="p">(</span><span class="kt">uint8_t</span> <span class="n">Reg</span><span class="p">)</span>  <span class="c1">//Returns word, read from Reg position</span>
+<span class="kt">bool</span>    <span class="n">Haar</span><span class="o">::</span><span class="n">faulted</span><span class="p">(</span><span class="kt">uint8_t</span> <span class="n">chip</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="n">_dev</span><span class="p">.</span><span class="n">faulted</span><span class="p">(</span><span class="n">chip</span><span class="p">);</span> <span class="p">}</span>
+<span class="kt">bool</span>    <span class="n">Haar</span><span class="o">::</span><span class="n">anyFault</span><span class="p">()</span>            <span class="p">{</span> <span class="k">return</span> <span class="n">_dev</span><span class="p">.</span><span class="n">anyFault</span><span class="p">();</span> <span class="p">}</span>
+<span class="kt">uint8_t</span> <span class="n">Haar</span><span class="o">::</span><span class="n">faultChip</span><span class="p">()</span>           <span class="p">{</span> <span class="k">return</span> <span class="n">_dev</span><span class="p">.</span><span class="n">faultChip</span><span class="p">();</span> <span class="p">}</span>
+<span class="kt">uint8_t</span> <span class="n">Haar</span><span class="o">::</span><span class="n">faultKind</span><span class="p">()</span>           <span class="p">{</span> <span class="k">return</span> <span class="n">_dev</span><span class="p">.</span><span class="n">faultKind</span><span class="p">();</span> <span class="p">}</span>
+<span class="n">String</span>  <span class="n">Haar</span><span class="o">::</span><span class="n">beginFailure</span><span class="p">()</span>        <span class="p">{</span> <span class="k">return</span> <span class="n">_dev</span><span class="p">.</span><span class="n">beginFailure</span><span class="p">();</span> <span class="p">}</span>
+<span class="kt">uint8_t</span> <span class="n">Haar</span><span class="o">::</span><span class="n">getHardwareMajor</span><span class="p">()</span>    <span class="p">{</span> <span class="k">return</span> <span class="n">_dev</span><span class="p">.</span><span class="n">hardwareMajor</span><span class="p">();</span> <span class="p">}</span>
+<span class="kt">uint8_t</span> <span class="n">Haar</span><span class="o">::</span><span class="n">getHardwareMinor</span><span class="p">()</span>    <span class="p">{</span> <span class="k">return</span> <span class="n">_dev</span><span class="p">.</span><span class="n">hardwareMinor</span><span class="p">();</span> <span class="p">}</span>
+<span class="kt">uint8_t</span> <span class="n">Haar</span><span class="o">::</span><span class="n">getFirmwareVersion</span><span class="p">()</span>  <span class="p">{</span> <span class="k">return</span> <span class="n">_dev</span><span class="p">.</span><span class="n">firmwareVersion</span><span class="p">();</span> <span class="p">}</span>
+
+<span class="kt">size_t</span> <span class="n">Haar</span><span class="o">::</span><span class="n">printFault</span><span class="p">(</span><span class="n">Print</span><span class="o">&amp;</span> <span class="n">out</span><span class="p">)</span>
 <span class="p">{</span>
-    <span class="kt">uint16_t</span> <span class="n">val</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="c1">//Val to be read from device</span>
-    <span class="n">Wire</span><span class="p">.</span><span class="n">beginTransmission</span><span class="p">(</span><span class="n">ADR</span><span class="p">);</span>
-    <span class="n">Wire</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">Reg</span><span class="p">);</span>
-    <span class="n">Wire</span><span class="p">.</span><span class="n">endTransmission</span><span class="p">();</span>
+    <span class="c1">//The chip names are Haar's own; the kind names are universal (NW_Fault).</span>
+    <span class="k">static</span> <span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="k">const</span> <span class="n">chips</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span><span class="s">"SHT31"</span><span class="p">,</span> <span class="s">"LPS35HW"</span><span class="p">};</span>
+    <span class="kt">uint8_t</span> <span class="n">chip</span> <span class="o">=</span> <span class="n">faultChip</span><span class="p">(),</span> <span class="n">kind</span> <span class="o">=</span> <span class="n">faultKind</span><span class="p">();</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">kind</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">return</span> <span class="n">out</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">"none"</span><span class="p">);</span>
+    <span class="kt">size_t</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">chip</span> <span class="o">==</span> <span class="mi">7</span><span class="p">)</span> <span class="n">n</span> <span class="o">+=</span> <span class="n">out</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">"unit"</span><span class="p">);</span>
+    <span class="k">else</span> <span class="nf">if</span><span class="p">(</span><span class="n">chip</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">)</span> <span class="n">n</span> <span class="o">+=</span> <span class="n">out</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="n">chips</span><span class="p">[</span><span class="n">chip</span><span class="p">]);</span>
+    <span class="k">else</span> <span class="p">{</span> <span class="n">n</span> <span class="o">+=</span> <span class="n">out</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">"chip "</span><span class="p">);</span> <span class="n">n</span> <span class="o">+=</span> <span class="n">out</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="n">chip</span><span class="p">);</span> <span class="p">}</span>
+    <span class="n">n</span> <span class="o">+=</span> <span class="n">out</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">": "</span><span class="p">);</span>
+    <span class="k">return</span> <span class="n">n</span> <span class="o">+</span> <span class="n">_dev</span><span class="p">.</span><span class="n">fault</span><span class="p">().</span><span class="n">printKind</span><span class="p">(</span><span class="n">out</span><span class="p">);</span>
+<span class="p">}</span>
 
-    <span class="n">Wire</span><span class="p">.</span><span class="n">requestFrom</span><span class="p">(</span><span class="n">ADR</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>  <span class="c1">// Request word</span>
-    <span class="c1">//while(Wire.available() &lt; 2); //Wait //FIX! Add timeout</span>
-    <span class="n">val</span> <span class="o">=</span> <span class="n">Wire</span><span class="p">.</span><span class="n">read</span><span class="p">();</span>
-    <span class="c1">// Serial.println(val, HEX);</span>
-
-  <span class="n">Wire</span><span class="p">.</span><span class="n">beginTransmission</span><span class="p">(</span><span class="n">ADR</span><span class="p">);</span>
-  <span class="n">Wire</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">Reg</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
-  <span class="n">Wire</span><span class="p">.</span><span class="n">endTransmission</span><span class="p">();</span>
-  <span class="n">Wire</span><span class="p">.</span><span class="n">requestFrom</span><span class="p">(</span><span class="n">ADR</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>  <span class="c1">//Request word</span>
-    <span class="n">val</span> <span class="o">=</span> <span class="n">val</span> <span class="o">|</span> <span class="p">(</span><span class="n">Wire</span><span class="p">.</span><span class="n">read</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="mi">8</span><span class="p">);</span>  <span class="c1">//Concatonate 16 bits</span>
-    <span class="c1">//val = Wire.read() | (val &lt;&lt; 8);  //Concatonate 16 bits //DEBUG!</span>
-    <span class="k">return</span> <span class="n">val</span><span class="p">;</span>
+<span class="n">String</span> <span class="n">Haar</span><span class="o">::</span><span class="n">faultNote</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="c1">//One word for a data-table note: the chip, then the kind ("SHT31Checksum").</span>
+    <span class="k">static</span> <span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="k">const</span> <span class="n">chips</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span><span class="s">"SHT31"</span><span class="p">,</span> <span class="s">"LPS35HW"</span><span class="p">};</span>
+    <span class="kt">uint8_t</span> <span class="n">chip</span> <span class="o">=</span> <span class="n">faultChip</span><span class="p">();</span>
+    <span class="n">String</span> <span class="n">w</span><span class="p">;</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">chip</span> <span class="o">==</span> <span class="mi">7</span><span class="p">)</span> <span class="n">w</span> <span class="o">=</span> <span class="n">F</span><span class="p">(</span><span class="s">"Unit"</span><span class="p">);</span>
+    <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">chip</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">)</span> <span class="n">w</span> <span class="o">=</span> <span class="n">chips</span><span class="p">[</span><span class="n">chip</span><span class="p">];</span>
+    <span class="k">else</span> <span class="p">{</span> <span class="n">w</span> <span class="o">=</span> <span class="n">F</span><span class="p">(</span><span class="s">"Chip"</span><span class="p">);</span> <span class="n">w</span> <span class="o">+=</span> <span class="n">String</span><span class="p">(</span><span class="n">chip</span><span class="p">);</span> <span class="p">}</span>
+    <span class="n">w</span> <span class="o">+=</span> <span class="n">_dev</span><span class="p">.</span><span class="n">fault</span><span class="p">().</span><span class="n">kindWord</span><span class="p">();</span>
+    <span class="k">return</span> <span class="n">w</span><span class="p">;</span>
 <span class="p">}</span>
 </code></pre></div></div>
 
 <hr />
 
-<p>Updated on 2026-09-22 at 23:10:02 +0000</p>
+<p>Updated on 2026-09-23 at 04:50:17 +0000</p>
 
         
       </section>

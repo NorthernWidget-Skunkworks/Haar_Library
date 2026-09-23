@@ -225,7 +225,7 @@
           <aside class="sidebar__right sticky">
             <nav class="toc" aria-label="Table of contents">
               <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
-              <ul class="toc__menu"><li><a href="#classes">Classes</a></li><li><a href="#types">Types</a></li><li><a href="#defines">Defines</a></li><li><a href="#types-documentation">Types Documentation</a><ul><li><a href="#enum-sensor">enum Sensor</a></li></ul></li><li><a href="#macros-documentation">Macros Documentation</a><ul><li><a href="#define-ctrl1">define CTRL1</a></li><li><a href="#define-temp_pres">define TEMP_PRES</a></li><li><a href="#define-temp_rh">define TEMP_RH</a></li><li><a href="#define-pres_reg">define PRES_REG</a></li><li><a href="#define-rh_reg">define RH_REG</a></li><li><a href="#define-on">define ON</a></li><li><a href="#define-off">define OFF</a></li></ul></li><li><a href="#source-code">Source code</a></li></ul>
+              <ul class="toc__menu"><li><a href="#classes">Classes</a></li><li><a href="#types">Types</a></li><li><a href="#defines">Defines</a></li><li><a href="#types-documentation">Types Documentation</a><ul><li><a href="#enum-sensor">enum Sensor</a></li></ul></li><li><a href="#macros-documentation">Macros Documentation</a><ul><li><a href="#define-haar_fw_min_patch">define HAAR_FW_MIN_PATCH</a></li><li><a href="#define-ctrl1">define CTRL1</a></li><li><a href="#define-temp_rh">define TEMP_RH</a></li><li><a href="#define-rh_reg">define RH_REG</a></li><li><a href="#define-pres_reg">define PRES_REG</a></li><li><a href="#define-temp_pres">define TEMP_PRES</a></li><li><a href="#define-on">define ON</a></li><li><a href="#define-off">define OFF</a></li></ul></li><li><a href="#source-code">Source code</a></li></ul>
             </nav>
           </aside>
         
@@ -275,11 +275,11 @@
   <tbody>
     <tr>
       <td> </td>
-      <td><strong><a href="/Haar_Library/Files/Haar_8h/#define-ctrl1">CTRL1</a></strong></td>
+      <td><strong><a href="/Haar_Library/Files/Haar_8h/#define-haar-fw-min-patch">HAAR_FW_MIN_PATCH</a></strong></td>
     </tr>
     <tr>
       <td> </td>
-      <td><strong><a href="/Haar_Library/Files/Haar_8h/#define-temp-pres">TEMP_PRES</a></strong></td>
+      <td><strong><a href="/Haar_Library/Files/Haar_8h/#define-ctrl1">CTRL1</a></strong></td>
     </tr>
     <tr>
       <td> </td>
@@ -287,11 +287,15 @@
     </tr>
     <tr>
       <td> </td>
+      <td><strong><a href="/Haar_Library/Files/Haar_8h/#define-rh-reg">RH_REG</a></strong></td>
+    </tr>
+    <tr>
+      <td> </td>
       <td><strong><a href="/Haar_Library/Files/Haar_8h/#define-pres-reg">PRES_REG</a></strong></td>
     </tr>
     <tr>
       <td> </td>
-      <td><strong><a href="/Haar_Library/Files/Haar_8h/#define-rh-reg">RH_REG</a></strong></td>
+      <td><strong><a href="/Haar_Library/Files/Haar_8h/#define-temp-pres">TEMP_PRES</a></strong></td>
     </tr>
     <tr>
       <td> </td>
@@ -332,29 +336,36 @@
 
 <h2 id="macros-documentation">Macros Documentation</h2>
 
-<h3 id="define-ctrl1">define CTRL1</h3>
+<h3 id="define-haar_fw_min_patch">define HAAR_FW_MIN_PATCH</h3>
 
-<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#define CTRL1 0x00
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#define HAAR_FW_MIN_PATCH 1
 </span></code></pre></div></div>
 
-<h3 id="define-temp_pres">define TEMP_PRES</h3>
+<p>Lowest firmware patch (Page 0 byte 0x0A) this library accepts: patch 1 brought Schema 1 (Page 0, Block 0 handshake, data at 0x28 in 0.01 units).</p>
 
-<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#define TEMP_PRES 0x02
+<h3 id="define-ctrl1">define CTRL1</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#define CTRL1 0x21
 </span></code></pre></div></div>
 
 <h3 id="define-temp_rh">define TEMP_RH</h3>
 
-<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#define TEMP_RH 0x04
-</span></code></pre></div></div>
-
-<h3 id="define-pres_reg">define PRES_REG</h3>
-
-<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#define PRES_REG 0x06
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#define TEMP_RH 0x28
 </span></code></pre></div></div>
 
 <h3 id="define-rh_reg">define RH_REG</h3>
 
-<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#define RH_REG 0x09
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#define RH_REG 0x2A
+</span></code></pre></div></div>
+
+<h3 id="define-pres_reg">define PRES_REG</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#define PRES_REG 0x30
+</span></code></pre></div></div>
+
+<h3 id="define-temp_pres">define TEMP_PRES</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#define TEMP_PRES 0x34
 </span></code></pre></div></div>
 
 <h3 id="define-on">define ON</h3>
@@ -375,17 +386,20 @@
 </span>
 <span class="cp">#include</span> <span class="cpf">"Arduino.h"</span><span class="cp">
 #include</span> <span class="cpf">&lt;Wire.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;NW_Core.h&gt;</span><span class="c1">   // NW_Core: NW_Device (Schema 1 protocol), NW_Fault</span><span class="cp">
+</span>
+<span class="cp">#define HAAR_FW_MIN_PATCH 1
 </span>
 <span class="k">enum</span> <span class="n">Sensor</span> <span class="p">{</span>
     <span class="n">RH_Sense</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
     <span class="n">Pres_Sense</span> <span class="o">=</span> <span class="mi">1</span>
 <span class="p">};</span>
 
-<span class="cp">#define CTRL1 0x00
-#define TEMP_PRES 0x02
-#define TEMP_RH 0x04
-#define PRES_REG 0x06
-#define RH_REG 0x09
+<span class="cp">#define CTRL1 0x21     // Schema 1 Page 1 Block 0: Control (trigger, chip select, sleep)
+#define TEMP_RH 0x28   // Schema 1 Page 1 Block 1: SHT31 temperature, int16, 0.01 °C
+#define RH_REG 0x2A    // Schema 1 Page 1 Block 1: humidity, uint16, 0.01 %RH
+#define PRES_REG 0x30  // Schema 1 Page 1 Block 2: LPS35HW pressure, uint32, 0.01 hPa
+#define TEMP_PRES 0x34 // Schema 1 Page 1 Block 2: LPS35HW temperature, int16, 0.01 °C
 </span>
 <span class="cp">#define ON 1
 #define OFF 0
@@ -393,9 +407,10 @@
 <span class="k">class</span> <span class="nc">Haar</span>
 <span class="p">{</span>
     <span class="nl">public:</span>
+        <span class="k">static</span> <span class="k">constexpr</span> <span class="kt">uint8_t</span> <span class="n">DEFAULT_ADDRESS</span> <span class="o">=</span> <span class="mh">0x48</span><span class="p">;</span>
         <span class="n">Haar</span><span class="p">();</span>
 
-        <span class="kt">bool</span> <span class="n">begin</span><span class="p">(</span><span class="kt">uint8_t</span> <span class="n">ADR_</span> <span class="o">=</span> <span class="mh">0x42</span><span class="p">);</span>
+        <span class="kt">bool</span> <span class="n">begin</span><span class="p">(</span><span class="kt">uint8_t</span> <span class="n">ADR_</span> <span class="o">=</span> <span class="n">DEFAULT_ADDRESS</span><span class="p">);</span>
 
         <span class="kt">float</span> <span class="n">getPressure</span><span class="p">(</span><span class="kt">bool</span> <span class="n">update</span> <span class="o">=</span> <span class="nb">false</span><span class="p">);</span>
 
@@ -405,7 +420,7 @@
 
         <span class="kt">bool</span> <span class="n">sleep</span><span class="p">(</span><span class="kt">bool</span> <span class="n">state</span> <span class="o">=</span> <span class="n">ON</span><span class="p">);</span>
 
-        <span class="kt">uint8_t</span> <span class="n">updateMeasurements</span><span class="p">(</span><span class="kt">bool</span> <span class="n">block</span> <span class="o">=</span> <span class="nb">false</span><span class="p">);</span> <span class="c1">//Default to non-blocking</span>
+        <span class="kt">bool</span> <span class="n">updateMeasurements</span><span class="p">(</span><span class="kt">bool</span> <span class="n">block</span> <span class="o">=</span> <span class="nb">true</span><span class="p">);</span>
 
         <span class="kt">bool</span> <span class="n">newData</span><span class="p">();</span>
 
@@ -413,10 +428,25 @@
 
         <span class="n">String</span> <span class="n">getHeader</span><span class="p">();</span>
 
+        <span class="c1">// --- Faults (status byte, live; fault byte, latched) ---</span>
+        <span class="kt">bool</span> <span class="n">faulted</span><span class="p">(</span><span class="kt">uint8_t</span> <span class="n">chip</span><span class="p">);</span>
+        <span class="kt">bool</span> <span class="n">anyFault</span><span class="p">();</span>
+        <span class="kt">uint8_t</span> <span class="n">faultChip</span><span class="p">();</span>
+        <span class="kt">uint8_t</span> <span class="n">faultKind</span><span class="p">();</span>
+        <span class="kt">size_t</span> <span class="n">printFault</span><span class="p">(</span><span class="n">Print</span><span class="o">&amp;</span> <span class="n">out</span><span class="p">);</span>
+        <span class="n">String</span> <span class="n">faultNote</span><span class="p">();</span>
+        <span class="n">String</span> <span class="n">beginFailure</span><span class="p">();</span>
+        <span class="kt">uint8_t</span> <span class="n">getHardwareMajor</span><span class="p">();</span>
+        <span class="kt">uint8_t</span> <span class="n">getHardwareMinor</span><span class="p">();</span>
+        <span class="kt">uint8_t</span> <span class="n">getFirmwareVersion</span><span class="p">();</span>
+
     <span class="nl">private:</span>
-        <span class="kt">uint8_t</span> <span class="n">ADR</span> <span class="o">=</span> <span class="mh">0x42</span><span class="p">;</span> <span class="c1">//Default global sensor address</span>
-        <span class="kt">int16_t</span> <span class="n">getWord</span><span class="p">(</span><span class="kt">uint8_t</span> <span class="n">Reg</span><span class="p">);</span>
-        <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">timeoutGlobal</span> <span class="o">=</span> <span class="mi">500</span><span class="p">;</span> <span class="c1">//Timeout value, ms //FIX??</span>
+        <span class="n">NW_Device</span> <span class="n">_dev</span><span class="p">;</span>
+        <span class="kt">bool</span> <span class="n">readData</span><span class="p">();</span> <span class="c1">//Read 0x28-0x35 into the stored values, NW_ERROR for a faulted chip</span>
+        <span class="kt">float</span> <span class="n">_pressure</span> <span class="o">=</span> <span class="n">NW_ERROR</span><span class="p">;</span> <span class="c1">//Stored by updateMeasurements() [hPa = mBar]</span>
+        <span class="kt">float</span> <span class="n">_humidity</span> <span class="o">=</span> <span class="n">NW_ERROR</span><span class="p">;</span> <span class="c1">//[%RH]</span>
+        <span class="kt">float</span> <span class="n">_tempRH</span> <span class="o">=</span> <span class="n">NW_ERROR</span><span class="p">;</span> <span class="c1">//SHT31 [C]</span>
+        <span class="kt">float</span> <span class="n">_tempPres</span> <span class="o">=</span> <span class="n">NW_ERROR</span><span class="p">;</span> <span class="c1">//LPS35HW [C]</span>
         <span class="kt">bool</span> <span class="n">dataRequested</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span> <span class="c1">//Flag for keeping track of data requests and</span>
                                     <span class="c1">// data retrevals</span>
 <span class="p">};</span>
@@ -426,7 +456,7 @@
 
 <hr />
 
-<p>Updated on 2026-09-22 at 23:10:02 +0000</p>
+<p>Updated on 2026-09-23 at 04:50:17 +0000</p>
 
         
       </section>

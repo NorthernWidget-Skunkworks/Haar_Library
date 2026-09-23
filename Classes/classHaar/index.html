@@ -225,7 +225,7 @@
           <aside class="sidebar__right sticky">
             <nav class="toc" aria-label="Table of contents">
               <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
-              <ul class="toc__menu"><li><a href="#public-functions">Public Functions</a></li><li><a href="#detailed-description">Detailed Description</a><ul><li><a href="#function-begin">function begin</a></li><li><a href="#function-getpressure">function getPressure</a></li><li><a href="#function-gethumidity">function getHumidity</a></li><li><a href="#function-gettemperature">function getTemperature</a></li><li><a href="#function-sleep">function sleep</a></li><li><a href="#function-updatemeasurements">function updateMeasurements</a></li><li><a href="#function-newdata">function newData</a></li><li><a href="#function-getstring">function getString</a></li><li><a href="#function-getheader">function getHeader</a></li></ul></li></ul>
+              <ul class="toc__menu"><li><a href="#public-functions">Public Functions</a></li><li><a href="#public-attributes">Public Attributes</a></li><li><a href="#detailed-description">Detailed Description</a><ul><li><a href="#function-begin">function begin</a></li><li><a href="#function-getpressure">function getPressure</a></li><li><a href="#function-gethumidity">function getHumidity</a></li><li><a href="#function-gettemperature">function getTemperature</a></li><li><a href="#function-sleep">function sleep</a></li><li><a href="#function-updatemeasurements">function updateMeasurements</a></li><li><a href="#function-newdata">function newData</a></li><li><a href="#function-getstring">function getString</a></li><li><a href="#function-getheader">function getHeader</a></li><li><a href="#function-faulted">function faulted</a></li><li><a href="#function-anyfault">function anyFault</a></li><li><a href="#function-faultchip">function faultChip</a></li><li><a href="#function-faultkind">function faultKind</a></li><li><a href="#function-printfault">function printFault</a></li><li><a href="#function-faultnote">function faultNote</a></li><li><a href="#function-beginfailure">function beginFailure</a></li><li><a href="#function-gethardwaremajor">function getHardwareMajor</a></li><li><a href="#function-gethardwareminor">function getHardwareMinor</a></li><li><a href="#function-getfirmwareversion">function getFirmwareVersion</a></li></ul></li><li><a href="#public-attributes-documentation">Public Attributes Documentation</a><ul><li><a href="#variable-default_address">variable DEFAULT_ADDRESS</a></li></ul></li></ul>
             </nav>
           </aside>
         
@@ -249,7 +249,7 @@
     </tr>
     <tr>
       <td>bool</td>
-      <td><strong><a href="/Haar_Library/Classes/classHaar/#function-begin">begin</a></strong>(uint8<em>t ADR</em> =0x42)<br />Begin communications with the <a href="/Haar_Library/Classes/classHaar/">Haar</a> sensor.</td>
+      <td><strong><a href="/Haar_Library/Classes/classHaar/#function-begin">begin</a></strong>(uint8<em>t ADR</em> =<a href="/Haar_Library/Classes/classHaar/#variable-default-address">DEFAULT_ADDRESS</a>)<br />Begin communications with the <a href="/Haar_Library/Classes/classHaar/">Haar</a> sensor.</td>
     </tr>
     <tr>
       <td>float</td>
@@ -265,15 +265,15 @@
     </tr>
     <tr>
       <td>bool</td>
-      <td><strong><a href="/Haar_Library/Classes/classHaar/#function-sleep">sleep</a></strong>(bool state =ON)<br />Enable or disable device sleep mode. THIS FUNCTION CURRENTLY DOES NOTHING and returns false.</td>
-    </tr>
-    <tr>
-      <td>uint8_t</td>
-      <td><strong><a href="/Haar_Library/Classes/classHaar/#function-updatemeasurements">updateMeasurements</a></strong>(bool block =false)<br />Return a new sample of all of the data.</td>
+      <td><strong><a href="/Haar_Library/Classes/classHaar/#function-sleep">sleep</a></strong>(bool state =ON)<br />Enable or disable device sleep mode. THIS FUNCTION CURRENTLY DOES NOTHING and returns false: the firmware accepts the Control sleep bit but does not act on it yet.</td>
     </tr>
     <tr>
       <td>bool</td>
-      <td><strong><a href="/Haar_Library/Classes/classHaar/#function-newdata">newData</a></strong>()<br />Checks for updated data. Returns <code class="language-plaintext highlighter-rouge">true</code> if new data are available; otherwise returns <code class="language-plaintext highlighter-rouge">false</code></td>
+      <td><strong><a href="/Haar_Library/Classes/classHaar/#function-updatemeasurements">updateMeasurements</a></strong>(bool block =true)<br />Take a new sample of all of the data.</td>
+    </tr>
+    <tr>
+      <td>bool</td>
+      <td><strong><a href="/Haar_Library/Classes/classHaar/#function-newdata">newData</a></strong>()<br />Checks for updated data. Returns <code class="language-plaintext highlighter-rouge">true</code> if new data are available; otherwise returns <code class="language-plaintext highlighter-rouge">false</code>.</td>
     </tr>
     <tr>
       <td>String</td>
@@ -282,6 +282,63 @@
     <tr>
       <td>String</td>
       <td><strong><a href="/Haar_Library/Classes/classHaar/#function-getheader">getHeader</a></strong>()<br />Returns a header: “Pressure Atmos [mBar], Humidity [%], Temp Pres [C], Temp RH [C],”.</td>
+    </tr>
+    <tr>
+      <td>bool</td>
+      <td><strong><a href="/Haar_Library/Classes/classHaar/#function-faulted">faulted</a></strong>(uint8_t chip)<br />True if the given chip (0 = SHT31, 1 = LPS35HW) was faulted in the last reading.</td>
+    </tr>
+    <tr>
+      <td>bool</td>
+      <td><strong><a href="/Haar_Library/Classes/classHaar/#function-anyfault">anyFault</a></strong>()<br />True if any chip was faulted in the last reading (status pan-fault bit).</td>
+    </tr>
+    <tr>
+      <td>uint8_t</td>
+      <td><strong><a href="/Haar_Library/Classes/classHaar/#function-faultchip">faultChip</a></strong>()<br />Chip index of the latched fault (0 SHT31, 1 LPS35HW, 7 the unit); meaningful when <a href="">faultKind()</a> != 0.</td>
+    </tr>
+    <tr>
+      <td>uint8_t</td>
+      <td><strong><a href="/Haar_Library/Classes/classHaar/#function-faultkind">faultKind</a></strong>()<br />Kind of the latched fault, per the spec’s table (1 no acknowledge, 2 timeout, 3 checksum, 6 reset since configured, …).</td>
+    </tr>
+    <tr>
+      <td>size_t</td>
+      <td><strong><a href="/Haar_Library/Classes/classHaar/#function-printfault">printFault</a></strong>(Print &amp; out)<br />Print the latched fault as text, e.g. “SHT31: checksum”; “none” when there is no fault.</td>
+    </tr>
+    <tr>
+      <td>String</td>
+      <td><strong><a href="/Haar_Library/Classes/classHaar/#function-faultnote">faultNote</a></strong>()<br />The latched fault as one word for a note column: “SHT31Checksum”, “LPS35HWTimeout”, “UnitReset”; “UnitNone” when none.</td>
+    </tr>
+    <tr>
+      <td>String</td>
+      <td><strong><a href="/Haar_Library/Classes/classHaar/#function-beginfailure">beginFailure</a></strong>()<br />Why the last <a href="/Haar_Library/Classes/classHaar/#function-begin">begin()</a> refused, as one word: “NoACK”, “NotSchema1”, “WrongName”, “OldFirmware”; “None” after success.</td>
+    </tr>
+    <tr>
+      <td>uint8_t</td>
+      <td><strong><a href="/Haar_Library/Classes/classHaar/#function-gethardwaremajor">getHardwareMajor</a></strong>()</td>
+    </tr>
+    <tr>
+      <td>uint8_t</td>
+      <td><strong><a href="/Haar_Library/Classes/classHaar/#function-gethardwareminor">getHardwareMinor</a></strong>()</td>
+    </tr>
+    <tr>
+      <td>uint8_t</td>
+      <td><strong><a href="/Haar_Library/Classes/classHaar/#function-getfirmwareversion">getFirmwareVersion</a></strong>()</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="public-attributes">Public Attributes</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th> </th>
+      <th>Name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>constexpr uint8_t</td>
+      <td><strong><a href="/Haar_Library/Classes/classHaar/#variable-default-address">DEFAULT_ADDRESS</a></strong> <br />Default I2C address: NW-Device-Specification Schema 1 ‘H’ (0x48; was 0x42).</td>
     </tr>
   </tbody>
 </table>
@@ -312,7 +369,7 @@ Haar()
 <h3 id="function-begin">function begin</h3>
 
 <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">bool</span> <span class="n">begin</span><span class="p">(</span>
-    <span class="kt">uint8_t</span> <span class="n">ADR_</span> <span class="o">=</span><span class="mh">0x42</span>
+    <span class="kt">uint8_t</span> <span class="n">ADR_</span> <span class="o">=</span><span class="n">DEFAULT_ADDRESS</span>
 <span class="p">)</span>
 </code></pre></div></div>
 
@@ -321,10 +378,12 @@ Haar()
 <p><strong>Parameters</strong>:</p>
 
 <ul>
-  <li><strong>ADR_</strong> I2C address. Defaults to 0x42.</li>
+  <li><strong>ADR_</strong> I2C address. Defaults to DEFAULT_ADDRESS.</li>
 </ul>
 
-<p><strong>Return</strong>: True if the device acknowledges on I2C; false otherwise.</p>
+<p><strong>Return</strong>: True if the device answered and passed the three gates.</p>
+
+<p>Refuses the device unless Page 0 says Schema 1, the name “Haar”, and a firmware patch of at least HAAR_FW_MIN_PATCH; <a href="/Haar_Library/Classes/classHaar/#function-beginfailure">beginFailure()</a> says which gate refused. Takes no reading.</p>
 
 <h3 id="function-getpressure">function getPressure</h3>
 
@@ -380,7 +439,7 @@ Haar()
 <span class="p">)</span>
 </code></pre></div></div>
 
-<p>Enable or disable device sleep mode. THIS FUNCTION CURRENTLY DOES NOTHING and returns false.</p>
+<p>Enable or disable device sleep mode. THIS FUNCTION CURRENTLY DOES NOTHING and returns false: the firmware accepts the Control sleep bit but does not act on it yet.</p>
 
 <p><strong>Parameters</strong>:</p>
 
@@ -392,31 +451,31 @@ Haar()
 
 <h3 id="function-updatemeasurements">function updateMeasurements</h3>
 
-<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">uint8_t</span> <span class="n">updateMeasurements</span><span class="p">(</span>
-    <span class="kt">bool</span> <span class="n">block</span> <span class="o">=</span><span class="nb">false</span>
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">bool</span> <span class="n">updateMeasurements</span><span class="p">(</span>
+    <span class="kt">bool</span> <span class="n">block</span> <span class="o">=</span><span class="nb">true</span>
 <span class="p">)</span>
 </code></pre></div></div>
 
-<p>Return a new sample of all of the data.</p>
+<p>Take a new sample of all of the data.</p>
 
 <p><strong>Parameters</strong>:</p>
 
 <ul>
-  <li><strong>Block</strong> if <code class="language-plaintext highlighter-rouge">true</code>, wait for data to be returned. Defaults to <code class="language-plaintext highlighter-rouge">false</code>.</li>
+  <li><strong>Block</strong> if <code class="language-plaintext highlighter-rouge">true</code> (the default), wait for the reading.</li>
 </ul>
+
+<p><strong>Return</strong>: true if the device answered and no chip faulted (blocking), or if the request was written (non-blocking).</p>
+
+<p>Triggers both chips through the NW-Device-Specification handshake. Blocking: waits for the device’s reading counter, then reads all four values in one transaction and stores them. Non-blocking: only requests the reading; <a href="/Haar_Library/Classes/classHaar/#function-newdata">newData()</a> captures it once it is there.</p>
 
 <h3 id="function-newdata">function newData</h3>
 
 <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">bool</span> <span class="n">newData</span><span class="p">()</span>
 </code></pre></div></div>
 
-<p>Checks for updated data. Returns <code class="language-plaintext highlighter-rouge">true</code> if new data are available; otherwise returns <code class="language-plaintext highlighter-rouge">false</code></p>
+<p>Checks for updated data. Returns <code class="language-plaintext highlighter-rouge">true</code> if new data are available; otherwise returns <code class="language-plaintext highlighter-rouge">false</code>.</p>
 
-<p><strong>Parameters</strong>:</p>
-
-<ul>
-  <li><strong>Block</strong> if <code class="language-plaintext highlighter-rouge">true</code>, wait for data to be returned. Defaults to <code class="language-plaintext highlighter-rouge">false</code>.</li>
-</ul>
+<p>After a non-blocking updateMeasurements(false), returns true once the device’s reading counter has advanced and stores the values as it does so; otherwise reports the device’s ready bit.</p>
 
 <h3 id="function-getstring">function getString</h3>
 
@@ -434,9 +493,86 @@ Haar()
 
 <p>Returns a header: “Pressure Atmos [mBar], Humidity [%], Temp Pres [C], Temp RH [C],”.</p>
 
+<h3 id="function-faulted">function faulted</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">bool</span> <span class="n">faulted</span><span class="p">(</span>
+    <span class="kt">uint8_t</span> <span class="n">chip</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<p>True if the given chip (0 = SHT31, 1 = LPS35HW) was faulted in the last reading.</p>
+
+<h3 id="function-anyfault">function anyFault</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">bool</span> <span class="n">anyFault</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>True if any chip was faulted in the last reading (status pan-fault bit).</p>
+
+<h3 id="function-faultchip">function faultChip</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">uint8_t</span> <span class="n">faultChip</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>Chip index of the latched fault (0 SHT31, 1 LPS35HW, 7 the unit); meaningful when <a href="">faultKind()</a> != 0.</p>
+
+<h3 id="function-faultkind">function faultKind</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">uint8_t</span> <span class="n">faultKind</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>Kind of the latched fault, per the spec’s table (1 no acknowledge, 2 timeout, 3 checksum, 6 reset since configured, …).</p>
+
+<h3 id="function-printfault">function printFault</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">size_t</span> <span class="n">printFault</span><span class="p">(</span>
+    <span class="n">Print</span> <span class="o">&amp;</span> <span class="n">out</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<p>Print the latched fault as text, e.g. “SHT31: checksum”; “none” when there is no fault.</p>
+
+<h3 id="function-faultnote">function faultNote</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">String</span> <span class="n">faultNote</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>The latched fault as one word for a note column: “SHT31Checksum”, “LPS35HWTimeout”, “UnitReset”; “UnitNone” when none.</p>
+
+<h3 id="function-beginfailure">function beginFailure</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">String</span> <span class="n">beginFailure</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>Why the last <a href="/Haar_Library/Classes/classHaar/#function-begin">begin()</a> refused, as one word: “NoACK”, “NotSchema1”, “WrongName”, “OldFirmware”; “None” after success.</p>
+
+<h3 id="function-gethardwaremajor">function getHardwareMajor</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">uint8_t</span> <span class="n">getHardwareMajor</span><span class="p">()</span>
+</code></pre></div></div>
+
+<h3 id="function-gethardwareminor">function getHardwareMinor</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">uint8_t</span> <span class="n">getHardwareMinor</span><span class="p">()</span>
+</code></pre></div></div>
+
+<h3 id="function-getfirmwareversion">function getFirmwareVersion</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">uint8_t</span> <span class="n">getFirmwareVersion</span><span class="p">()</span>
+</code></pre></div></div>
+
+<h2 id="public-attributes-documentation">Public Attributes Documentation</h2>
+
+<h3 id="variable-default_address">variable DEFAULT_ADDRESS</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">static</span> <span class="k">constexpr</span> <span class="kt">uint8_t</span> <span class="n">DEFAULT_ADDRESS</span> <span class="o">=</span> <span class="mh">0x48</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>Default I2C address: NW-Device-Specification Schema 1 ‘H’ (0x48; was 0x42).</p>
+
 <hr />
 
-<p>Updated on 2026-09-22 at 23:10:02 +0000</p>
+<p>Updated on 2026-09-23 at 04:50:17 +0000</p>
 
         
       </section>
