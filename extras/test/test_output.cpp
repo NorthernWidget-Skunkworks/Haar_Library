@@ -135,6 +135,10 @@ int main() {
     printf("[dead LPS35HW] N=10: update=%d readings taken=%d pressureCount=%u pressure=%.2f note='%s'\n", ok, k, s.getPressureCount(), s.getPressure(), s.reportNote().c_str());
     onReading = nullptr; }
 
+  // 11. The status line for a logger's status file.
+  loadImage(101325, 5500, 2137, 2215);
+  { Haar s; s.begin(); s.updateMeasurements(); char sb[260]; BufferPrint sp(sb, sizeof sb); size_t k = s.printStatus(sp); printf("[status] %zu bytes: %s\n", k, sb); }
+
   fprintf(stderr, "bus transactions total: %u\n", Wire.transactions);   // metric, not output
   return 0;
 }

@@ -256,6 +256,12 @@ size_t Haar::printReport(Print& out)
 	return _dev.report().print(out, chips, 2);
 }
 
+size_t Haar::printStatus(Print& out)
+{
+	static const char* const chips[] = {"SHT31", "LPS35HW"};
+	return _dev.printSnapshot(out, chips, 2);
+}
+
 String Haar::reportNote()
 {
 	//One word for a data-table note: the chip, then the kind ("SHT31Checksum").

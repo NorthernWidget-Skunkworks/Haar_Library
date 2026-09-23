@@ -255,6 +255,8 @@ class Haar
 		size_t printReport(Print& out);
 		/** @brief The report as one word for a note column: "SHT31Checksum", "LPS35HWTimeout", "UnitReset"; "UnitNone" when none. */
 		String reportNote();
+		/** @brief Print one status line for a logger's status file: name, serial, versions, the last report, Pages 0-2 in hex; no newline, no acknowledge. */
+		size_t printStatus(Print& out);
 		/** @brief Why the last begin() refused, as one word: "NoACK", "NotSchema1", "WrongName", "OldFirmware"; "None" after success. */
 		String beginFailure();
 		uint8_t getHardwareMajor();

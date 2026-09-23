@@ -53,6 +53,7 @@ reportChip	KEYWORD2
 reportKind	KEYWORD2
 printReport	KEYWORD2
 reportNote	KEYWORD2
+printStatus	KEYWORD2
 beginFailure	KEYWORD2
 getHardwareMajor	KEYWORD2
 getHardwareMinor	KEYWORD2
