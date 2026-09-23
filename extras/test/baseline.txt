@@ -30,9 +30,9 @@ update: updateMeasurements(true)=0 pressure(update)=-9999.0000
 [unit reset] update=1 any=0 chip=7 kind=6 text='unit: reset since configured' note='UnitReset'
 [non-blocking] request=1 newData=1 pressure=1013.35 (stale getter untouched by the request)
 [non-blocking] then getString: 1013.45,55.00,22.15,21.37,
-[cost] requestFrom calls for one getString(): 4
+[cost] requestFrom calls for one getString(): 5
 [N] setHumidityReadings(5)=5 setPressureReadings(3)=3 setHumidityReadings(99)=16
-[N=5,3] update=1 humidityCount=5 pressureCount=3 lastRequest=3 requestFrom=32
+[N=5,3] update=1 humidityCount=5 pressureCount=3 lastRequest=3 requestFrom=40
 [N=5,3] humidity mean=55.0000 std=0.1581 sterr=0.0707 median=55.0000 | pressure mean=1013.2500 std=0.2500 median=1013.2500 | tRH mean=21.3700 std=0.0000 | tPres mean=22.1500
 [N=5,3] header: Pressure Atmos [mBar], Pressure Atmos std [mBar], Pressure Atmos sterr [mBar], Humidity [%], Humidity std [%], Humidity sterr [%], Temp Pres [C], Temp Pres std [C], Temp Pres sterr [C], Temp RH [C], Temp RH std [C], Temp RH sterr [C],
 [N=5,3] string: 1013.25,0.25,0.14,55.00,0.16,0.07,22.15,0.00,0.00,21.37,0.00,0.00,

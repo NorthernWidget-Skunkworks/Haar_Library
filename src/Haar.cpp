@@ -69,14 +69,14 @@ bool Haar::updateMeasurements(uint8_t component)
 bool Haar::updateHumidity()
 {
 	uint8_t d[4];
-	if(!_dev.takeReading(SHT31) || !_dev.readBytes(TEMP_RH, d, 4)) return false;
+	if(!_dev.takeReading(SHT31) || !_dev.readData(TEMP_RH, d, 4)) return false;
 	return readSHT31(d);
 }
 
 bool Haar::updatePressure()
 {
 	uint8_t d[6];
-	if(!_dev.takeReading(LPS35HW) || !_dev.readBytes(PRES_REG, d, 6)) return false;
+	if(!_dev.takeReading(LPS35HW) || !_dev.readData(PRES_REG, d, 6)) return false;
 	return readLPS35HW(d);
 }
 
@@ -100,7 +100,7 @@ bool Haar::readData()
 {
 	//Block 1 and Block 2 are consecutive (0x28-0x35): one read.
 	uint8_t d[14];
-	if(!_dev.readBytes(NW_REG_DATA, d, 14)) return false;
+	if(!_dev.readData(NW_REG_DATA, d, 14)) return false;
 	readSHT31(d);
 	readLPS35HW(d + 8);
 	return true;
