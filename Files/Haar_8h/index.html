@@ -404,7 +404,7 @@
 </span>
 <span class="cp">#include</span> <span class="cpf">"Arduino.h"</span><span class="cp">
 #include</span> <span class="cpf">&lt;Wire.h&gt;</span><span class="cp">
-#include</span> <span class="cpf">&lt;NW_Core.h&gt;</span><span class="c1">   // NW_Core: NW_Device (Schema 1 protocol), NW_Fault</span><span class="cp">
+#include</span> <span class="cpf">&lt;NW_Core.h&gt;</span><span class="c1">   // NW_Core: NW_Device (Schema 1 protocol), NW_Report</span><span class="cp">
 </span>
 <span class="cp">#define HAAR_FW_MIN_PATCH 1
 </span>
@@ -495,13 +495,14 @@
         <span class="kt">void</span> <span class="nf">beginReadings</span><span class="p">(</span><span class="kt">uint8_t</span> <span class="n">component</span> <span class="o">=</span> <span class="n">ALL</span><span class="p">,</span> <span class="kt">uint16_t</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">0</span><span class="p">);</span>
         <span class="kt">void</span> <span class="nf">endReadings</span><span class="p">();</span>
 
-        <span class="c1">// --- Faults (status byte, live; fault byte, latched) ---</span>
+        <span class="c1">// --- Faults (status byte, live; Report register, latched) ---</span>
         <span class="kt">bool</span> <span class="nf">faulted</span><span class="p">(</span><span class="kt">uint8_t</span> <span class="n">chip</span><span class="p">);</span>
         <span class="kt">bool</span> <span class="nf">anyFault</span><span class="p">();</span>
-        <span class="kt">uint8_t</span> <span class="nf">faultChip</span><span class="p">();</span>
-        <span class="kt">uint8_t</span> <span class="nf">faultKind</span><span class="p">();</span>
-        <span class="kt">size_t</span> <span class="nf">printFault</span><span class="p">(</span><span class="n">Print</span><span class="o">&amp;</span> <span class="n">out</span><span class="p">);</span>
-        <span class="n">String</span> <span class="nf">faultNote</span><span class="p">();</span>
+        <span class="kt">uint8_t</span> <span class="nf">reportChip</span><span class="p">();</span>
+        <span class="kt">uint8_t</span> <span class="nf">reportKind</span><span class="p">();</span>
+        <span class="kt">size_t</span> <span class="nf">printReport</span><span class="p">(</span><span class="n">Print</span><span class="o">&amp;</span> <span class="n">out</span><span class="p">);</span>
+        <span class="n">String</span> <span class="nf">reportNote</span><span class="p">();</span>
+        <span class="kt">size_t</span> <span class="nf">printStatus</span><span class="p">(</span><span class="n">Print</span><span class="o">&amp;</span> <span class="n">out</span><span class="p">);</span>
         <span class="n">String</span> <span class="nf">beginFailure</span><span class="p">();</span>
         <span class="kt">uint8_t</span> <span class="nf">getHardwareMajor</span><span class="p">();</span>
         <span class="kt">uint8_t</span> <span class="nf">getHardwareMinor</span><span class="p">();</span>
@@ -535,7 +536,7 @@
 
 <hr />
 
-<p>Updated on 2026-09-23 at 16:11:25 +0000</p>
+<p>Updated on 2026-09-23 at 17:21:39 +0000</p>
 
         
       </section>
