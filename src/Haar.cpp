@@ -6,7 +6,7 @@ Haar::Haar()
 
 bool Haar::begin(uint8_t ADR_)
 {
-	// Page 0 gates: Schema 1, the name "Haar", firmware patch >= HAAR_FW_MIN_PATCH.
+	//Page 0 gates: Schema 1, the name "Haar", firmware patch >= HAAR_FW_MIN_PATCH.
 	return _dev.begin(ADR_, "Haar", HAAR_FW_MIN_PATCH);
 }
 
@@ -47,7 +47,7 @@ bool Haar::updateMeasurements(bool block)
 
 bool Haar::readData()
 {
-	// Block 1 and Block 2 are consecutive (0x28-0x35): one read.
+	//Block 1 and Block 2 are consecutive (0x28-0x35): one read.
 	uint8_t d[14];
 	_pressure = _humidity = _tempRH = _tempPres = NW_ERROR;
 	if(!_dev.readBytes(NW_REG_DATA, d, 14)) return false;
@@ -104,7 +104,7 @@ uint8_t Haar::getFirmwareVersion()  { return _dev.firmwareVersion(); }
 
 size_t Haar::printFault(Print& out)
 {
-	// The chip names are Haar's own; the kind names are universal (NW_Fault).
+	//The chip names are Haar's own; the kind names are universal (NW_Fault).
 	static const char* const chips[] = {"SHT31", "LPS35HW"};
 	uint8_t chip = faultChip(), kind = faultKind();
 	if(kind == 0) return out.print("none");
@@ -118,7 +118,7 @@ size_t Haar::printFault(Print& out)
 
 String Haar::faultNote()
 {
-	// One word for a data-table note: the chip, then the kind ("SHT31Checksum").
+	//One word for a data-table note: the chip, then the kind ("SHT31Checksum").
 	static const char* const chips[] = {"SHT31", "LPS35HW"};
 	uint8_t chip = faultChip();
 	String w;
