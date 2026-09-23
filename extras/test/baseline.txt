@@ -31,3 +31,17 @@ update: updateMeasurements(true)=0 pressure(update)=-9999.0000
 [non-blocking] request=1 newData=1 pressure=1013.35 (stale getter untouched by the request)
 [non-blocking] then getString: 1013.45,55.00,22.15,21.37,
 [cost] requestFrom calls for one getString(): 4
+[N] setHumidityReadings(5)=5 setPressureReadings(3)=3 setHumidityReadings(99)=16
+[N=5,3] update=1 humidityCount=5 pressureCount=3 lastRequest=3 requestFrom=32
+[N=5,3] humidity mean=55.0000 std=0.1581 sterr=0.0707 median=55.0000 | pressure mean=1013.2500 std=0.2500 median=1013.2500 | tRH mean=21.3700 std=0.0000 | tPres mean=22.1500
+[N=5,3] header: Pressure Atmos [mBar], Pressure Atmos std [mBar], Pressure Atmos sterr [mBar], Humidity [%], Humidity std [%], Humidity sterr [%], Temp Pres [C], Temp Pres std [C], Temp Pres sterr [C], Temp RH [C], Temp RH std [C], Temp RH sterr [C],
+[N=5,3] string: 1013.25,0.25,0.14,55.00,0.16,0.07,22.15,0.00,0.00,21.37,0.00,0.00,
+[LPS35HW only] update=1 humidityCount=5 pressureCount=3 humidity=55.0000
+[run ALL] header: Pressure Atmos [mBar],Humidity [%],Temp Pres [C],Temp RH [C], lastRequest=3
+[run ALL] row 0 (26 bytes): 1013.10,55.00,22.15,21.37,
+[run ALL] row 1 (26 bytes): 1013.20,55.00,22.15,21.37,
+[run ALL] row 2 (26 bytes): 1013.30,55.00,22.15,21.37,
+[run ALL] pressure count=3 mean=1013.2000 median=1013.2000
+[run SHT31] header: Humidity [%],Temp RH [C],
+[run SHT31] row: 55.00,21.37,
+[dead LPS35HW] N=10: update=0 readings taken=1 pressureCount=0 pressure=-9999.00 note='LPS35HWNoACK'

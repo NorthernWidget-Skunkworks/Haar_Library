@@ -10,6 +10,16 @@
 /// brought Schema 1 (Page 0, Block 0 handshake, data at 0x28 in 0.01 units).
 #define HAAR_FW_MIN_PATCH 1
 
+// Readings per updateMeasurements() are kept in static arrays of this
+// capacity (one per chip group; no heap); set<Field>Readings(n) clamps to it.
+// Override before the include to trade RAM for a longer batch.
+#ifndef HAAR_HUMIDITY_CAPACITY
+  #define HAAR_HUMIDITY_CAPACITY 16   // SHT31: humidity and its temperature
+#endif
+#ifndef HAAR_PRESSURE_CAPACITY
+  #define HAAR_PRESSURE_CAPACITY 16   // LPS35HW: pressure and its temperature
+#endif
+
 enum Sensor {
 	RH_Sense = 0,
 	Pres_Sense = 1
@@ -44,6 +54,12 @@ class Haar
 	public:
 	  /** @brief Default I2C address: NW-Device-Specification Schema 1 'H' (0x48; was 0x42). */
 		static constexpr uint8_t DEFAULT_ADDRESS = 0x48;
+	  /** @brief Chip groups a reading can cover (the spec's chip table: 0 SHT31, 1 LPS35HW). */
+		enum Component : uint8_t {
+			SHT31   = 0x01,  ///< humidity and the SHT31's own temperature (RH_Sense)
+			LPS35HW = 0x02,  ///< pressure and the LPS35HW's own temperature (Pres_Sense)
+			ALL     = 0x03
+		};
 	  /**
 	   * @brief Instantiate the Haar sensor class
 	   */
@@ -96,16 +112,75 @@ class Haar
 		bool sleep(bool state = ON);
 
 	  /**
-	   * @brief Take a new sample of all of the data.
-	   * @details Triggers both chips through the NW-Device-Specification
-	   * handshake. Blocking: waits for the device's reading counter, then
-	   * reads all four values in one transaction and stores them. Non-blocking:
-	   * only requests the reading; newData() captures it once it is there.
-	   * @param Block: if `true` (the default), wait for the reading.
-	   * @return true if the device answered and no chip faulted (blocking), or
-	   * if the request was written (non-blocking).
+	   * @brief Take the configured number of readings of the selected chips
+	   * and store them for the getters and the statistics.
+	   * @details Each reading triggers the device and waits for its reading
+	   * counter to advance (NW-Device-Specification handshake); N > 1 is
+	   * declared to the device as a batch first. The single-value getters
+	   * return the mean of the readings taken; a chip the device reports
+	   * faulted leaves its values at NW_ERROR (-9999). With one reading of
+	   * ALL, both chips are read in a single transaction.
+	   * @param component Haar::ALL (default), Haar::SHT31 or Haar::LPS35HW.
+	   * @return true if every selected chip gave at least one valid reading
 	   */
-		bool updateMeasurements(bool block = true);
+		bool updateMeasurements(uint8_t component = ALL);
+	  /**
+	   * @brief Take a new sample of all of the data, blocking or not.
+	   * @param Block: `true` = updateMeasurements(ALL). `false` = only request
+	   * one reading of both chips; newData() captures it once it is there.
+	   * @return true if the reading (or the request) succeeded.
+	   */
+		bool updateMeasurements(bool block);
+	  /** @brief Take ONE reading of the SHT31 (humidity and its temperature) and append it to the readings. */
+		bool updateHumidity();
+	  /** @brief Take ONE reading of the LPS35HW (pressure and its temperature) and append it to the readings. */
+		bool updatePressure();
+	  /**
+	   * @brief Set how many SHT31 readings updateMeasurements() takes
+	   * (statistics are computed over them). Clamped to HAAR_HUMIDITY_CAPACITY.
+	   * @return The number actually set.
+	   */
+		uint16_t setHumidityReadings(uint16_t n);
+	  /** @brief Set how many LPS35HW readings updateMeasurements() takes. Clamped to HAAR_PRESSURE_CAPACITY. */
+		uint16_t setPressureReadings(uint16_t n);
+	  /** @brief Enable or disable humidity and SHT31-temperature std and sterr columns in getString()/getHeader(). */
+		void setHumidityStats(bool enable);
+	  /** @brief Enable or disable pressure and LPS35HW-temperature std and sterr columns in getString()/getHeader(). */
+		void setPressureStats(bool enable);
+	  /** @brief Number of valid SHT31 readings stored by the last updateMeasurements(). */
+		uint16_t getHumidityCount();
+	  /** @brief Number of valid LPS35HW readings stored by the last updateMeasurements(). */
+		uint16_t getPressureCount();
+
+		// --- Statistics getters ---
+		// Computed two-pass in 32-bit float over the readings stored by the last
+		// updateMeasurements() (NW_Readings). Adequate for N up to the array
+		// capacities; at N in the thousands the sum of squared deviations would
+		// want double precision, which the AVR lacks.
+		/** @brief Pressure mean [mBar] over the stored readings (NW_ERROR when none). */
+		float getPressureMean();
+		/** @brief Pressure standard deviation [mBar]. */
+		float getPressureStd();
+		/** @brief Pressure standard error [mBar]. */
+		float getPressureSterr();
+		/** @brief Pressure median [mBar] (mean of the middle pair for even N). */
+		float getPressureMedian();
+		/** @brief Humidity mean [%] over the stored readings. */
+		float getHumidityMean();
+		/** @brief Humidity standard deviation [%]. */
+		float getHumidityStd();
+		/** @brief Humidity standard error [%]. */
+		float getHumiditySterr();
+		/** @brief Humidity median [%]. */
+		float getHumidityMedian();
+		/** @brief Temperature mean [C] of the given sensor over the stored readings. */
+		float getTemperatureMean(Sensor Device = RH_Sense);
+		/** @brief Temperature standard deviation [C] of the given sensor. */
+		float getTemperatureStd(Sensor Device = RH_Sense);
+		/** @brief Temperature standard error [C] of the given sensor. */
+		float getTemperatureSterr(Sensor Device = RH_Sense);
+		/** @brief Temperature median [C] of the given sensor. */
+		float getTemperatureMedian(Sensor Device = RH_Sense);
 
 	  /**
 	   * @brief Checks for updated data. Returns `true` if new data are available;
@@ -127,8 +202,45 @@ class Haar
 	  /**
 	   * @brief Returns a header:
      * "Pressure Atmos [mBar], Humidity [%], Temp Pres [C], Temp RH [C],"
+	   * with std and sterr columns after a value when its chip group's
+	   * statistics are enabled and more than one reading is configured.
 	   */
 		String getHeader();
+
+		// --- Reading interface (NW standard) ---
+		/**
+		 * @brief Print the header matching printReading(): column names with
+		 * units, each followed by a comma, for the chips selected by
+		 * beginReadings(). No statistics columns: one reading has none.
+		 * @param out Any Print destination (SdFat File, Serial, ...).
+		 * @return Bytes written.
+		 */
+		size_t printHeader(Print& out);
+		/**
+		 * @brief Print the stored reading of the selected chips, each value
+		 * followed by a comma, in getString()'s order: pressure [mBar],
+		 * humidity [%], LPS35HW temperature [C], SHT31 temperature [C]. Does
+		 * not acquire: call updateMeasurements() first, or use logReading().
+		 * @return Bytes written.
+		 */
+		size_t printReading(Print& out);
+		/**
+		 * @brief Take ONE reading of the selected chips and print it: the
+		 * one-reading primitive for collecting many readings to a file.
+		 * @return Bytes written.
+		 */
+		size_t logReading(Print& out);
+		/**
+		 * @brief Begin a run of readings, selecting which chips they cover.
+		 * @param component Haar::ALL, Haar::SHT31 or Haar::LPS35HW.
+		 * @param n How many readings the run will take (the number of
+		 * logReading() calls to follow); with n > 1 the device is told in
+		 * advance (readings-requested word). Nothing on Haar is powered per
+		 * batch, so the word only satisfies the protocol.
+		 */
+		void beginReadings(uint8_t component = ALL, uint16_t n = 0);
+		/** @brief End a run of readings. */
+		void endReadings();
 
 		// --- Faults (status byte, live; fault byte, latched) ---
 		/** @brief True if the given chip (0 = SHT31, 1 = LPS35HW) was faulted in the last reading. */
@@ -151,11 +263,25 @@ class Haar
 
 	private:
 		NW_Device _dev;
-		bool readData(); //Read 0x28-0x35 into the stored values, NW_ERROR for a faulted chip
-		float _pressure = NW_ERROR; //Stored by updateMeasurements() [hPa = mBar]
+		float _pressure = NW_ERROR; //Mean of the last updateMeasurements() [hPa = mBar]
 		float _humidity = NW_ERROR; //[%RH]
 		float _tempRH = NW_ERROR; //SHT31 [C]
 		float _tempPres = NW_ERROR; //LPS35HW [C]
+		// Readings as the device serves them (raw register units), one array per
+		// field; statistics come from these and are scaled on the way out.
+		NW_Readings<int16_t, HAAR_HUMIDITY_CAPACITY> _tempRHReadings;   //0.01 C
+		NW_Readings<int16_t, HAAR_HUMIDITY_CAPACITY> _humidityReadings; //0.01 %RH
+		NW_Readings<int32_t, HAAR_PRESSURE_CAPACITY> _pressureReadings; //0.01 hPa
+		NW_Readings<int16_t, HAAR_PRESSURE_CAPACITY> _tempPresReadings; //0.01 C
+		uint16_t _nHumidityReadings = 1;
+		uint16_t _nPressureReadings = 1;
+		bool _humidityStats = false;
+		bool _pressureStats = false;
+		uint8_t _component = ALL; //Selection of the current beginReadings() run
+		bool readSHT31(uint8_t* d);   //Append one served SHT31 reading (4 bytes from 0x28) unless faulted
+		bool readLPS35HW(uint8_t* d); //Append one served LPS35HW reading (6 bytes from 0x30) unless faulted
+		bool readData();              //One 14-byte read of both chips, appended
+		void summarise(uint8_t component); //Means into the single-value fields, NW_ERROR when no reading
 		bool dataRequested = false; //Flag for keeping track of data requests and
 		                            // data retrevals
 };
