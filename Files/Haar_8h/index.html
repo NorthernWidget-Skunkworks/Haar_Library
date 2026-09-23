@@ -432,7 +432,7 @@
 <span class="cp">#define ON 1
 #define OFF 0
 </span>
-<span class="k">class</span> <span class="nc">Haar</span>
+<span class="k">class</span> <span class="nc">Haar</span> <span class="o">:</span> <span class="k">public</span> <span class="n">NW_Sensor</span>
 <span class="p">{</span>
     <span class="nl">public:</span>
         <span class="k">static</span> <span class="k">constexpr</span> <span class="kt">uint8_t</span> <span class="n">DEFAULT_ADDRESS</span> <span class="o">=</span> <span class="mh">0x48</span><span class="p">;</span>
@@ -502,7 +502,12 @@
         <span class="kt">uint8_t</span> <span class="nf">reportKind</span><span class="p">();</span>
         <span class="kt">size_t</span> <span class="nf">printReport</span><span class="p">(</span><span class="n">Print</span><span class="o">&amp;</span> <span class="n">out</span><span class="p">);</span>
         <span class="n">String</span> <span class="nf">reportNote</span><span class="p">();</span>
-        <span class="kt">size_t</span> <span class="nf">printStatus</span><span class="p">(</span><span class="n">Print</span><span class="o">&amp;</span> <span class="n">out</span><span class="p">);</span>
+        <span class="kt">size_t</span> <span class="n">printStatus</span><span class="p">(</span><span class="n">Print</span><span class="o">&amp;</span> <span class="n">out</span><span class="p">,</span> <span class="kt">bool</span> <span class="n">boot</span> <span class="o">=</span> <span class="nb">false</span><span class="p">)</span> <span class="k">override</span><span class="p">;</span>
+        <span class="c1">// --- NW_Sensor: the logger's view (Margay::watch) ---</span>
+        <span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">name</span><span class="p">()</span> <span class="k">const</span> <span class="k">override</span> <span class="p">{</span> <span class="k">return</span> <span class="s">"Haar"</span><span class="p">;</span> <span class="p">}</span>
+        <span class="kt">bool</span> <span class="n">reportIsFault</span><span class="p">()</span> <span class="k">override</span><span class="p">;</span>
+        <span class="kt">uint8_t</span> <span class="n">bootReportKind</span><span class="p">()</span> <span class="k">override</span><span class="p">;</span>
+        <span class="kt">void</span> <span class="n">clearBootReport</span><span class="p">()</span> <span class="k">override</span><span class="p">;</span>
         <span class="n">String</span> <span class="nf">beginFailure</span><span class="p">();</span>
         <span class="kt">uint8_t</span> <span class="nf">getHardwareMajor</span><span class="p">();</span>
         <span class="kt">uint8_t</span> <span class="nf">getHardwareMinor</span><span class="p">();</span>
@@ -536,7 +541,7 @@
 
 <hr />
 
-<p>Updated on 2026-09-23 at 20:12:22 +0000</p>
+<p>Updated on 2026-09-23 at 20:56:35 +0000</p>
 
         
       </section>
