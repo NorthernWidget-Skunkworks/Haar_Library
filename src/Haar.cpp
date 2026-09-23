@@ -259,7 +259,7 @@ size_t Haar::printReport(Print& out)
 size_t Haar::printStatus(Print& out, bool boot)
 {
 	static const char* const chips[] = {"SHT31", "LPS35HW"};
-	return _dev.printSnapshot(out, chips, 2, boot);
+	return _dev.printSnapshot(out, chips, 2, boot, HAAR_LIBRARY_VERSION, HAAR_LIBRARY_COMMIT);
 }
 
 bool    Haar::reportIsFault()   { return _dev.report().isFault(); }

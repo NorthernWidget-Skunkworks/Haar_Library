@@ -10,6 +10,14 @@
 /// brought Schema 1 (Page 0, Block 0 handshake, data at 0x48 in 0.01 units).
 #define HAAR_FW_MIN_PATCH 1
 
+// Build identity: this library's version (held equal to library.properties by
+// NW-Tests/version_check.py) and its build commit, set by the NW-Build wrapper from
+// git and blank in an Arduino IDE build. Both go into a logger's status file.
+#define HAAR_LIBRARY_VERSION "1.0.0"
+#ifndef HAAR_LIBRARY_COMMIT
+#define HAAR_LIBRARY_COMMIT ""
+#endif
+
 // Readings per updateMeasurements() are kept in static arrays of this
 // capacity (one per chip group; no heap); set<Field>Readings(n) clamps to it.
 // Override before the include to trade RAM for a longer batch.
