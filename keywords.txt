@@ -22,11 +22,23 @@ updateMeasurements	KEYWORD2
 newData	KEYWORD2
 getString	KEYWORD2
 getHeader	KEYWORD2
+faulted	KEYWORD2
+anyFault	KEYWORD2
+faultChip	KEYWORD2
+faultKind	KEYWORD2
+printFault	KEYWORD2
+faultNote	KEYWORD2
+beginFailure	KEYWORD2
+getHardwareMajor	KEYWORD2
+getHardwareMinor	KEYWORD2
+getFirmwareVersion	KEYWORD2
 
 #######################################
 # Constants (LITERAL1)
 #######################################
 
+DEFAULT_ADDRESS	LITERAL1
+HAAR_FW_MIN_PATCH	LITERAL1
 RH_Sense	LITERAL1
 Pres_Sense	LITERAL1
 ON	LITERAL1
