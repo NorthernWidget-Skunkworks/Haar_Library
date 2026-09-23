@@ -6,84 +6,61 @@ Haar::Haar()
 
 bool Haar::begin(uint8_t ADR_)
 {
-	ADR = ADR_;
-	Wire.begin();
-	Wire.beginTransmission(ADR);
-	if (Wire.endTransmission() != 0) return false;
-	updateMeasurements();
-	return true;
+	// Page 0 gates: Schema 1, the name "Haar", firmware patch >= HAAR_FW_MIN_PATCH.
+	return _dev.begin(ADR_, "Haar", HAAR_FW_MIN_PATCH);
 }
 
 float Haar::getPressure(bool update) //Get pressure in mBar
 {
 	if(update) updateMeasurements(); //Only call for updated value if requested
-	uint32_t val = 0; //Val for getting/calculating pressure value
-	uint32_t Temp = 0; //DEBUG
-
-	for(int i = 0; i < 3; i++) {
-		Wire.beginTransmission(ADR);
-		Wire.write(PRES_REG + i);
-		Wire.endTransmission();
-		Wire.requestFrom(ADR, 1);
-		Temp = Wire.read(); //DEBUG!
-		val = (Temp << 8*i) | val; //DEBUG!
-	}
-	dataRequested = false; //Clear flag on data retreval
-  	return (val / 4096.0);
+	return _pressure;
 }
 
 float Haar::getHumidity(bool update)  //Return humidity in % (realtive)
 {
 	if(update) updateMeasurements(); //Only call for updated value if requested
-	float val = 0; //Val for getting/calculating RH value
-	val = (uint16_t(getWord(RH_REG)));
-	val = (100.0*val)/65535.0;  //Convert to RH
-	dataRequested = false; //Clear flag on data retreval
-	return val;
+	return _humidity;
 }
 
 float Haar::getTemperature(Sensor device, bool update)  //Return temp in C
 {
 	if(update) updateMeasurements(); //Only call for updated value if requested
-	float val = 0; //Val for getting/calculating temp value
-	if(device == Pres_Sense) {
-		val = getWord(TEMP_PRES);
-		val = val/100.0; //Convert to C
-	}
-
-	else if (device == RH_Sense) {
-		val = getWord(TEMP_RH);
-		val = ((val*175.0)/65535.0) - 45; //Convert to C
-	}
-	dataRequested = false; // Clear flag on data retreval
-	return val;
+	return (device == Pres_Sense) ? _tempPres : _tempRH;
 }
 
 bool Haar::sleep(bool state)
 {
-	// Add sleep function!
-	return false;
+	return false; //FIX! Firmware does not act on the Control sleep bit yet
 }
 
-// FIX! Allow for read of status register in order to not overwrite state bits
-uint8_t Haar::updateMeasurements(bool block)
+bool Haar::updateMeasurements(bool block)
 {
-	dataRequested = true; // Set flag
-	Wire.beginTransmission(ADR);
-	Wire.write(0x00);
-	Wire.write(0x01); // Trigger conversion
-	uint8_t error = Wire.endTransmission(); // Return I2C status
-	// Only block if triggered
-	if(block) {
-		// Get timeout value
-		unsigned long timeout = millis();
-		// Wait for new data to be returned
-		while(!newData() && (millis() - timeout < timeoutGlobal)) {
-			delay(1);
-		}
-		return error;
+	dataRequested = false;
+	if(!block) {
+		dataRequested = _dev.requestReading(0x03); //both chips: bit 0 SHT31, bit 1 LPS35HW
+		return dataRequested;
 	}
-	else return error;
+	_pressure = _humidity = _tempRH = _tempPres = NW_ERROR;
+	if(!_dev.takeReading(0x03)) return false;
+	return readData() && !_dev.anyFault();
+}
+
+bool Haar::readData()
+{
+	// Block 1 and Block 2 are consecutive (0x28-0x35): one read.
+	uint8_t d[14];
+	_pressure = _humidity = _tempRH = _tempPres = NW_ERROR;
+	if(!_dev.readBytes(NW_REG_DATA, d, 14)) return false;
+	if(!_dev.faulted(0)) { //SHT31: temperature int16 0.01 C, humidity uint16 0.01 %RH
+		_tempRH = float((int16_t)(d[0] | (d[1] << 8))) / 100.0;
+		_humidity = float((uint16_t)(d[2] | (d[3] << 8))) / 100.0;
+	}
+	if(!_dev.faulted(1)) { //LPS35HW: pressure uint32 0.01 hPa, temperature int16 0.01 C
+		uint32_t p = (uint32_t)d[8] | ((uint32_t)d[9] << 8) | ((uint32_t)d[10] << 16) | ((uint32_t)d[11] << 24);
+		_pressure = float(p) / 100.0;
+		_tempPres = float((int16_t)(d[12] | (d[13] << 8))) / 100.0;
+	}
+	return true;
 }
 
 String Haar::getHeader()
@@ -94,14 +71,11 @@ String Haar::getHeader()
 String Haar::getString()
 {
 	if(dataRequested) {  //If new data is already en-route
-		unsigned long timeout = millis(); //Get timeout value
-		//Wait for new data to be returned
-		while(!newData() && (millis() - timeout < timeoutGlobal)) {
-			delay(1);
-		}
+		dataRequested = false;
+		_pressure = _humidity = _tempRH = _tempPres = NW_ERROR;
+		if(_dev.waitReading() && _dev.captureReading()) readData(); //Else NW_ERROR: it never came
 	}
 	else(updateMeasurements(true)); //Else, block for new conversion
-	// delay(100); //DEBUG!
 	return String(getPressure()) + "," + String(getHumidity()) + "," \
 					+ String(getTemperature(Pres_Sense)) + "," \
 					+ String(getTemperature(RH_Sense)) + ",";
@@ -109,43 +83,48 @@ String Haar::getString()
 
 bool Haar::newData()  // Checks for updated data
 {
-	unsigned long timeout = millis(); // Get timeout value
-	Wire.beginTransmission(ADR);
-	Wire.write(0x00);
-	Wire.endTransmission();
-	Wire.requestFrom(ADR, 1);
-	// Wait for value to be returned //FIX! add timeout/remove
-	while(Wire.available() < 1 && (millis() - timeout < timeoutGlobal)) {
-		delay(1);
+	if(dataRequested) { //A non-blocking request is out: capture it when the counter has moved
+		if(!_dev.newReading()) return false;
+		_dev.captureReading();
+		readData();
+		dataRequested = false;
+		return true;
 	}
-	uint8_t val = Wire.read();  //DEBUG!
-	bool state = false;
-	// bool state = ~(val & 0x01);
-	if(val & 0x01 == 1) state = false;  //FIX! Make cleaner
-	else state = true;
-	// Serial.println(state); //DEBUG!
-	// Return inverse of bit 0, true when bit has been cleared,
-	// false when waiting for new conversion
-	return (state);
+	return _dev.ready();
 }
 
-int16_t Haar::getWord(uint8_t Reg)  //Returns word, read from Reg position
+bool    Haar::faulted(uint8_t chip) { return _dev.faulted(chip); }
+bool    Haar::anyFault()            { return _dev.anyFault(); }
+uint8_t Haar::faultChip()           { return _dev.faultChip(); }
+uint8_t Haar::faultKind()           { return _dev.faultKind(); }
+String  Haar::beginFailure()        { return _dev.beginFailure(); }
+uint8_t Haar::getHardwareMajor()    { return _dev.hardwareMajor(); }
+uint8_t Haar::getHardwareMinor()    { return _dev.hardwareMinor(); }
+uint8_t Haar::getFirmwareVersion()  { return _dev.firmwareVersion(); }
+
+size_t Haar::printFault(Print& out)
 {
-	uint16_t val = 0; //Val to be read from device
-	Wire.beginTransmission(ADR);
-	Wire.write(Reg);
-	Wire.endTransmission();
+	// The chip names are Haar's own; the kind names are universal (NW_Fault).
+	static const char* const chips[] = {"SHT31", "LPS35HW"};
+	uint8_t chip = faultChip(), kind = faultKind();
+	if(kind == 0) return out.print("none");
+	size_t n = 0;
+	if(chip == 7) n += out.print("unit");
+	else if(chip < 2) n += out.print(chips[chip]);
+	else { n += out.print("chip "); n += out.print(chip); }
+	n += out.print(": ");
+	return n + _dev.fault().printKind(out);
+}
 
-	Wire.requestFrom(ADR, 1);  // Request word
-	//while(Wire.available() < 2); //Wait //FIX! Add timeout
-	val = Wire.read();
-	// Serial.println(val, HEX);
-
-  Wire.beginTransmission(ADR);
-  Wire.write(Reg + 1);
-  Wire.endTransmission();
-  Wire.requestFrom(ADR, 1);  //Request word
-	val = val | (Wire.read() << 8);  //Concatonate 16 bits
-	//val = Wire.read() | (val << 8);  //Concatonate 16 bits //DEBUG!
-	return val;
+String Haar::faultNote()
+{
+	// One word for a data-table note: the chip, then the kind ("SHT31Checksum").
+	static const char* const chips[] = {"SHT31", "LPS35HW"};
+	uint8_t chip = faultChip();
+	String w;
+	if(chip == 7) w = F("Unit");
+	else if(chip < 2) w = chips[chip];
+	else { w = F("Chip"); w += String(chip); }
+	w += _dev.fault().kindWord();
+	return w;
 }
