@@ -30,3 +30,7 @@
 *.exe
 *.out
 *.app
+
+# host-side test harness outputs
+extras/test/haar_test
+extras/test/output.txt

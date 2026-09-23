@@ -1,0 +1,22 @@
+begin=1
+[complete reading]
+header: Pressure Atmos [mBar], Humidity [%], Temp Pres [C], Temp RH [C],
+string: 1013.25,55.00,22.15,21.37,
+getters: pressure=1013.2500 humidity=54.9996 tPres=22.1500 tRH=21.3737 default=21.3737 newData=1
+update: updateMeasurements(true)=0 pressure(update)=1013.2500
+[negative temperatures]
+header: Pressure Atmos [mBar], Humidity [%], Temp Pres [C], Temp RH [C],
+string: 985.50,100.00,-12.34,-20.97,
+getters: pressure=985.5000 humidity=100.0000 tPres=-12.3400 tRH=-20.9670 default=-20.9670 newData=1
+update: updateMeasurements(true)=0 pressure(update)=985.5000
+begin=0
+[device absent]
+header: Pressure Atmos [mBar], Humidity [%], Temp Pres [C], Temp RH [C],
+string: 1048576.00,100.00,-0.01,-45.00,
+getters: pressure=1048576.0000 humidity=100.0000 tPres=-0.0100 tRH=-45.0027 default=-45.0027 newData=0
+update: updateMeasurements(true)=2 pressure(update)=1048576.0000
+[never ready]
+header: Pressure Atmos [mBar], Humidity [%], Temp Pres [C], Temp RH [C],
+string: 1013.25,55.00,22.15,21.37,
+getters: pressure=1013.2500 humidity=54.9996 tPres=22.1500 tRH=21.3737 default=21.3737 newData=0
+update: updateMeasurements(true)=0 pressure(update)=1013.2500
