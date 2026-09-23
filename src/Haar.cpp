@@ -256,11 +256,15 @@ size_t Haar::printReport(Print& out)
 	return _dev.report().print(out, chips, 2);
 }
 
-size_t Haar::printStatus(Print& out)
+size_t Haar::printStatus(Print& out, bool boot)
 {
 	static const char* const chips[] = {"SHT31", "LPS35HW"};
-	return _dev.printSnapshot(out, chips, 2);
+	return _dev.printSnapshot(out, chips, 2, boot);
 }
+
+bool    Haar::reportIsFault()   { return _dev.report().isFault(); }
+uint8_t Haar::bootReportKind()  { return _dev.bootReport().kind(); }
+void    Haar::clearBootReport() { _dev.clearBootReport(); }
 
 String Haar::reportNote()
 {

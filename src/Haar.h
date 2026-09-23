@@ -49,7 +49,7 @@ enum Sensor {
  *
  * \verbatim [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4572354.svg)](https://doi.org/10.5281/zenodo.4572354) \endverbatim
  */
-class Haar
+class Haar : public NW_Sensor
 {
 	public:
 	  /** @brief Default I2C address: NW-Device-Specification Schema 1 'H' (0x48; was 0x42). */
@@ -256,7 +256,12 @@ class Haar
 		/** @brief The report as one word for a note column: "SHT31Checksum", "LPS35HWTimeout", "UnitReset"; "UnitNone" when none. */
 		String reportNote();
 		/** @brief Print one status line for a logger's status file: name, serial, versions, the last report, Pages 0-2 in hex; no newline, no acknowledge. */
-		size_t printStatus(Print& out);
+		size_t printStatus(Print& out, bool boot = false) override;
+		// --- NW_Sensor: the logger's view (Margay::watch) ---
+		const char* name() const override { return "Haar"; }
+		bool reportIsFault() override;
+		uint8_t bootReportKind() override;
+		void clearBootReport() override;
 		/** @brief Why the last begin() refused, as one word: "NoACK", "NotSchema1", "WrongName", "OldFirmware"; "None" after success. */
 		String beginFailure();
 		uint8_t getHardwareMajor();
