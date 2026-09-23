@@ -225,13 +225,30 @@
           <aside class="sidebar__right sticky">
             <nav class="toc" aria-label="Table of contents">
               <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
-              <ul class="toc__menu"><li><a href="#public-functions">Public Functions</a></li><li><a href="#public-attributes">Public Attributes</a></li><li><a href="#detailed-description">Detailed Description</a><ul><li><a href="#function-begin">function begin</a></li><li><a href="#function-getpressure">function getPressure</a></li><li><a href="#function-gethumidity">function getHumidity</a></li><li><a href="#function-gettemperature">function getTemperature</a></li><li><a href="#function-sleep">function sleep</a></li><li><a href="#function-updatemeasurements">function updateMeasurements</a></li><li><a href="#function-newdata">function newData</a></li><li><a href="#function-getstring">function getString</a></li><li><a href="#function-getheader">function getHeader</a></li><li><a href="#function-faulted">function faulted</a></li><li><a href="#function-anyfault">function anyFault</a></li><li><a href="#function-faultchip">function faultChip</a></li><li><a href="#function-faultkind">function faultKind</a></li><li><a href="#function-printfault">function printFault</a></li><li><a href="#function-faultnote">function faultNote</a></li><li><a href="#function-beginfailure">function beginFailure</a></li><li><a href="#function-gethardwaremajor">function getHardwareMajor</a></li><li><a href="#function-gethardwareminor">function getHardwareMinor</a></li><li><a href="#function-getfirmwareversion">function getFirmwareVersion</a></li></ul></li><li><a href="#public-attributes-documentation">Public Attributes Documentation</a><ul><li><a href="#variable-default_address">variable DEFAULT_ADDRESS</a></li></ul></li></ul>
+              <ul class="toc__menu"><li><a href="#public-types">Public Types</a></li><li><a href="#public-functions">Public Functions</a></li><li><a href="#public-attributes">Public Attributes</a></li><li><a href="#detailed-description">Detailed Description</a><ul><li><a href="#function-begin">function begin</a></li><li><a href="#function-getpressure">function getPressure</a></li><li><a href="#function-gethumidity">function getHumidity</a></li><li><a href="#function-gettemperature">function getTemperature</a></li><li><a href="#function-sleep">function sleep</a></li><li><a href="#function-updatemeasurements">function updateMeasurements</a></li><li><a href="#function-updatemeasurements-1">function updateMeasurements</a></li><li><a href="#function-updatehumidity">function updateHumidity</a></li><li><a href="#function-updatepressure">function updatePressure</a></li><li><a href="#function-sethumidityreadings">function setHumidityReadings</a></li><li><a href="#function-setpressurereadings">function setPressureReadings</a></li><li><a href="#function-sethumiditystats">function setHumidityStats</a></li><li><a href="#function-setpressurestats">function setPressureStats</a></li><li><a href="#function-gethumiditycount">function getHumidityCount</a></li><li><a href="#function-getpressurecount">function getPressureCount</a></li><li><a href="#function-getpressuremean">function getPressureMean</a></li><li><a href="#function-getpressurestd">function getPressureStd</a></li><li><a href="#function-getpressuresterr">function getPressureSterr</a></li><li><a href="#function-getpressuremedian">function getPressureMedian</a></li><li><a href="#function-gethumiditymean">function getHumidityMean</a></li><li><a href="#function-gethumiditystd">function getHumidityStd</a></li><li><a href="#function-gethumiditysterr">function getHumiditySterr</a></li><li><a href="#function-gethumiditymedian">function getHumidityMedian</a></li><li><a href="#function-gettemperaturemean">function getTemperatureMean</a></li><li><a href="#function-gettemperaturestd">function getTemperatureStd</a></li><li><a href="#function-gettemperaturesterr">function getTemperatureSterr</a></li><li><a href="#function-gettemperaturemedian">function getTemperatureMedian</a></li><li><a href="#function-newdata">function newData</a></li><li><a href="#function-getstring">function getString</a></li><li><a href="#function-getheader">function getHeader</a></li><li><a href="#function-printheader">function printHeader</a></li><li><a href="#function-printreading">function printReading</a></li><li><a href="#function-logreading">function logReading</a></li><li><a href="#function-beginreadings">function beginReadings</a></li><li><a href="#function-endreadings">function endReadings</a></li><li><a href="#function-faulted">function faulted</a></li><li><a href="#function-anyfault">function anyFault</a></li><li><a href="#function-faultchip">function faultChip</a></li><li><a href="#function-faultkind">function faultKind</a></li><li><a href="#function-printfault">function printFault</a></li><li><a href="#function-faultnote">function faultNote</a></li><li><a href="#function-beginfailure">function beginFailure</a></li><li><a href="#function-gethardwaremajor">function getHardwareMajor</a></li><li><a href="#function-gethardwareminor">function getHardwareMinor</a></li><li><a href="#function-getfirmwareversion">function getFirmwareVersion</a></li></ul></li><li><a href="#public-attributes-documentation">Public Attributes Documentation</a><ul><li><a href="#variable-default_address">variable DEFAULT_ADDRESS</a></li></ul></li></ul>
             </nav>
           </aside>
         
         <p>Library for the rugged temperature, pressure, relative-humidity sensor.  <a href="#detailed-description">More…</a></p>
 
 <p><code class="language-plaintext highlighter-rouge">#include &lt;Haar.h&gt;</code></p>
+
+<h2 id="public-types">Public Types</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th> </th>
+      <th>Name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>enum uint8_t</td>
+      <td><strong><a href="/Haar_Library/Classes/classHaar/#enum-component">Component</a></strong> { SHT31 = 0x01, LPS35HW = 0x02, ALL = 0x03}<br />Chip groups a reading can cover (the spec’s chip table: 0 SHT31, 1 LPS35HW).</td>
+    </tr>
+  </tbody>
+</table>
 
 <h2 id="public-functions">Public Functions</h2>
 
@@ -269,7 +286,91 @@
     </tr>
     <tr>
       <td>bool</td>
-      <td><strong><a href="/Haar_Library/Classes/classHaar/#function-updatemeasurements">updateMeasurements</a></strong>(bool block =true)<br />Take a new sample of all of the data.</td>
+      <td><strong><a href="/Haar_Library/Classes/classHaar/#function-updatemeasurements">updateMeasurements</a></strong>(uint8_t component =ALL)<br />Take the configured number of readings of the selected chips and store them for the getters and the statistics.</td>
+    </tr>
+    <tr>
+      <td>bool</td>
+      <td><strong><a href="/Haar_Library/Classes/classHaar/#function-updatemeasurements">updateMeasurements</a></strong>(bool block)<br />Take a new sample of all of the data, blocking or not.</td>
+    </tr>
+    <tr>
+      <td>bool</td>
+      <td><strong><a href="/Haar_Library/Classes/classHaar/#function-updatehumidity">updateHumidity</a></strong>()<br />Take ONE reading of the SHT31 (humidity and its temperature) and append it to the readings.</td>
+    </tr>
+    <tr>
+      <td>bool</td>
+      <td><strong><a href="/Haar_Library/Classes/classHaar/#function-updatepressure">updatePressure</a></strong>()<br />Take ONE reading of the LPS35HW (pressure and its temperature) and append it to the readings.</td>
+    </tr>
+    <tr>
+      <td>uint16_t</td>
+      <td><strong><a href="/Haar_Library/Classes/classHaar/#function-sethumidityreadings">setHumidityReadings</a></strong>(uint16_t n)<br />Set how many SHT31 readings <a href="/Haar_Library/Classes/classHaar/#function-updatemeasurements">updateMeasurements()</a> takes (statistics are computed over them). Clamped to HAAR_HUMIDITY_CAPACITY.</td>
+    </tr>
+    <tr>
+      <td>uint16_t</td>
+      <td><strong><a href="/Haar_Library/Classes/classHaar/#function-setpressurereadings">setPressureReadings</a></strong>(uint16_t n)<br />Set how many LPS35HW readings <a href="/Haar_Library/Classes/classHaar/#function-updatemeasurements">updateMeasurements()</a> takes. Clamped to HAAR_PRESSURE_CAPACITY.</td>
+    </tr>
+    <tr>
+      <td>void</td>
+      <td><strong><a href="/Haar_Library/Classes/classHaar/#function-sethumiditystats">setHumidityStats</a></strong>(bool enable)<br />Enable or disable humidity and SHT31-temperature std and sterr columns in <a href="">getString()</a>/getHeader().</td>
+    </tr>
+    <tr>
+      <td>void</td>
+      <td><strong><a href="/Haar_Library/Classes/classHaar/#function-setpressurestats">setPressureStats</a></strong>(bool enable)<br />Enable or disable pressure and LPS35HW-temperature std and sterr columns in <a href="">getString()</a>/getHeader().</td>
+    </tr>
+    <tr>
+      <td>uint16_t</td>
+      <td><strong><a href="/Haar_Library/Classes/classHaar/#function-gethumiditycount">getHumidityCount</a></strong>()<br />Number of valid SHT31 readings stored by the last <a href="/Haar_Library/Classes/classHaar/#function-updatemeasurements">updateMeasurements()</a>.</td>
+    </tr>
+    <tr>
+      <td>uint16_t</td>
+      <td><strong><a href="/Haar_Library/Classes/classHaar/#function-getpressurecount">getPressureCount</a></strong>()<br />Number of valid LPS35HW readings stored by the last <a href="/Haar_Library/Classes/classHaar/#function-updatemeasurements">updateMeasurements()</a>.</td>
+    </tr>
+    <tr>
+      <td>float</td>
+      <td><strong><a href="/Haar_Library/Classes/classHaar/#function-getpressuremean">getPressureMean</a></strong>()<br />Pressure mean [mBar] over the stored readings (NW_ERROR when none).</td>
+    </tr>
+    <tr>
+      <td>float</td>
+      <td><strong><a href="/Haar_Library/Classes/classHaar/#function-getpressurestd">getPressureStd</a></strong>()<br />Pressure standard deviation [mBar].</td>
+    </tr>
+    <tr>
+      <td>float</td>
+      <td><strong><a href="/Haar_Library/Classes/classHaar/#function-getpressuresterr">getPressureSterr</a></strong>()<br />Pressure standard error [mBar].</td>
+    </tr>
+    <tr>
+      <td>float</td>
+      <td><strong><a href="/Haar_Library/Classes/classHaar/#function-getpressuremedian">getPressureMedian</a></strong>()<br />Pressure median [mBar] (mean of the middle pair for even N).</td>
+    </tr>
+    <tr>
+      <td>float</td>
+      <td><strong><a href="/Haar_Library/Classes/classHaar/#function-gethumiditymean">getHumidityMean</a></strong>()<br />Humidity mean [%] over the stored readings.</td>
+    </tr>
+    <tr>
+      <td>float</td>
+      <td><strong><a href="/Haar_Library/Classes/classHaar/#function-gethumiditystd">getHumidityStd</a></strong>()<br />Humidity standard deviation [%].</td>
+    </tr>
+    <tr>
+      <td>float</td>
+      <td><strong><a href="/Haar_Library/Classes/classHaar/#function-gethumiditysterr">getHumiditySterr</a></strong>()<br />Humidity standard error [%].</td>
+    </tr>
+    <tr>
+      <td>float</td>
+      <td><strong><a href="/Haar_Library/Classes/classHaar/#function-gethumiditymedian">getHumidityMedian</a></strong>()<br />Humidity median [%].</td>
+    </tr>
+    <tr>
+      <td>float</td>
+      <td><strong><a href="/Haar_Library/Classes/classHaar/#function-gettemperaturemean">getTemperatureMean</a></strong>(Sensor Device =RH_Sense)<br />Temperature mean [C] of the given sensor over the stored readings.</td>
+    </tr>
+    <tr>
+      <td>float</td>
+      <td><strong><a href="/Haar_Library/Classes/classHaar/#function-gettemperaturestd">getTemperatureStd</a></strong>(Sensor Device =RH_Sense)<br />Temperature standard deviation [C] of the given sensor.</td>
+    </tr>
+    <tr>
+      <td>float</td>
+      <td><strong><a href="/Haar_Library/Classes/classHaar/#function-gettemperaturesterr">getTemperatureSterr</a></strong>(Sensor Device =RH_Sense)<br />Temperature standard error [C] of the given sensor.</td>
+    </tr>
+    <tr>
+      <td>float</td>
+      <td><strong><a href="/Haar_Library/Classes/classHaar/#function-gettemperaturemedian">getTemperatureMedian</a></strong>(Sensor Device =RH_Sense)<br />Temperature median [C] of the given sensor.</td>
     </tr>
     <tr>
       <td>bool</td>
@@ -281,7 +382,27 @@
     </tr>
     <tr>
       <td>String</td>
-      <td><strong><a href="/Haar_Library/Classes/classHaar/#function-getheader">getHeader</a></strong>()<br />Returns a header: “Pressure Atmos [mBar], Humidity [%], Temp Pres [C], Temp RH [C],”.</td>
+      <td><strong><a href="/Haar_Library/Classes/classHaar/#function-getheader">getHeader</a></strong>()<br />Returns a header: “Pressure Atmos [mBar], Humidity [%], Temp Pres [C], Temp RH [C],” with std and sterr columns after a value when its chip group’s statistics are enabled and more than one reading is configured.</td>
+    </tr>
+    <tr>
+      <td>size_t</td>
+      <td><strong><a href="/Haar_Library/Classes/classHaar/#function-printheader">printHeader</a></strong>(Print &amp; out)<br />Print the header matching <a href="">printReading()</a>: column names with units, each followed by a comma, for the chips selected by <a href="">beginReadings()</a>. No statistics columns: one reading has none.</td>
+    </tr>
+    <tr>
+      <td>size_t</td>
+      <td><strong><a href="/Haar_Library/Classes/classHaar/#function-printreading">printReading</a></strong>(Print &amp; out)<br />Print the stored reading of the selected chips, each value followed by a comma, in <a href="/Haar_Library/Classes/classHaar/#function-getstring">getString()</a>’s order: pressure [mBar], humidity [%], LPS35HW temperature [C], SHT31 temperature [C]. Does not acquire: call <a href="/Haar_Library/Classes/classHaar/#function-updatemeasurements">updateMeasurements()</a> first, or use <a href="">logReading()</a>.</td>
+    </tr>
+    <tr>
+      <td>size_t</td>
+      <td><strong><a href="/Haar_Library/Classes/classHaar/#function-logreading">logReading</a></strong>(Print &amp; out)<br />Take ONE reading of the selected chips and print it: the one-reading primitive for collecting many readings to a file.</td>
+    </tr>
+    <tr>
+      <td>void</td>
+      <td><strong><a href="/Haar_Library/Classes/classHaar/#function-beginreadings">beginReadings</a></strong>(uint8_t component =ALL, uint16_t n =0)<br />Begin a run of readings, selecting which chips they cover.</td>
+    </tr>
+    <tr>
+      <td>void</td>
+      <td><strong><a href="/Haar_Library/Classes/classHaar/#function-endreadings">endReadings</a></strong>()<br />End a run of readings.</td>
     </tr>
     <tr>
       <td>bool</td>
@@ -355,6 +476,20 @@
 <p><em>May their silicon and copper souls join the chorus of the stars.</em></p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4572354.svg)](https://doi.org/10.5281/zenodo.4572354) ```
+
+## Public Types Documentation
+
+### enum Component
+
+| Enumerator | Value | Description |
+| ---------- | ----- | ----------- |
+| SHT31 | 0x01| humidity and the SHT31's own temperature (RH_Sense)   |
+| LPS35HW | 0x02| pressure and the LPS35HW's own temperature (Pres_Sense)   |
+| ALL | 0x03|   |
+
+
+
+Chip groups a reading can cover (the spec's chip table: 0 SHT31, 1 LPS35HW). 
 
 ## Public Functions Documentation
 
@@ -452,21 +587,196 @@ Haar()
 <h3 id="function-updatemeasurements">function updateMeasurements</h3>
 
 <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">bool</span> <span class="n">updateMeasurements</span><span class="p">(</span>
-    <span class="kt">bool</span> <span class="n">block</span> <span class="o">=</span><span class="nb">true</span>
+    <span class="kt">uint8_t</span> <span class="n">component</span> <span class="o">=</span><span class="n">ALL</span>
 <span class="p">)</span>
 </code></pre></div></div>
 
-<p>Take a new sample of all of the data.</p>
+<p>Take the configured number of readings of the selected chips and store them for the getters and the statistics.</p>
 
 <p><strong>Parameters</strong>:</p>
 
 <ul>
-  <li><strong>Block</strong> if <code class="language-plaintext highlighter-rouge">true</code> (the default), wait for the reading.</li>
+  <li><strong>component</strong> Haar::ALL (default), <a href="/Haar_Library/Classes/classHaar/#enumvalue-sht31">Haar::SHT31</a> or <a href="/Haar_Library/Classes/classHaar/#enumvalue-lps35hw">Haar::LPS35HW</a>.</li>
 </ul>
 
-<p><strong>Return</strong>: true if the device answered and no chip faulted (blocking), or if the request was written (non-blocking).</p>
+<p><strong>Return</strong>: true if every selected chip gave at least one valid reading</p>
 
-<p>Triggers both chips through the NW-Device-Specification handshake. Blocking: waits for the device’s reading counter, then reads all four values in one transaction and stores them. Non-blocking: only requests the reading; <a href="/Haar_Library/Classes/classHaar/#function-newdata">newData()</a> captures it once it is there.</p>
+<p>Each reading triggers the device and waits for its reading counter to advance (NW-Device-Specification handshake); N &gt; 1 is declared to the device as a batch first. The single-value getters return the mean of the readings taken; a chip the device reports faulted leaves its values at NW_ERROR (-9999). With one reading of ALL, both chips are read in a single transaction.</p>
+
+<h3 id="function-updatemeasurements-1">function updateMeasurements</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">bool</span> <span class="n">updateMeasurements</span><span class="p">(</span>
+    <span class="kt">bool</span> <span class="n">block</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<p>Take a new sample of all of the data, blocking or not.</p>
+
+<p><strong>Parameters</strong>:</p>
+
+<ul>
+  <li><strong>Block</strong> <code class="language-plaintext highlighter-rouge">true</code> = updateMeasurements(ALL). <code class="language-plaintext highlighter-rouge">false</code> = only request one reading of both chips; <a href="/Haar_Library/Classes/classHaar/#function-newdata">newData()</a> captures it once it is there.</li>
+</ul>
+
+<p><strong>Return</strong>: true if the reading (or the request) succeeded.</p>
+
+<h3 id="function-updatehumidity">function updateHumidity</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">bool</span> <span class="n">updateHumidity</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>Take ONE reading of the SHT31 (humidity and its temperature) and append it to the readings.</p>
+
+<h3 id="function-updatepressure">function updatePressure</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">bool</span> <span class="n">updatePressure</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>Take ONE reading of the LPS35HW (pressure and its temperature) and append it to the readings.</p>
+
+<h3 id="function-sethumidityreadings">function setHumidityReadings</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">uint16_t</span> <span class="n">setHumidityReadings</span><span class="p">(</span>
+    <span class="kt">uint16_t</span> <span class="n">n</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<p>Set how many SHT31 readings <a href="/Haar_Library/Classes/classHaar/#function-updatemeasurements">updateMeasurements()</a> takes (statistics are computed over them). Clamped to HAAR_HUMIDITY_CAPACITY.</p>
+
+<p><strong>Return</strong>: The number actually set.</p>
+
+<h3 id="function-setpressurereadings">function setPressureReadings</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">uint16_t</span> <span class="n">setPressureReadings</span><span class="p">(</span>
+    <span class="kt">uint16_t</span> <span class="n">n</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<p>Set how many LPS35HW readings <a href="/Haar_Library/Classes/classHaar/#function-updatemeasurements">updateMeasurements()</a> takes. Clamped to HAAR_PRESSURE_CAPACITY.</p>
+
+<h3 id="function-sethumiditystats">function setHumidityStats</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="n">setHumidityStats</span><span class="p">(</span>
+    <span class="kt">bool</span> <span class="n">enable</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<p>Enable or disable humidity and SHT31-temperature std and sterr columns in <a href="">getString()</a>/getHeader().</p>
+
+<h3 id="function-setpressurestats">function setPressureStats</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="n">setPressureStats</span><span class="p">(</span>
+    <span class="kt">bool</span> <span class="n">enable</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<p>Enable or disable pressure and LPS35HW-temperature std and sterr columns in <a href="">getString()</a>/getHeader().</p>
+
+<h3 id="function-gethumiditycount">function getHumidityCount</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">uint16_t</span> <span class="n">getHumidityCount</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>Number of valid SHT31 readings stored by the last <a href="/Haar_Library/Classes/classHaar/#function-updatemeasurements">updateMeasurements()</a>.</p>
+
+<h3 id="function-getpressurecount">function getPressureCount</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">uint16_t</span> <span class="n">getPressureCount</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>Number of valid LPS35HW readings stored by the last <a href="/Haar_Library/Classes/classHaar/#function-updatemeasurements">updateMeasurements()</a>.</p>
+
+<h3 id="function-getpressuremean">function getPressureMean</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">float</span> <span class="n">getPressureMean</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>Pressure mean [mBar] over the stored readings (NW_ERROR when none).</p>
+
+<h3 id="function-getpressurestd">function getPressureStd</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">float</span> <span class="n">getPressureStd</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>Pressure standard deviation [mBar].</p>
+
+<h3 id="function-getpressuresterr">function getPressureSterr</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">float</span> <span class="n">getPressureSterr</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>Pressure standard error [mBar].</p>
+
+<h3 id="function-getpressuremedian">function getPressureMedian</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">float</span> <span class="n">getPressureMedian</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>Pressure median [mBar] (mean of the middle pair for even N).</p>
+
+<h3 id="function-gethumiditymean">function getHumidityMean</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">float</span> <span class="n">getHumidityMean</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>Humidity mean [%] over the stored readings.</p>
+
+<h3 id="function-gethumiditystd">function getHumidityStd</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">float</span> <span class="n">getHumidityStd</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>Humidity standard deviation [%].</p>
+
+<h3 id="function-gethumiditysterr">function getHumiditySterr</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">float</span> <span class="n">getHumiditySterr</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>Humidity standard error [%].</p>
+
+<h3 id="function-gethumiditymedian">function getHumidityMedian</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">float</span> <span class="n">getHumidityMedian</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>Humidity median [%].</p>
+
+<h3 id="function-gettemperaturemean">function getTemperatureMean</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">float</span> <span class="n">getTemperatureMean</span><span class="p">(</span>
+    <span class="n">Sensor</span> <span class="n">Device</span> <span class="o">=</span><span class="n">RH_Sense</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<p>Temperature mean [C] of the given sensor over the stored readings.</p>
+
+<h3 id="function-gettemperaturestd">function getTemperatureStd</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">float</span> <span class="n">getTemperatureStd</span><span class="p">(</span>
+    <span class="n">Sensor</span> <span class="n">Device</span> <span class="o">=</span><span class="n">RH_Sense</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<p>Temperature standard deviation [C] of the given sensor.</p>
+
+<h3 id="function-gettemperaturesterr">function getTemperatureSterr</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">float</span> <span class="n">getTemperatureSterr</span><span class="p">(</span>
+    <span class="n">Sensor</span> <span class="n">Device</span> <span class="o">=</span><span class="n">RH_Sense</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<p>Temperature standard error [C] of the given sensor.</p>
+
+<h3 id="function-gettemperaturemedian">function getTemperatureMedian</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">float</span> <span class="n">getTemperatureMedian</span><span class="p">(</span>
+    <span class="n">Sensor</span> <span class="n">Device</span> <span class="o">=</span><span class="n">RH_Sense</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<p>Temperature median [C] of the given sensor.</p>
 
 <h3 id="function-newdata">function newData</h3>
 
@@ -491,7 +801,70 @@ Haar()
 <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">String</span> <span class="n">getHeader</span><span class="p">()</span>
 </code></pre></div></div>
 
-<p>Returns a header: “Pressure Atmos [mBar], Humidity [%], Temp Pres [C], Temp RH [C],”.</p>
+<p>Returns a header: “Pressure Atmos [mBar], Humidity [%], Temp Pres [C], Temp RH [C],” with std and sterr columns after a value when its chip group’s statistics are enabled and more than one reading is configured.</p>
+
+<h3 id="function-printheader">function printHeader</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">size_t</span> <span class="n">printHeader</span><span class="p">(</span>
+    <span class="n">Print</span> <span class="o">&amp;</span> <span class="n">out</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<p>Print the header matching <a href="">printReading()</a>: column names with units, each followed by a comma, for the chips selected by <a href="">beginReadings()</a>. No statistics columns: one reading has none.</p>
+
+<p><strong>Parameters</strong>:</p>
+
+<ul>
+  <li><strong>out</strong> Any Print destination (SdFat File, Serial, …).</li>
+</ul>
+
+<p><strong>Return</strong>: Bytes written.</p>
+
+<h3 id="function-printreading">function printReading</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">size_t</span> <span class="n">printReading</span><span class="p">(</span>
+    <span class="n">Print</span> <span class="o">&amp;</span> <span class="n">out</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<p>Print the stored reading of the selected chips, each value followed by a comma, in <a href="/Haar_Library/Classes/classHaar/#function-getstring">getString()</a>’s order: pressure [mBar], humidity [%], LPS35HW temperature [C], SHT31 temperature [C]. Does not acquire: call <a href="/Haar_Library/Classes/classHaar/#function-updatemeasurements">updateMeasurements()</a> first, or use <a href="">logReading()</a>.</p>
+
+<p><strong>Return</strong>: Bytes written.</p>
+
+<h3 id="function-logreading">function logReading</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">size_t</span> <span class="n">logReading</span><span class="p">(</span>
+    <span class="n">Print</span> <span class="o">&amp;</span> <span class="n">out</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<p>Take ONE reading of the selected chips and print it: the one-reading primitive for collecting many readings to a file.</p>
+
+<p><strong>Return</strong>: Bytes written.</p>
+
+<h3 id="function-beginreadings">function beginReadings</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="n">beginReadings</span><span class="p">(</span>
+    <span class="kt">uint8_t</span> <span class="n">component</span> <span class="o">=</span><span class="n">ALL</span><span class="p">,</span>
+    <span class="kt">uint16_t</span> <span class="n">n</span> <span class="o">=</span><span class="mi">0</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<p>Begin a run of readings, selecting which chips they cover.</p>
+
+<p><strong>Parameters</strong>:</p>
+
+<ul>
+  <li><strong>component</strong> Haar::ALL, <a href="/Haar_Library/Classes/classHaar/#enumvalue-sht31">Haar::SHT31</a> or <a href="/Haar_Library/Classes/classHaar/#enumvalue-lps35hw">Haar::LPS35HW</a>.</li>
+  <li><strong>n</strong> How many readings the run will take (the number of <a href="/Haar_Library/Classes/classHaar/#function-logreading">logReading()</a> calls to follow); with n &gt; 1 the device is told in advance (readings-requested word). Nothing on <a href="/Haar_Library/Classes/classHaar/">Haar</a> is powered per batch, so the word only satisfies the protocol.</li>
+</ul>
+
+<h3 id="function-endreadings">function endReadings</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="n">endReadings</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>End a run of readings.</p>
 
 <h3 id="function-faulted">function faulted</h3>
 
@@ -572,7 +945,7 @@ Haar()
 
 <hr />
 
-<p>Updated on 2026-09-23 at 04:50:17 +0000</p>
+<p>Updated on 2026-09-23 at 16:11:25 +0000</p>
 
         
       </section>

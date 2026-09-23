@@ -225,7 +225,7 @@
           <aside class="sidebar__right sticky">
             <nav class="toc" aria-label="Table of contents">
               <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
-              <ul class="toc__menu"><li><a href="#classes">Classes</a></li><li><a href="#types">Types</a></li><li><a href="#defines">Defines</a></li><li><a href="#types-documentation">Types Documentation</a><ul><li><a href="#enum-sensor">enum Sensor</a></li></ul></li><li><a href="#macros-documentation">Macros Documentation</a><ul><li><a href="#define-haar_fw_min_patch">define HAAR_FW_MIN_PATCH</a></li><li><a href="#define-ctrl1">define CTRL1</a></li><li><a href="#define-temp_rh">define TEMP_RH</a></li><li><a href="#define-rh_reg">define RH_REG</a></li><li><a href="#define-pres_reg">define PRES_REG</a></li><li><a href="#define-temp_pres">define TEMP_PRES</a></li><li><a href="#define-on">define ON</a></li><li><a href="#define-off">define OFF</a></li></ul></li><li><a href="#source-code">Source code</a></li></ul>
+              <ul class="toc__menu"><li><a href="#classes">Classes</a></li><li><a href="#types">Types</a></li><li><a href="#defines">Defines</a></li><li><a href="#types-documentation">Types Documentation</a><ul><li><a href="#enum-sensor">enum Sensor</a></li></ul></li><li><a href="#macros-documentation">Macros Documentation</a><ul><li><a href="#define-haar_fw_min_patch">define HAAR_FW_MIN_PATCH</a></li><li><a href="#define-haar_humidity_capacity">define HAAR_HUMIDITY_CAPACITY</a></li><li><a href="#define-haar_pressure_capacity">define HAAR_PRESSURE_CAPACITY</a></li><li><a href="#define-ctrl1">define CTRL1</a></li><li><a href="#define-temp_rh">define TEMP_RH</a></li><li><a href="#define-rh_reg">define RH_REG</a></li><li><a href="#define-pres_reg">define PRES_REG</a></li><li><a href="#define-temp_pres">define TEMP_PRES</a></li><li><a href="#define-on">define ON</a></li><li><a href="#define-off">define OFF</a></li></ul></li><li><a href="#source-code">Source code</a></li></ul>
             </nav>
           </aside>
         
@@ -276,6 +276,14 @@
     <tr>
       <td> </td>
       <td><strong><a href="/Haar_Library/Files/Haar_8h/#define-haar-fw-min-patch">HAAR_FW_MIN_PATCH</a></strong></td>
+    </tr>
+    <tr>
+      <td> </td>
+      <td><strong><a href="/Haar_Library/Files/Haar_8h/#define-haar-humidity-capacity">HAAR_HUMIDITY_CAPACITY</a></strong></td>
+    </tr>
+    <tr>
+      <td> </td>
+      <td><strong><a href="/Haar_Library/Files/Haar_8h/#define-haar-pressure-capacity">HAAR_PRESSURE_CAPACITY</a></strong></td>
     </tr>
     <tr>
       <td> </td>
@@ -343,6 +351,16 @@
 
 <p>Lowest firmware patch (Page 0 byte 0x0A) this library accepts: patch 1 brought Schema 1 (Page 0, Block 0 handshake, data at 0x28 in 0.01 units).</p>
 
+<h3 id="define-haar_humidity_capacity">define HAAR_HUMIDITY_CAPACITY</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#define HAAR_HUMIDITY_CAPACITY 16
+</span></code></pre></div></div>
+
+<h3 id="define-haar_pressure_capacity">define HAAR_PRESSURE_CAPACITY</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#define HAAR_PRESSURE_CAPACITY 16
+</span></code></pre></div></div>
+
 <h3 id="define-ctrl1">define CTRL1</h3>
 
 <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#define CTRL1 0x21
@@ -390,6 +408,16 @@
 </span>
 <span class="cp">#define HAAR_FW_MIN_PATCH 1
 </span>
+<span class="c1">// Readings per updateMeasurements() are kept in static arrays of this</span>
+<span class="c1">// capacity (one per chip group; no heap); set&lt;Field&gt;Readings(n) clamps to it.</span>
+<span class="c1">// Override before the include to trade RAM for a longer batch.</span>
+<span class="cp">#ifndef HAAR_HUMIDITY_CAPACITY
+</span>  <span class="cp">#define HAAR_HUMIDITY_CAPACITY 16   // SHT31: humidity and its temperature
+#endif
+#ifndef HAAR_PRESSURE_CAPACITY
+</span>  <span class="cp">#define HAAR_PRESSURE_CAPACITY 16   // LPS35HW: pressure and its temperature
+#endif
+</span>
 <span class="k">enum</span> <span class="n">Sensor</span> <span class="p">{</span>
     <span class="n">RH_Sense</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
     <span class="n">Pres_Sense</span> <span class="o">=</span> <span class="mi">1</span>
@@ -408,45 +436,96 @@
 <span class="p">{</span>
     <span class="nl">public:</span>
         <span class="k">static</span> <span class="k">constexpr</span> <span class="kt">uint8_t</span> <span class="n">DEFAULT_ADDRESS</span> <span class="o">=</span> <span class="mh">0x48</span><span class="p">;</span>
+        <span class="k">enum</span> <span class="n">Component</span> <span class="o">:</span> <span class="kt">uint8_t</span> <span class="p">{</span>
+            <span class="n">SHT31</span>   <span class="o">=</span> <span class="mh">0x01</span><span class="p">,</span>  
+            <span class="n">LPS35HW</span> <span class="o">=</span> <span class="mh">0x02</span><span class="p">,</span>  
+            <span class="n">ALL</span>     <span class="o">=</span> <span class="mh">0x03</span>
+        <span class="p">};</span>
         <span class="n">Haar</span><span class="p">();</span>
 
-        <span class="kt">bool</span> <span class="n">begin</span><span class="p">(</span><span class="kt">uint8_t</span> <span class="n">ADR_</span> <span class="o">=</span> <span class="n">DEFAULT_ADDRESS</span><span class="p">);</span>
+        <span class="kt">bool</span> <span class="nf">begin</span><span class="p">(</span><span class="kt">uint8_t</span> <span class="n">ADR_</span> <span class="o">=</span> <span class="n">DEFAULT_ADDRESS</span><span class="p">);</span>
 
-        <span class="kt">float</span> <span class="n">getPressure</span><span class="p">(</span><span class="kt">bool</span> <span class="n">update</span> <span class="o">=</span> <span class="nb">false</span><span class="p">);</span>
+        <span class="kt">float</span> <span class="nf">getPressure</span><span class="p">(</span><span class="kt">bool</span> <span class="n">update</span> <span class="o">=</span> <span class="nb">false</span><span class="p">);</span>
 
-        <span class="kt">float</span> <span class="n">getHumidity</span><span class="p">(</span><span class="kt">bool</span> <span class="n">update</span> <span class="o">=</span> <span class="nb">false</span><span class="p">);</span>
+        <span class="kt">float</span> <span class="nf">getHumidity</span><span class="p">(</span><span class="kt">bool</span> <span class="n">update</span> <span class="o">=</span> <span class="nb">false</span><span class="p">);</span>
 
-        <span class="kt">float</span> <span class="n">getTemperature</span><span class="p">(</span><span class="n">Sensor</span> <span class="n">Device</span> <span class="o">=</span> <span class="n">RH_Sense</span><span class="p">,</span> <span class="kt">bool</span> <span class="n">update</span> <span class="o">=</span> <span class="nb">false</span><span class="p">);</span>
+        <span class="kt">float</span> <span class="nf">getTemperature</span><span class="p">(</span><span class="n">Sensor</span> <span class="n">Device</span> <span class="o">=</span> <span class="n">RH_Sense</span><span class="p">,</span> <span class="kt">bool</span> <span class="n">update</span> <span class="o">=</span> <span class="nb">false</span><span class="p">);</span>
 
-        <span class="kt">bool</span> <span class="n">sleep</span><span class="p">(</span><span class="kt">bool</span> <span class="n">state</span> <span class="o">=</span> <span class="n">ON</span><span class="p">);</span>
+        <span class="kt">bool</span> <span class="nf">sleep</span><span class="p">(</span><span class="kt">bool</span> <span class="n">state</span> <span class="o">=</span> <span class="n">ON</span><span class="p">);</span>
 
-        <span class="kt">bool</span> <span class="n">updateMeasurements</span><span class="p">(</span><span class="kt">bool</span> <span class="n">block</span> <span class="o">=</span> <span class="nb">true</span><span class="p">);</span>
+        <span class="kt">bool</span> <span class="nf">updateMeasurements</span><span class="p">(</span><span class="kt">uint8_t</span> <span class="n">component</span> <span class="o">=</span> <span class="n">ALL</span><span class="p">);</span>
+        <span class="kt">bool</span> <span class="nf">updateMeasurements</span><span class="p">(</span><span class="kt">bool</span> <span class="n">block</span><span class="p">);</span>
+        <span class="kt">bool</span> <span class="nf">updateHumidity</span><span class="p">();</span>
+        <span class="kt">bool</span> <span class="nf">updatePressure</span><span class="p">();</span>
+        <span class="kt">uint16_t</span> <span class="nf">setHumidityReadings</span><span class="p">(</span><span class="kt">uint16_t</span> <span class="n">n</span><span class="p">);</span>
+        <span class="kt">uint16_t</span> <span class="nf">setPressureReadings</span><span class="p">(</span><span class="kt">uint16_t</span> <span class="n">n</span><span class="p">);</span>
+        <span class="kt">void</span> <span class="nf">setHumidityStats</span><span class="p">(</span><span class="kt">bool</span> <span class="n">enable</span><span class="p">);</span>
+        <span class="kt">void</span> <span class="nf">setPressureStats</span><span class="p">(</span><span class="kt">bool</span> <span class="n">enable</span><span class="p">);</span>
+        <span class="kt">uint16_t</span> <span class="nf">getHumidityCount</span><span class="p">();</span>
+        <span class="kt">uint16_t</span> <span class="nf">getPressureCount</span><span class="p">();</span>
 
-        <span class="kt">bool</span> <span class="n">newData</span><span class="p">();</span>
+        <span class="c1">// --- Statistics getters ---</span>
+        <span class="c1">// Computed two-pass in 32-bit float over the readings stored by the last</span>
+        <span class="c1">// updateMeasurements() (NW_Readings). Adequate for N up to the array</span>
+        <span class="c1">// capacities; at N in the thousands the sum of squared deviations would</span>
+        <span class="c1">// want double precision, which the AVR lacks.</span>
+        <span class="kt">float</span> <span class="nf">getPressureMean</span><span class="p">();</span>
+        <span class="kt">float</span> <span class="nf">getPressureStd</span><span class="p">();</span>
+        <span class="kt">float</span> <span class="nf">getPressureSterr</span><span class="p">();</span>
+        <span class="kt">float</span> <span class="nf">getPressureMedian</span><span class="p">();</span>
+        <span class="kt">float</span> <span class="nf">getHumidityMean</span><span class="p">();</span>
+        <span class="kt">float</span> <span class="nf">getHumidityStd</span><span class="p">();</span>
+        <span class="kt">float</span> <span class="nf">getHumiditySterr</span><span class="p">();</span>
+        <span class="kt">float</span> <span class="nf">getHumidityMedian</span><span class="p">();</span>
+        <span class="kt">float</span> <span class="nf">getTemperatureMean</span><span class="p">(</span><span class="n">Sensor</span> <span class="n">Device</span> <span class="o">=</span> <span class="n">RH_Sense</span><span class="p">);</span>
+        <span class="kt">float</span> <span class="nf">getTemperatureStd</span><span class="p">(</span><span class="n">Sensor</span> <span class="n">Device</span> <span class="o">=</span> <span class="n">RH_Sense</span><span class="p">);</span>
+        <span class="kt">float</span> <span class="nf">getTemperatureSterr</span><span class="p">(</span><span class="n">Sensor</span> <span class="n">Device</span> <span class="o">=</span> <span class="n">RH_Sense</span><span class="p">);</span>
+        <span class="kt">float</span> <span class="nf">getTemperatureMedian</span><span class="p">(</span><span class="n">Sensor</span> <span class="n">Device</span> <span class="o">=</span> <span class="n">RH_Sense</span><span class="p">);</span>
 
-        <span class="n">String</span> <span class="n">getString</span><span class="p">();</span>
+        <span class="kt">bool</span> <span class="nf">newData</span><span class="p">();</span>
 
-        <span class="n">String</span> <span class="n">getHeader</span><span class="p">();</span>
+        <span class="n">String</span> <span class="nf">getString</span><span class="p">();</span>
+
+        <span class="n">String</span> <span class="nf">getHeader</span><span class="p">();</span>
+
+        <span class="c1">// --- Reading interface (NW standard) ---</span>
+        <span class="kt">size_t</span> <span class="nf">printHeader</span><span class="p">(</span><span class="n">Print</span><span class="o">&amp;</span> <span class="n">out</span><span class="p">);</span>
+        <span class="kt">size_t</span> <span class="nf">printReading</span><span class="p">(</span><span class="n">Print</span><span class="o">&amp;</span> <span class="n">out</span><span class="p">);</span>
+        <span class="kt">size_t</span> <span class="nf">logReading</span><span class="p">(</span><span class="n">Print</span><span class="o">&amp;</span> <span class="n">out</span><span class="p">);</span>
+        <span class="kt">void</span> <span class="nf">beginReadings</span><span class="p">(</span><span class="kt">uint8_t</span> <span class="n">component</span> <span class="o">=</span> <span class="n">ALL</span><span class="p">,</span> <span class="kt">uint16_t</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">0</span><span class="p">);</span>
+        <span class="kt">void</span> <span class="nf">endReadings</span><span class="p">();</span>
 
         <span class="c1">// --- Faults (status byte, live; fault byte, latched) ---</span>
-        <span class="kt">bool</span> <span class="n">faulted</span><span class="p">(</span><span class="kt">uint8_t</span> <span class="n">chip</span><span class="p">);</span>
-        <span class="kt">bool</span> <span class="n">anyFault</span><span class="p">();</span>
-        <span class="kt">uint8_t</span> <span class="n">faultChip</span><span class="p">();</span>
-        <span class="kt">uint8_t</span> <span class="n">faultKind</span><span class="p">();</span>
-        <span class="kt">size_t</span> <span class="n">printFault</span><span class="p">(</span><span class="n">Print</span><span class="o">&amp;</span> <span class="n">out</span><span class="p">);</span>
-        <span class="n">String</span> <span class="n">faultNote</span><span class="p">();</span>
-        <span class="n">String</span> <span class="n">beginFailure</span><span class="p">();</span>
-        <span class="kt">uint8_t</span> <span class="n">getHardwareMajor</span><span class="p">();</span>
-        <span class="kt">uint8_t</span> <span class="n">getHardwareMinor</span><span class="p">();</span>
-        <span class="kt">uint8_t</span> <span class="n">getFirmwareVersion</span><span class="p">();</span>
+        <span class="kt">bool</span> <span class="nf">faulted</span><span class="p">(</span><span class="kt">uint8_t</span> <span class="n">chip</span><span class="p">);</span>
+        <span class="kt">bool</span> <span class="nf">anyFault</span><span class="p">();</span>
+        <span class="kt">uint8_t</span> <span class="nf">faultChip</span><span class="p">();</span>
+        <span class="kt">uint8_t</span> <span class="nf">faultKind</span><span class="p">();</span>
+        <span class="kt">size_t</span> <span class="nf">printFault</span><span class="p">(</span><span class="n">Print</span><span class="o">&amp;</span> <span class="n">out</span><span class="p">);</span>
+        <span class="n">String</span> <span class="nf">faultNote</span><span class="p">();</span>
+        <span class="n">String</span> <span class="nf">beginFailure</span><span class="p">();</span>
+        <span class="kt">uint8_t</span> <span class="nf">getHardwareMajor</span><span class="p">();</span>
+        <span class="kt">uint8_t</span> <span class="nf">getHardwareMinor</span><span class="p">();</span>
+        <span class="kt">uint8_t</span> <span class="nf">getFirmwareVersion</span><span class="p">();</span>
 
-    <span class="nl">private:</span>
+    <span class="k">private</span><span class="o">:</span>
         <span class="n">NW_Device</span> <span class="n">_dev</span><span class="p">;</span>
-        <span class="kt">bool</span> <span class="n">readData</span><span class="p">();</span> <span class="c1">//Read 0x28-0x35 into the stored values, NW_ERROR for a faulted chip</span>
-        <span class="kt">float</span> <span class="n">_pressure</span> <span class="o">=</span> <span class="n">NW_ERROR</span><span class="p">;</span> <span class="c1">//Stored by updateMeasurements() [hPa = mBar]</span>
+        <span class="kt">float</span> <span class="n">_pressure</span> <span class="o">=</span> <span class="n">NW_ERROR</span><span class="p">;</span> <span class="c1">//Mean of the last updateMeasurements() [hPa = mBar]</span>
         <span class="kt">float</span> <span class="n">_humidity</span> <span class="o">=</span> <span class="n">NW_ERROR</span><span class="p">;</span> <span class="c1">//[%RH]</span>
         <span class="kt">float</span> <span class="n">_tempRH</span> <span class="o">=</span> <span class="n">NW_ERROR</span><span class="p">;</span> <span class="c1">//SHT31 [C]</span>
         <span class="kt">float</span> <span class="n">_tempPres</span> <span class="o">=</span> <span class="n">NW_ERROR</span><span class="p">;</span> <span class="c1">//LPS35HW [C]</span>
+        <span class="c1">// Readings as the device serves them (raw register units), one array per</span>
+        <span class="c1">// field; statistics come from these and are scaled on the way out.</span>
+        <span class="n">NW_Readings</span><span class="o">&lt;</span><span class="kt">int16_t</span><span class="p">,</span> <span class="n">HAAR_HUMIDITY_CAPACITY</span><span class="o">&gt;</span> <span class="n">_tempRHReadings</span><span class="p">;</span>   <span class="c1">//0.01 C</span>
+        <span class="n">NW_Readings</span><span class="o">&lt;</span><span class="kt">int16_t</span><span class="p">,</span> <span class="n">HAAR_HUMIDITY_CAPACITY</span><span class="o">&gt;</span> <span class="n">_humidityReadings</span><span class="p">;</span> <span class="c1">//0.01 %RH</span>
+        <span class="n">NW_Readings</span><span class="o">&lt;</span><span class="kt">int32_t</span><span class="p">,</span> <span class="n">HAAR_PRESSURE_CAPACITY</span><span class="o">&gt;</span> <span class="n">_pressureReadings</span><span class="p">;</span> <span class="c1">//0.01 hPa</span>
+        <span class="n">NW_Readings</span><span class="o">&lt;</span><span class="kt">int16_t</span><span class="p">,</span> <span class="n">HAAR_PRESSURE_CAPACITY</span><span class="o">&gt;</span> <span class="n">_tempPresReadings</span><span class="p">;</span> <span class="c1">//0.01 C</span>
+        <span class="n">NW_ReadingsConfig</span> <span class="n">_humidityCfg</span><span class="p">;</span> <span class="c1">//Readings per updateMeasurements() and stats columns, SHT31 group</span>
+        <span class="n">NW_ReadingsConfig</span> <span class="n">_pressureCfg</span><span class="p">;</span> <span class="c1">//LPS35HW group</span>
+        <span class="kt">uint8_t</span> <span class="n">_component</span> <span class="o">=</span> <span class="n">ALL</span><span class="p">;</span> <span class="c1">//Selection of the current beginReadings() run</span>
+        <span class="kt">bool</span> <span class="nf">readSHT31</span><span class="p">(</span><span class="kt">uint8_t</span><span class="o">*</span> <span class="n">d</span><span class="p">);</span>   <span class="c1">//Append one served SHT31 reading (4 bytes from 0x28) unless faulted</span>
+        <span class="kt">bool</span> <span class="nf">readLPS35HW</span><span class="p">(</span><span class="kt">uint8_t</span><span class="o">*</span> <span class="n">d</span><span class="p">);</span> <span class="c1">//Append one served LPS35HW reading (6 bytes from 0x30) unless faulted</span>
+        <span class="kt">bool</span> <span class="nf">readData</span><span class="p">();</span>              <span class="c1">//One 14-byte read of both chips, appended</span>
+        <span class="kt">void</span> <span class="nf">summarise</span><span class="p">(</span><span class="kt">uint8_t</span> <span class="n">component</span><span class="p">);</span> <span class="c1">//Means into the single-value fields, NW_ERROR when no reading</span>
         <span class="kt">bool</span> <span class="n">dataRequested</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span> <span class="c1">//Flag for keeping track of data requests and</span>
                                     <span class="c1">// data retrevals</span>
 <span class="p">};</span>
@@ -456,7 +535,7 @@
 
 <hr />
 
-<p>Updated on 2026-09-23 at 04:50:17 +0000</p>
+<p>Updated on 2026-09-23 at 16:11:25 +0000</p>
 
         
       </section>
