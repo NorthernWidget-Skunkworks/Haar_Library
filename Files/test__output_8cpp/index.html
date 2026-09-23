@@ -446,7 +446,7 @@
 
   <span class="c1">// 11. The status line for a logger's status file.</span>
   <span class="n">loadImage</span><span class="p">(</span><span class="mi">101325</span><span class="p">,</span> <span class="mi">5500</span><span class="p">,</span> <span class="mi">2137</span><span class="p">,</span> <span class="mi">2215</span><span class="p">);</span>
-  <span class="p">{</span> <span class="n">Haar</span> <span class="n">s</span><span class="p">;</span> <span class="n">s</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span> <span class="n">s</span><span class="p">.</span><span class="n">updateMeasurements</span><span class="p">();</span> <span class="kt">char</span> <span class="n">sb</span><span class="p">[</span><span class="mi">260</span><span class="p">];</span> <span class="n">BufferPrint</span> <span class="n">sp</span><span class="p">(</span><span class="n">sb</span><span class="p">,</span> <span class="k">sizeof</span> <span class="n">sb</span><span class="p">);</span> <span class="kt">size_t</span> <span class="n">k</span> <span class="o">=</span> <span class="n">s</span><span class="p">.</span><span class="n">printStatus</span><span class="p">(</span><span class="n">sp</span><span class="p">);</span> <span class="n">printf</span><span class="p">(</span><span class="s">"[status] %zu bytes: %s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">sb</span><span class="p">);</span> <span class="p">}</span>
+  <span class="p">{</span> <span class="n">Haar</span> <span class="n">s</span><span class="p">;</span> <span class="n">s</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span> <span class="n">s</span><span class="p">.</span><span class="n">updateMeasurements</span><span class="p">();</span> <span class="kt">char</span> <span class="n">sb</span><span class="p">[</span><span class="mi">320</span><span class="p">];</span> <span class="n">BufferPrint</span> <span class="n">sp</span><span class="p">(</span><span class="n">sb</span><span class="p">,</span> <span class="k">sizeof</span> <span class="n">sb</span><span class="p">);</span> <span class="kt">size_t</span> <span class="n">k</span> <span class="o">=</span> <span class="n">s</span><span class="p">.</span><span class="n">printStatus</span><span class="p">(</span><span class="n">sp</span><span class="p">);</span> <span class="n">printf</span><span class="p">(</span><span class="s">"[status] %zu bytes: %s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">sb</span><span class="p">);</span> <span class="p">}</span>
 
   <span class="n">fprintf</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span> <span class="s">"bus transactions total: %u</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">Wire</span><span class="p">.</span><span class="n">transactions</span><span class="p">);</span>   <span class="c1">// metric, not output</span>
   <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
@@ -455,7 +455,7 @@
 
 <hr />
 
-<p>Updated on 2026-09-23 at 20:56:35 +0000</p>
+<p>Updated on 2026-09-23 at 22:43:02 +0000</p>
 
         
       </section>

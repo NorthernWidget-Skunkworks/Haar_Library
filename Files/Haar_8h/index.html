@@ -225,7 +225,7 @@
           <aside class="sidebar__right sticky">
             <nav class="toc" aria-label="Table of contents">
               <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
-              <ul class="toc__menu"><li><a href="#classes">Classes</a></li><li><a href="#types">Types</a></li><li><a href="#defines">Defines</a></li><li><a href="#types-documentation">Types Documentation</a><ul><li><a href="#enum-sensor">enum Sensor</a></li></ul></li><li><a href="#macros-documentation">Macros Documentation</a><ul><li><a href="#define-haar_fw_min_patch">define HAAR_FW_MIN_PATCH</a></li><li><a href="#define-haar_humidity_capacity">define HAAR_HUMIDITY_CAPACITY</a></li><li><a href="#define-haar_pressure_capacity">define HAAR_PRESSURE_CAPACITY</a></li><li><a href="#define-ctrl1">define CTRL1</a></li><li><a href="#define-temp_rh">define TEMP_RH</a></li><li><a href="#define-rh_reg">define RH_REG</a></li><li><a href="#define-pres_reg">define PRES_REG</a></li><li><a href="#define-temp_pres">define TEMP_PRES</a></li><li><a href="#define-on">define ON</a></li><li><a href="#define-off">define OFF</a></li></ul></li><li><a href="#source-code">Source code</a></li></ul>
+              <ul class="toc__menu"><li><a href="#classes">Classes</a></li><li><a href="#types">Types</a></li><li><a href="#defines">Defines</a></li><li><a href="#types-documentation">Types Documentation</a><ul><li><a href="#enum-sensor">enum Sensor</a></li></ul></li><li><a href="#macros-documentation">Macros Documentation</a><ul><li><a href="#define-haar_fw_min_patch">define HAAR_FW_MIN_PATCH</a></li><li><a href="#define-haar_library_version">define HAAR_LIBRARY_VERSION</a></li><li><a href="#define-haar_library_commit">define HAAR_LIBRARY_COMMIT</a></li><li><a href="#define-haar_humidity_capacity">define HAAR_HUMIDITY_CAPACITY</a></li><li><a href="#define-haar_pressure_capacity">define HAAR_PRESSURE_CAPACITY</a></li><li><a href="#define-ctrl1">define CTRL1</a></li><li><a href="#define-temp_rh">define TEMP_RH</a></li><li><a href="#define-rh_reg">define RH_REG</a></li><li><a href="#define-pres_reg">define PRES_REG</a></li><li><a href="#define-temp_pres">define TEMP_PRES</a></li><li><a href="#define-on">define ON</a></li><li><a href="#define-off">define OFF</a></li></ul></li><li><a href="#source-code">Source code</a></li></ul>
             </nav>
           </aside>
         
@@ -276,6 +276,14 @@
     <tr>
       <td> </td>
       <td><strong><a href="/Haar_Library/Files/Haar_8h/#define-haar-fw-min-patch">HAAR_FW_MIN_PATCH</a></strong></td>
+    </tr>
+    <tr>
+      <td> </td>
+      <td><strong><a href="/Haar_Library/Files/Haar_8h/#define-haar-library-version">HAAR_LIBRARY_VERSION</a></strong></td>
+    </tr>
+    <tr>
+      <td> </td>
+      <td><strong><a href="/Haar_Library/Files/Haar_8h/#define-haar-library-commit">HAAR_LIBRARY_COMMIT</a></strong></td>
     </tr>
     <tr>
       <td> </td>
@@ -351,6 +359,16 @@
 
 <p>Lowest firmware patch (Page 0 byte 0x0A) this library accepts: patch 1 brought Schema 1 (Page 0, Block 0 handshake, data at 0x48 in 0.01 units).</p>
 
+<h3 id="define-haar_library_version">define HAAR_LIBRARY_VERSION</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#define HAAR_LIBRARY_VERSION "1.0.0"
+</span></code></pre></div></div>
+
+<h3 id="define-haar_library_commit">define HAAR_LIBRARY_COMMIT</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#define HAAR_LIBRARY_COMMIT ""
+</span></code></pre></div></div>
+
 <h3 id="define-haar_humidity_capacity">define HAAR_HUMIDITY_CAPACITY</h3>
 
 <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#define HAAR_HUMIDITY_CAPACITY 16
@@ -407,6 +425,14 @@
 #include</span> <span class="cpf">&lt;NW_Core.h&gt;</span><span class="c1">   // NW_Core: NW_Device (Schema 1 protocol), NW_Report</span><span class="cp">
 </span>
 <span class="cp">#define HAAR_FW_MIN_PATCH 1
+</span>
+<span class="c1">// Build identity: this library's version (held equal to library.properties by</span>
+<span class="c1">// NW-Tests/version_check.py) and its build commit, set by the NW-Build wrapper from</span>
+<span class="c1">// git and blank in an Arduino IDE build. Both go into a logger's status file.</span>
+<span class="cp">#define HAAR_LIBRARY_VERSION "1.0.0"
+#ifndef HAAR_LIBRARY_COMMIT
+#define HAAR_LIBRARY_COMMIT ""
+#endif
 </span>
 <span class="c1">// Readings per updateMeasurements() are kept in static arrays of this</span>
 <span class="c1">// capacity (one per chip group; no heap); set&lt;Field&gt;Readings(n) clamps to it.</span>
@@ -541,7 +567,7 @@
 
 <hr />
 
-<p>Updated on 2026-09-23 at 20:56:35 +0000</p>
+<p>Updated on 2026-09-23 at 22:43:02 +0000</p>
 
         
       </section>
