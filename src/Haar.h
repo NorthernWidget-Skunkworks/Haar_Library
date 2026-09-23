@@ -7,7 +7,7 @@
 #include <NW_Core.h>   // NW_Core: NW_Device (Schema 1 protocol), NW_Report
 
 /// Lowest firmware patch (Page 0 byte 0x0A) this library accepts: patch 1
-/// brought Schema 1 (Page 0, Block 0 handshake, data at 0x28 in 0.01 units).
+/// brought Schema 1 (Page 0, Block 0 handshake, data at 0x48 in 0.01 units).
 #define HAAR_FW_MIN_PATCH 1
 
 // Readings per updateMeasurements() are kept in static arrays of this
@@ -25,11 +25,11 @@ enum Sensor {
 	Pres_Sense = 1
 };
 
-#define CTRL1 0x21     // Schema 1 Page 1 Block 0: Control (trigger, chip select, sleep)
-#define TEMP_RH 0x28   // Schema 1 Page 1 Block 1: SHT31 temperature, int16, 0.01 °C
-#define RH_REG 0x2A    // Schema 1 Page 1 Block 1: humidity, uint16, 0.01 %RH
-#define PRES_REG 0x30  // Schema 1 Page 1 Block 2: LPS35HW pressure, uint32, 0.01 hPa
-#define TEMP_PRES 0x34 // Schema 1 Page 1 Block 2: LPS35HW temperature, int16, 0.01 °C
+#define CTRL1 0x41     // Schema 1 Page 2 Block 0: Control (trigger, chip select, sleep)
+#define TEMP_RH 0x48   // Schema 1 Page 2 Block 1: SHT31 temperature, int16, 0.01 °C
+#define RH_REG 0x4A    // Schema 1 Page 2 Block 1: humidity, uint16, 0.01 %RH
+#define PRES_REG 0x50  // Schema 1 Page 2 Block 2: LPS35HW pressure, uint32, 0.01 hPa
+#define TEMP_PRES 0x54 // Schema 1 Page 2 Block 2: LPS35HW temperature, int16, 0.01 °C
 
 #define ON 1
 #define OFF 0
@@ -278,8 +278,8 @@ class Haar
 		NW_ReadingsConfig _humidityCfg; //Readings per updateMeasurements() and stats columns, SHT31 group
 		NW_ReadingsConfig _pressureCfg; //LPS35HW group
 		uint8_t _component = ALL; //Selection of the current beginReadings() run
-		bool readSHT31(uint8_t* d);   //Append one served SHT31 reading (4 bytes from 0x28) unless faulted
-		bool readLPS35HW(uint8_t* d); //Append one served LPS35HW reading (6 bytes from 0x30) unless faulted
+		bool readSHT31(uint8_t* d);   //Append one served SHT31 reading (4 bytes from 0x48) unless faulted
+		bool readLPS35HW(uint8_t* d); //Append one served LPS35HW reading (6 bytes from 0x50) unless faulted
 		bool readData();              //One 14-byte read of both chips, appended
 		void summarise(uint8_t component); //Means into the single-value fields, NW_ERROR when no reading
 		bool dataRequested = false; //Flag for keeping track of data requests and

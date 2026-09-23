@@ -98,7 +98,7 @@ bool Haar::readLPS35HW(uint8_t* d)
 
 bool Haar::readData()
 {
-	//Block 1 and Block 2 are consecutive (0x28-0x35): one read.
+	//Block 1 and Block 2 are consecutive (0x48-0x55): one read.
 	uint8_t d[14];
 	if(!_dev.readData(NW_REG_DATA, d, 14)) return false;
 	readSHT31(d);
