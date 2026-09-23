@@ -19,6 +19,31 @@ getHumidity	KEYWORD2
 getTemperature	KEYWORD2
 sleep	KEYWORD2
 updateMeasurements	KEYWORD2
+updateHumidity	KEYWORD2
+updatePressure	KEYWORD2
+setHumidityReadings	KEYWORD2
+setPressureReadings	KEYWORD2
+setHumidityStats	KEYWORD2
+setPressureStats	KEYWORD2
+getHumidityCount	KEYWORD2
+getPressureCount	KEYWORD2
+getPressureMean	KEYWORD2
+getPressureStd	KEYWORD2
+getPressureSterr	KEYWORD2
+getPressureMedian	KEYWORD2
+getHumidityMean	KEYWORD2
+getHumidityStd	KEYWORD2
+getHumiditySterr	KEYWORD2
+getHumidityMedian	KEYWORD2
+getTemperatureMean	KEYWORD2
+getTemperatureStd	KEYWORD2
+getTemperatureSterr	KEYWORD2
+getTemperatureMedian	KEYWORD2
+printHeader	KEYWORD2
+printReading	KEYWORD2
+logReading	KEYWORD2
+beginReadings	KEYWORD2
+endReadings	KEYWORD2
 newData	KEYWORD2
 getString	KEYWORD2
 getHeader	KEYWORD2
@@ -38,6 +63,11 @@ getFirmwareVersion	KEYWORD2
 #######################################
 
 DEFAULT_ADDRESS	LITERAL1
+ALL	LITERAL1
+SHT31	LITERAL1
+LPS35HW	LITERAL1
+HAAR_HUMIDITY_CAPACITY	LITERAL1
+HAAR_PRESSURE_CAPACITY	LITERAL1
 HAAR_FW_MIN_PATCH	LITERAL1
 RH_Sense	LITERAL1
 Pres_Sense	LITERAL1
